@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ListItem {
   tokenNo: string;
   employeeId: number;
   orderDate: string;
-  orderDone: boolean;
+  orderDone: any | boolean;
 }
 
 export interface OrderHistory {

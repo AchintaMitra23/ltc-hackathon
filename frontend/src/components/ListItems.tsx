@@ -1,5 +1,5 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { ListItem } from "../types";
 
 interface ListItemsProps {
@@ -8,23 +8,22 @@ interface ListItemsProps {
 }
 
 const ListItems = ({ itemList, setItemList }: ListItemsProps) => {
-  console.log("Component Refreshed ");
-
-  // itemList.sort((a, b) => a.orderDone - b.orderDone);
-  // const completedItems = itemList.filter((item) => item.orderDone);
+  itemList.sort((a, b) => a.orderDone - b.orderDone);
 
   const handleComplete = (tokenNo: string) => {
-    for (const i of itemList) {
+    let newItems: ListItem[] = [];
+    for (let i of itemList) {
       if (i.tokenNo === tokenNo) {
         i.orderDone = !i.orderDone;
       }
+      newItems.push(i);
     }
-    setItemList(itemList);
+    setItemList(newItems);
   };
 
   const onDone = () => {
     console.log(itemList);
-  }
+  };
 
   return (
     <div>
@@ -44,7 +43,7 @@ const ListItems = ({ itemList, setItemList }: ListItemsProps) => {
                   disabled={item.orderDone}
                 />
                 <span>
-                  {item.tokenNo} - {item.orderDone.toString()}
+                  {item.tokenNo} - {item.employeeId} - {item.orderDate}
                 </span>
               </div>
             ))}
