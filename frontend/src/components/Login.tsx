@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { StyledDiv1, StyledH5, StyledSelect } from "../styles/Login.styled";
 
 interface LoginProps {
   isLogin: boolean;
@@ -60,11 +61,13 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
     setPref(preference);
   };
 
-  const login = () => {
+  const login = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log(loginRequestModel);
   };
 
-  const register = () => {
+  const register = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log(registerRequestModel);
   };
 
@@ -73,15 +76,20 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
       <div className="container">
         <div className="row">
           <div className="col-lg-4 col-sm-12"></div>
-          <div className="col-lg-4 col-sm-12 card border-light-subtle shadow-sm pt-5 pb-5">
+          <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
             {isLogin ? (
-              <h4 className="text-center mb-5">
+              <StyledH5 className="text-center mb-5">
                 Welcome back you've been missed!
-              </h4>
+              </StyledH5>
             ) : (
-              <h4 className="text-center mb-5">Please fill the details</h4>
+              <StyledH5 className="text-center mb-5">
+                Please fill the details
+              </StyledH5>
             )}
-            <form action="">
+            <form
+              action=""
+              onSubmit={isLogin ? (e) => login(e) : (e) => register(e)}
+            >
               <div className="col-12">
                 <div className="form-floating mb-3">
                   <input
@@ -147,7 +155,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                   <div className="col-12">
                     <label className="form-label">Preference</label>
                     <div className="form-floating mb-3">
-                      <select
+                      <StyledSelect
                         name="pref"
                         id="pref"
                         onChange={(e) => handlePrefChange(e)}
@@ -155,13 +163,13 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                         <option value="">Please select the option</option>
                         <option value="v">Veg</option>
                         <option value="n">Non-Veg</option>
-                      </select>
+                      </StyledSelect>
                     </div>
                   </div>
                   <div className="col-12">
                     <label className="form-label">User Type</label>
                     <div className="form-floating mb-3">
-                      <select
+                      <StyledSelect
                         name="type"
                         id="type"
                         onChange={(e) => handleTypeChange(e)}
@@ -169,7 +177,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                         <option value="">Please select the option</option>
                         <option value="u">User</option>
                         <option value="a">Admin</option>
-                      </select>
+                      </StyledSelect>
                     </div>
                   </div>
                 </>
@@ -179,7 +187,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                   <button
                     className="btn btn-dark btn-lg"
                     type="submit"
-                    onClick={isLogin ? login : register}
+                    // onClick={isLogin ? login : register}
                   >
                     {isLogin ? <>Login Now</> : <>Register Now</>}
                   </button>
@@ -192,7 +200,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                       <a
                         href=""
                         className="link-secondary text-decoration-none"
-                        onClick={() => setIsLogin(false)}
+                        onClick={() => setIsLogin(!isLogin)}
                       >
                         Create new account
                       </a>
@@ -207,7 +215,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                     <a
                       href=""
                       className="link-secondary text-decoration-none"
-                      onClick={() => setIsLogin(true)}
+                      onClick={() => setIsLogin(!isLogin)}
                     >
                       Already existing account
                     </a>
@@ -215,7 +223,7 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                 </div>
               </div>
             </form>
-          </div>
+          </StyledDiv1>
           <div className="col-lg-4 col-sm-12"></div>
         </div>
       </div>

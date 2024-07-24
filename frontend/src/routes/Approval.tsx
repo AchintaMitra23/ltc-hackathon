@@ -1,11 +1,5 @@
 import { useState } from "react";
-
-interface Admins {
-  id: number;
-  name: string;
-  email: string;
-  approval_status: boolean;
-}
+import { Admins } from "../types";
 
 const Approval = () => {
   const [adminList, setAdminList] = useState<Admins[]>([
@@ -47,6 +41,7 @@ const Approval = () => {
                   checked={admin.approval_status}
                   disabled={admin.approval_status}
                 />
+                <button type="button" onClick={() => handleComplete(admin.id)} hidden={admin.approval_status}>Approve</button>
                 <span>
                   {admin.id} - {admin.name} - {admin.email}
                 </span>

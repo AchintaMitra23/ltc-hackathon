@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const Header = () => {
   const userType: string = localStorage.getItem("userType");
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="">
           Lunch Box

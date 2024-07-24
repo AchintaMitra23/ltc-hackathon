@@ -14,3 +14,10 @@ export interface OrderHistory {
   orderStatus: string;
   preference: string;
 }
+
+export interface Admins {
+  id: number;
+  name: string;
+  email: string;
+  approval_status: boolean;
+}
