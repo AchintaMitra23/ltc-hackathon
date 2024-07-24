@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Bookings from "./Bookings";
+import Bookings from "../components/OrderPage/OrderPageComponent";
 import Profile from "./Profile";
 import History from "./History";
 import Approval from "./Approval";
@@ -14,7 +14,7 @@ const RoutesIndex = () => {
       <Route path="/register" element={<Register />} />
 
       {/* Users pages */}
-      <Route path="/bookings" element={<Bookings />} />
+      <Route path="/bookings" element={<Bookings employeeId={'5607490'}/>} />
       <Route path="/history" element={<History />} />
       <Route path="/profile" element={<Profile />} />
 
