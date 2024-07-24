@@ -1,34 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StyledDiv1, StyledH5, StyledSelect } from "../styles/Login.styled";
+import { StyledDiv1, StyledH5 } from "../styles/Login.styled";
 
-interface LoginProps {
-  isLogin: boolean;
-  setIsLogin: (value: boolean) => void;
-}
-
-const Login = ({ isLogin, setIsLogin }: LoginProps) => {
+const Login = () => {
   const [empId, setEmpId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [mobile, setMobile] = useState<string>("");
-  const [type, setType] = useState<string>("");
-  const [pref, setPref] = useState<string>("");
   const navigate: any = useNavigate();
 
   const loginRequestModel = {
     empId: empId,
     password: password,
-  };
-
-  const registerRequestModel = {
-    empId: empId,
-    password: password,
-    email: email,
-    mobile: mobile,
-    type: type,
-    pref: pref,
   };
 
   const handleEmplIDChange = (e: any) => {
@@ -41,34 +23,9 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
     setPassword(pass);
   };
 
-  const handleEmailChange = (e: any) => {
-    const emailId = e.target.value;
-    setEmail(emailId);
-  };
-
-  const handleMobileChange = (e: any) => {
-    const phone = e.target.value;
-    setMobile(phone);
-  };
-
-  const handleTypeChange = (e: any) => {
-    const userType = e.target.value;
-    setType(userType);
-  };
-
-  const handlePrefChange = (e: any) => {
-    const preference = e.target.value;
-    setPref(preference);
-  };
-
-  const login = (e: FormEvent<HTMLFormElement>) => {
+  const login = (e: any) => {
     e.preventDefault();
     console.log(loginRequestModel);
-  };
-
-  const register = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(registerRequestModel);
   };
 
   return (
@@ -77,19 +34,10 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
         <div className="row">
           <div className="col-lg-4 col-sm-12"></div>
           <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
-            {isLogin ? (
-              <StyledH5 className="text-center mb-5">
-                Welcome back you've been missed!
-              </StyledH5>
-            ) : (
-              <StyledH5 className="text-center mb-5">
-                Please fill the details
-              </StyledH5>
-            )}
-            <form
-              action=""
-              onSubmit={isLogin ? (e) => login(e) : (e) => register(e)}
-            >
+            <StyledH5 className="text-center mb-5">
+              Welcome back you've been missed!
+            </StyledH5>
+            <form>
               <div className="col-12">
                 <div className="form-floating mb-3">
                   <input
@@ -120,106 +68,29 @@ const Login = ({ isLogin, setIsLogin }: LoginProps) => {
                   <label className="form-label">Password</label>
                 </div>
               </div>
-              {!isLogin && (
-                <>
-                  <div className="col-12">
-                    <div className="form-floating mb-3">
-                      <input
-                        type="email"
-                        className="form-control"
-                        name="email"
-                        id="email"
-                        placeholder="Please enter email"
-                        onChange={(e) => handleEmailChange(e)}
-                        value={email}
-                        required
-                      />
-                      <label className="form-label">Email ID</label>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="form-floating mb-3">
-                      <input
-                        type="tel"
-                        className="form-control"
-                        name="mobile"
-                        id="mobile"
-                        placeholder="Please enter mobile"
-                        onChange={(e) => handleMobileChange(e)}
-                        value={mobile}
-                        required
-                      />
-                      <label className="form-label">Mobile No.</label>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label">Preference</label>
-                    <div className="form-floating mb-3">
-                      <StyledSelect
-                        name="pref"
-                        id="pref"
-                        onChange={(e) => handlePrefChange(e)}
-                      >
-                        <option value="">Please select the option</option>
-                        <option value="v">Veg</option>
-                        <option value="n">Non-Veg</option>
-                      </StyledSelect>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label">User Type</label>
-                    <div className="form-floating mb-3">
-                      <StyledSelect
-                        name="type"
-                        id="type"
-                        onChange={(e) => handleTypeChange(e)}
-                      >
-                        <option value="">Please select the option</option>
-                        <option value="u">User</option>
-                        <option value="a">Admin</option>
-                      </StyledSelect>
-                    </div>
-                  </div>
-                </>
-              )}
               <div className="col-12">
                 <div className="d-grid">
                   <button
                     className="btn btn-dark btn-lg"
                     type="submit"
-                    // onClick={isLogin ? login : register}
+                    onClick={(e) => login(e)}
                   >
-                    {isLogin ? <>Login Now</> : <>Register Now</>}
+                    Login Now
                   </button>
                 </div>
               </div>
               <div className="col-12">
                 <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                  {isLogin ? (
-                    <>
-                      <a
-                        href=""
-                        className="link-secondary text-decoration-none"
-                        onClick={() => setIsLogin(!isLogin)}
-                      >
-                        Create new account
-                      </a>
-                      <a
-                        href=""
-                        className="link-secondary text-decoration-none"
-                      >
-                        Forgot password
-                      </a>
-                    </>
-                  ) : (
-                    <a
-                      href=""
-                      className="link-secondary text-decoration-none"
-                      onClick={() => setIsLogin(!isLogin)}
-                    >
-                      Already existing account
-                    </a>
-                  )}
+                  <a
+                    href=""
+                    className="link-secondary text-decoration-none"
+                    onClick={() => navigate('/register')}
+                  >
+                    Create new account
+                  </a>
+                  <a href="" className="link-secondary text-decoration-none">
+                    Forgot password
+                  </a>
                 </div>
               </div>
             </form>
