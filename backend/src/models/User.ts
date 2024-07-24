@@ -14,7 +14,19 @@ export interface User {
 export interface LoginUser {
   username: string;
   password: string;
-  type : string;
+  type: string;
+  userId: string;
+  email: string;
+  mobile: string;
+  preference: string;
+}
+
+interface ApiResponse {
+  status: number;
+  body: {
+    message: string;
+    user?: LoginUser;
+  };
 }
 
 export const findUserByUsername = async (
@@ -24,13 +36,18 @@ export const findUserByUsername = async (
     let query;
     let user: LoginUser | null = null;
 
-    query = 'SELECT username, password FROM "user" WHERE username = $1';
+    query =
+      'SELECT id, name, type, email, mobile, preference FROM "user" WHERE username = $1';
     const { rows: userRows } = await pool.query(query, [username]);
     if (userRows.length > 0) {
       user = {
-        username: userRows[0].username,
+        userId: userRows[0].id,
+        username: userRows[0].name,
         password: userRows[0].password,
-        type : userRows[0].type ,
+        type: userRows[0].type,
+        email: userRows[0].email,
+        mobile: userRows[0].mobile,
+        preference: userRows[0].preference,
       };
     }
 
@@ -41,7 +58,7 @@ export const findUserByUsername = async (
   }
 };
 
-export const createUser = async (user: User): Promise<{ status: number; body: any }> => {
+export const createUser = async (user: User): Promise<ApiResponse> => {
   try {
     let query;
     let values;
@@ -68,13 +85,20 @@ export const createUser = async (user: User): Promise<{ status: number; body: an
     }
 
     const { rows } = await pool.query(query, values);
-    const userId = rows[0].id;
 
     return {
       status: 201,
       body: {
         message: "User added successfully",
-        userId: userId.toString(),
+        user: {
+          userId: rows[0].id,
+          username: rows[0].name,
+          password: rows[0].password,
+          type: rows[0].type,
+          email: rows[0].email,
+          mobile: rows[0].mobile,
+          preference: rows[0].preference,
+        },
       },
     };
   } catch (error) {
@@ -82,7 +106,7 @@ export const createUser = async (user: User): Promise<{ status: number; body: an
     return {
       status: 500,
       body: {
-        error: "Failed to register user",
+        message: "Failed to register user",
       },
     };
   }

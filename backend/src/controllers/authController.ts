@@ -7,25 +7,37 @@ dotenv.config();
 const mockResponses = {
   register: {
     success: {
-      status: 201,
-      body: {
-        message: "User added successfully",
-        userId: "user123",
-      },
+      "status": 201,
+      "body": {
+        "message": "User added successfully",
+        "user": {
+          "userId": "123",
+          "username": "username",
+          "password": "password",
+          "type": "customer",
+          "email": "user@example.com",
+          "mobile": "1234567890",
+          "preference": "veg"
+        }
+      }
     },
   },
   login: {
     success: {
-    status: 200,
-      body: {
-        message: "Login successful",
-        userId: "user123",
-        type:"user"
-      },
-    }
+      "status": 200,
+      "body": {
+        "message": "Login successful",
+        "userId": "123",
+        "username": "username",
+        "password": "password",
+        "type": "customer",
+        "email": "user@example.com",
+        "mobile": "1234567890",
+        "preference": "veg"
+      }
+    },
   },
 };
-
 
 export const registerUser = async (
   req: Request,
@@ -46,10 +58,12 @@ export const registerUser = async (
     } else {
       const existingUser = await findUserByUsername(username);
       if (existingUser) {
-        return res.status(400).json({status:400,body:{message:"Username already exists"}});
+        return res
+          .status(400)
+          .json({ status: 400, body: { message: "Username already exists" } });
       }
 
-      const userId = await createUser({
+      const user = await createUser({
         username,
         password,
         email,
@@ -58,18 +72,11 @@ export const registerUser = async (
         type,
       });
 
-      if (!userId) {
+      if (!user) {
         return res.status(500).send("Failed to register user");
       }
 
-      res.status(201).json({
-        status: 201,
-        body: {
-          message: "User added successfully",
-          userId: userId,
-          type: type
-        },
-      });
+      res.status(201).json(user);
     }
   } catch (error) {
     next(error);
@@ -85,24 +92,31 @@ export const loginUser = async (
     username: string;
     password: string;
   };
-  
+
   try {
     if (process.env.IS_TESTING === "true") {
       return res.status(200).json(mockResponses.login.success);
     } else {
       const user = await findUserByUsername(username);
       if (!user || user.password !== password) {
-        return res.status(400).json({status:400,body:{message:"Username already exists"}});
+        return res
+          .status(400)
+          .json({ status: 400, body: { message: "Username already exists" } });
       }
 
       res.status(200).json({
         status: 200,
-          body: {
-            message: "Login successful",
-            userId: user,
-            type: user.type
-          },
-        });
+        body: {
+          message: "Login successful",
+          userId: user.userId,
+          username: user.username,
+          password: user.password,
+          type: user.type,
+          email: user.email,
+          mobile: user.mobile,
+          preference: user.preference,
+        },
+      });
     }
   } catch (error) {
     next(error);
