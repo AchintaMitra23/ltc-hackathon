@@ -1,6 +1,12 @@
 /* eslint-disable prefer-const */
 import { useState } from "react";
 import { Admins } from "../types";
+import {
+  ButtonStyle1,
+  CheckBoxStyle1,
+  DivStyle2,
+  SpanStyle1,
+} from "../styles/Login.styled";
 
 const Approval = () => {
   const [adminList, setAdminList] = useState<Admins[]>([
@@ -28,30 +34,30 @@ const Approval = () => {
   };
 
   return (
-    <div>
+    <div className="m-5">
       <div>
         {adminList.length === 0 ? (
           <h4>Nothing to show.....</h4>
         ) : (
           <div>
             {adminList.map((admin, index) => (
-              <div key={index}>
-                <input
+              <DivStyle2 key={index}>
+                <CheckBoxStyle1
                   type="checkbox"
-                  name=""
-                  id=""
                   onChange={() => handleComplete(admin.id)}
                   checked={admin.approval_status}
                 />
-                <span>
-                  {admin.id} - {admin.name} - {admin.email}
-                </span>
-              </div>
+                <SpanStyle1>{admin.id}</SpanStyle1>
+                <SpanStyle1>{admin.name}</SpanStyle1>
+                <SpanStyle1>{admin.email}</SpanStyle1>
+              </DivStyle2>
             ))}
+            <ButtonStyle1 type="button" onClick={onSubmit}>
+              Submit
+            </ButtonStyle1>
           </div>
         )}
       </div>
-      <input type="button" value="Submit" onClick={onSubmit} />
     </div>
   );
 };

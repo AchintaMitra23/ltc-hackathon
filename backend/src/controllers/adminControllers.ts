@@ -4,6 +4,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+export interface ListItem {
+  tokenNo: string;
+  employeeId: number;
+  orderDate: string;
+  counterId: number;
+  slotId: number;
+  orderDone: any | boolean;
+};
+
 export const getAllOrders = async (
   req: Request,
   res: Response,
@@ -15,38 +24,61 @@ export const getAllOrders = async (
         status: 200,
         body: {
           orders: [
-            { counter_id: 1, order_count: 10 },
-            { counter_id: 2, order_count: 5 },
+            {
+              tokenNo: "TK-001",
+              employeeId: 5606349,
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: false,
+            },
+            {
+              tokenNo: "TK-002",
+              employeeId: 9909909,
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: false,
+            },
+            {
+              tokenNo: "TK-003",
+              employeeId: 8908900,
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: false,
+            }
           ],
-          message: "Order counts fetched successfully",
         },
       });
     } else {
-      const { company } = req.body as {
+      const { company, counter, slot } = req.body as {
         company: string;
+        counter: number;
+        slot: number;
       };
-      const currentDate = new Date().toISOString().split("T")[0];
+      // const currentDate = new Date().toISOString().split("T")[0];
 
-      const query = `
-      SELECT c.counter_id, COUNT(*) AS order_count
-      FROM order_master AS o
-      INNER JOIN counter AS c ON o.counter_id = c.id
-      WHERE o.order_date = $1
-      AND c.company_name = $2
-      GROUP BY c.counter_id
-            `;
+      // const query = `
+      // SELECT c.counter_id, COUNT(*) AS order_count
+      // FROM order_master AS o
+      // INNER JOIN counter AS c ON o.counter_id = c.id
+      // WHERE o.order_date = $1
+      // AND c.company_name = $2
+      // GROUP BY c.counter_id
+      //       `;
 
-      const { rows } = await pool.query(query, [currentDate, company]);
+      // const { rows } = await pool.query(query, [currentDate, company]);
 
-      const response = {
-        status: 200,
-        body: {
-          orders: rows,
-          message: "Order counts fetched successfully",
-        },
-      };
+      // const response = {
+      //   status: 200,
+      //   body: {
+      //     orders: rows,
+      //     message: "Order counts fetched successfully",
+      //   },
+      // };
 
-      res.status(200).json(response);
+      // res.status(200).json(response);
     }
   } catch (error) {
     next(error);
@@ -63,43 +95,30 @@ export const updateOrderStatus = async (
       res.status(200).json({
         status: 200,
         body: {
-          token_no: "Ab837s9w",
           message: "Order statuses updated successfully",
         },
       });
     } else {
-      const { order_status, empId, token_no } = req.body as {
-        order_status: string;
-        empId: string;
-        token_no: string;
-      };
+      const items: ListItem[] = req.body;
 
-      if (!order_status || !token_no) {
-        return res
-          .status(400)
-          .json({ status: 404, error: "Order status or token_no is required" });
-      }
-
-      const query = `
-        UPDATE order_master
-        SET order_status = $1
-        WHERE emp_id = $2 and token_no = $3
-        RETURNING *
-      `;
-
-      const { rows } = await pool.query(query, [order_status, empId, token_no]);
-
-      if (rows.length === 0) {
-        return res.status(404).json({
-          status: 404,
-          error: "No orders found for the specified employee ID",
-        });
-      }
+      items.map(async (item: ListItem, index: number) => {
+        if (!item.tokenNo) {
+          return res
+            .status(400)
+            .json({ status: 404, error: "Token No. is required" });
+        }
+        const query = `
+          UPDATE order_master
+          SET order_status = $1
+          WHERE emp_id = $2 and token_no = $3
+          RETURNING *
+        `;
+        const { rows } = await pool.query(query, [item.orderDone ? 'Completed' : 'Active', item.employeeId, item.tokenNo]);
+      });
 
       res.status(200).json({
         status: 200,
         body: {
-          token_no: token_no,
           message: "Order statuses updated successfully",
         },
       });

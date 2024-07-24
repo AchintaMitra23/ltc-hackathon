@@ -1,31 +1,70 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { StyledDiv1, StyledH5 } from "../styles/Login.styled";
+import { Link, useNavigate } from "react-router-dom";
+import { ErrorStyle, StyledDiv1, StyledH5 } from "../styles/Login.styled";
+import { loginAPI } from "../apis/login";
+import { LoginResponseModel } from "../types";
 
-const Login = () => {
+interface LoginProps {
+  isAuth: boolean;
+  setIsAuth: (value: boolean) => void;
+}
+
+const Login = ({ isAuth, setIsAuth }: LoginProps) => {
   const [empId, setEmpId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("password");
+  const [empIdError, setEmpIdError] = useState<string>("");
   const navigate: any = useNavigate();
 
   const loginRequestModel = {
-    empId: empId,
+    username: empId,
     password: password,
   };
 
   const handleEmplIDChange = (e: any) => {
-    const id: any = e.target.value;
-    setEmpId(id);
+    const currentValue: any = e.target.value;
+    if (currentValue && currentValue !== "") {
+      if (RegExp(/^[0-9]{7}$/).exec(currentValue)) {
+        setEmpIdError("");
+      } else {
+        setEmpIdError("Employee id should contains 7 digits.");
+      }
+    } else if (currentValue === null || currentValue === "") {
+      setEmpIdError("Please enter the employee id");
+    } else {
+      setEmpIdError("Employee id should contains 7 digits.");
+    }
+    setEmpId(currentValue);
   };
 
-  const handlePasswordChange = (e: any) => {
-    const pass = e.target.value;
-    setPassword(pass);
-  };
-
-  const login = (e: any) => {
+  const login = async (e: any) => {
     e.preventDefault();
-    console.log(loginRequestModel);
+    if (empId !== null && empId !== "" && empIdError === "") {
+      await loginAPI(loginRequestModel)
+        .then((response) => {
+          if (response.status === 200) {
+            const loginResponse: LoginResponseModel = response.body;
+            localStorage.setItem("details", JSON.stringify(loginResponse));
+            localStorage.setItem("userType", loginResponse.type);
+            localStorage.setItem("employeeID", loginResponse.id.toString());
+            setIsAuth(true);
+            if (loginResponse.type === "user") {
+              navigate("/bookings");
+            } else if (loginResponse.type === "admin") {
+              navigate("/booking-list");
+            } else if (loginResponse.type === "hr") {
+              navigate("/approval");
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      if (empId === null || empId === "")
+        setEmpIdError("Please enter valid employee id.");
+    }
   };
 
   return (
@@ -51,6 +90,7 @@ const Login = () => {
                     required
                   />
                   <label className="form-label">Employee ID</label>
+                  {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
                 </div>
               </div>
               <div className="col-12">
@@ -61,9 +101,9 @@ const Login = () => {
                     name="password"
                     id="password"
                     placeholder="Please enter password"
-                    onChange={(e) => handlePasswordChange(e)}
                     value={password}
                     required
+                    disabled
                   />
                   <label className="form-label">Password</label>
                 </div>
@@ -81,16 +121,7 @@ const Login = () => {
               </div>
               <div className="col-12">
                 <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                  <a
-                    href=""
-                    className="link-secondary text-decoration-none"
-                    onClick={() => navigate('/register')}
-                  >
-                    Create new account
-                  </a>
-                  <a href="" className="link-secondary text-decoration-none">
-                    Forgot password
-                  </a>
+                  <Link to="/register">Create new account</Link>
                 </div>
               </div>
             </form>

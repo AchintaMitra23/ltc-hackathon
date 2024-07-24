@@ -7,11 +7,26 @@ import BookingList from "./BookingList";
 import Login from "../components/Login";
 import Register from "../components/Register";
 
-const RoutesIndex = () => {
+interface RoutesProps {
+  isAuth: boolean;
+  setIsAuth: (value: boolean) => void;
+}
+
+const RoutesIndex = ({ isAuth, setIsAuth }: RoutesProps) => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/"
+        element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />}
+      />
+      <Route
+        path="/login"
+        element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />}
+      />
+      <Route
+        path="/register"
+        element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />}
+      />
 
       {/* Users pages */}
       <Route path="/bookings" element={<Bookings employeeId={'5607490'}/>} />

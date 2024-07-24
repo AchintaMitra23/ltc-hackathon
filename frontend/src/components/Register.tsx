@@ -1,59 +1,163 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { StyledDiv1, StyledH5, StyledSelect } from "../styles/Login.styled";
-import { useNavigate } from "react-router-dom";
+import {
+  ErrorStyle,
+  StyledDiv1,
+  StyledH5,
+  StyledSelect,
+} from "../styles/Login.styled";
+import { Link, useNavigate } from "react-router-dom";
+import { registerAPI } from "../apis/register";
+import { LoginResponseModel } from "../types";
 
-const Register = () => {
+interface RegisterProps {
+  isAuth: boolean;
+  setIsAuth: (value: boolean) => void;
+}
+
+const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
   const [empId, setEmpId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("password");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [pref, setPref] = useState<string>("");
+  const [empIdError, setEmpIdError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [mobileError, setMobileError] = useState<string>("");
+  const [typeError, setTypeError] = useState<string>("");
+  const [prefError, setPrefError] = useState<string>("");
   const navigate: any = useNavigate();
 
   const registerRequestModel = {
-    empId: empId,
+    username: empId,
     password: password,
     email: email,
     mobile: mobile,
     type: type,
-    pref: pref,
+    preference: pref,
   };
 
   const handleEmplIDChange = (e: any) => {
-    const id: any = e.target.value;
-    setEmpId(id);
-  };
-
-  const handlePasswordChange = (e: any) => {
-    const pass = e.target.value;
-    setPassword(pass);
+    const currentValue: any = e.target.value;
+    if (currentValue && currentValue !== "") {
+      if (RegExp(/^[0-9]{7}$/).exec(currentValue)) {
+        setEmpIdError("");
+      } else {
+        setEmpIdError("Employee id should contains 7 digits.");
+      }
+    } else if (currentValue === null || currentValue === "") {
+      setEmpIdError("Please enter the employee id");
+    } else {
+      setEmpIdError("Employee id should contains 7 digits.");
+    }
+    setEmpId(currentValue);
   };
 
   const handleEmailChange = (e: any) => {
-    const emailId = e.target.value;
-    setEmail(emailId);
+    const currentValue: any = e.target.value;
+    if (currentValue && currentValue !== "") {
+      if (RegExp(/^[^\s@]+@lloydsbanking.com+$/).exec(currentValue)) {
+        setEmailError("");
+      } else {
+        setEmailError("Email should be <abc>@lloydsbanking.com.");
+      }
+    } else if (currentValue === null || currentValue === "") {
+      setEmailError("Please enter the email");
+    } else {
+      setEmailError("Email should be <abc>@lloydsbanking.com.");
+    }
+    setEmail(currentValue);
   };
 
   const handleMobileChange = (e: any) => {
-    const phone = e.target.value;
-    setMobile(phone);
+    const currentValue: any = e.target.value;
+    if (currentValue && currentValue !== "") {
+      if (RegExp(/^[0-9]{10}$/).exec(currentValue)) {
+        setMobileError("");
+      } else {
+        setMobileError("Mobile Number should contains 10 digits.");
+      }
+    } else if (currentValue === null || currentValue === "") {
+      setMobileError("Please enter the mobile no");
+    } else {
+      setMobileError("Mobile Number should contains 10 digits.");
+    }
+    setMobile(currentValue);
   };
 
   const handleTypeChange = (e: any) => {
     const userType = e.target.value;
+    if (userType === null || userType === "") {
+      setTypeError("Please enter the type");
+    } else {
+      setTypeError("");
+    }
     setType(userType);
   };
 
   const handlePrefChange = (e: any) => {
     const preference = e.target.value;
+    if (preference === null || preference === "") {
+      setPrefError("Please enter the preference");
+    } else {
+      setPrefError("");
+    }
     setPref(preference);
   };
 
-  const register = (e: any) => {
+  const register = async (e: any) => {
     e.preventDefault();
-    console.log(registerRequestModel);
+    if (
+      empId !== null &&
+      empId !== "" &&
+      email !== null &&
+      email !== "" &&
+      mobile !== null &&
+      mobile !== "" &&
+      type !== null &&
+      type !== "" &&
+      pref !== null &&
+      pref !== "" &&
+      empIdError === "" &&
+      emailError === "" &&
+      mobileError === "" &&
+      typeError === "" &&
+      prefError === ""
+    ) {
+      await registerAPI(registerRequestModel)
+        .then((response) => {
+          if (response.status === 201) {
+            const loginResponse: LoginResponseModel = response.body;
+            localStorage.setItem("details", JSON.stringify(loginResponse));
+            localStorage.setItem("userType", loginResponse.type);
+            localStorage.setItem("employeeID", loginResponse.id.toString());
+            setIsAuth(true);
+            if (loginResponse.type === "user") {
+              navigate("/bookings");
+            } else if (loginResponse.type === "admin") {
+              navigate("/booking-list");
+            } else if (loginResponse.type === "hr") {
+              navigate("/approval");
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      if (empId === null || empId === "")
+        setEmpIdError("Please enter valid employee id.");
+      if (email === null || email === "")
+        setEmailError("Please enter valid email.");
+      if (mobile === null || mobile === "")
+        setMobileError("Please enter valid mobile number.");
+      if (type === null || type === "")
+        setTypeError("Please select valid user type.");
+      if (pref === null || pref === "")
+        setPrefError("Please select valid food preference.");
+    }
   };
 
   return (
@@ -79,6 +183,7 @@ const Register = () => {
                     required
                   />
                   <label className="form-label">Employee ID</label>
+                  {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
                 </div>
               </div>
               <div className="col-12">
@@ -89,9 +194,9 @@ const Register = () => {
                     name="password"
                     id="password"
                     placeholder="Please enter password"
-                    onChange={(e) => handlePasswordChange(e)}
                     value={password}
                     required
+                    disabled
                   />
                   <label className="form-label">Password</label>
                 </div>
@@ -109,6 +214,7 @@ const Register = () => {
                     required
                   />
                   <label className="form-label">Email ID</label>
+                  {emailError !== "" && <ErrorStyle>{emailError}</ErrorStyle>}
                 </div>
               </div>
               <div className="col-12">
@@ -124,6 +230,7 @@ const Register = () => {
                     required
                   />
                   <label className="form-label">Mobile No.</label>
+                  {mobileError !== "" && <ErrorStyle>{mobileError}</ErrorStyle>}
                 </div>
               </div>
               <div className="col-12">
@@ -135,10 +242,11 @@ const Register = () => {
                     onChange={(e) => handlePrefChange(e)}
                   >
                     <option value="">Please select the option</option>
-                    <option value="v">Veg</option>
-                    <option value="n">Non-Veg</option>
+                    <option value="veg">Veg</option>
+                    <option value="non-veg">Non-Veg</option>
                   </StyledSelect>
                 </div>
+                {prefError !== "" && <ErrorStyle>{prefError}</ErrorStyle>}
               </div>
               <div className="col-12">
                 <label className="form-label">User Type</label>
@@ -149,10 +257,11 @@ const Register = () => {
                     onChange={(e) => handleTypeChange(e)}
                   >
                     <option value="">Please select the option</option>
-                    <option value="u">User</option>
-                    <option value="a">Admin</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
                   </StyledSelect>
                 </div>
+                {typeError !== "" && <ErrorStyle>{typeError}</ErrorStyle>}
               </div>
               <div className="col-12">
                 <div className="d-grid">
@@ -167,13 +276,7 @@ const Register = () => {
               </div>
               <div className="col-12">
                 <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                  <a
-                    href=""
-                    className="link-secondary text-decoration-none"
-                    onClick={() => navigate("/login")}
-                  >
-                    Already existing account
-                  </a>
+                  <Link to="/login">Already existing account</Link>
                 </div>
               </div>
             </form>

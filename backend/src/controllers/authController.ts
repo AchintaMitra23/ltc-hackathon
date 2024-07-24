@@ -9,18 +9,25 @@ const mockResponses = {
     success: {
       status: 201,
       body: {
-        message: "User added successfully",
-        userId: "user123",
+        id: 5606349,
+        name: "Achinta",
+        type: "user",
+        email: "achinta@lloydsbanking.com",
+        mobile: "9163888852",
+        preference: "veg"
       },
     },
   },
   login: {
     success: {
-    status: 200,
+      status: 200,
       body: {
-        message: "Login successful",
-        userId: "user123",
-        type:"user"
+        id: 5606349,
+        name: "Achinta",
+        type: "admin",
+        email: "achinta@lloydsbanking.com",
+        mobile: "9163888852",
+        preference: "veg"
       },
     }
   },
