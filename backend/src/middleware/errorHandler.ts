@@ -7,5 +7,5 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   console.error('Error caught by middleware:', err);
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ status: 500, body: { error: 'Internal server error' } });
 };

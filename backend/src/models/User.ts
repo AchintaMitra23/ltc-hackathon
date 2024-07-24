@@ -14,6 +14,7 @@ export interface User {
 export interface LoginUser {
   username: string;
   password: string;
+  type : string;
 }
 
 export const findUserByUsername = async (
@@ -23,12 +24,13 @@ export const findUserByUsername = async (
     let query;
     let user: LoginUser | null = null;
 
-    query = 'SELECT username, password FROM "customer" WHERE username = $1';
-    const { rows: customerRows } = await pool.query(query, [username]);
-    if (customerRows.length > 0) {
+    query = 'SELECT username, password FROM "user" WHERE username = $1';
+    const { rows: userRows } = await pool.query(query, [username]);
+    if (userRows.length > 0) {
       user = {
-        username: customerRows[0].username,
-        password: customerRows[0].password,
+        username: userRows[0].username,
+        password: userRows[0].password,
+        type : userRows[0].type ,
       };
     }
 
@@ -46,13 +48,13 @@ export const createUser = async (user: User): Promise<{ status: number; body: an
 
     switch (user.type) {
       case "admin":
-        query = `INSERT INTO "customer" (username, password, email, mobile, preference, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-        VALUES ($1, $2, $3, $4, null, 0, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
+        query = `INSERT INTO "user" (username, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+        VALUES ($1, $2, $3, $4, null,"admin", 0, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
         values = [user.username, user.password, user.email, user.mobile];
         break;
       case "customer":
-        query = `INSERT INTO "customer" (username, password, email, mobile, preference, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-                 VALUES ($1, $2, $3, $4, $5, 0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
+        query = `INSERT INTO "user" (username, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+                 VALUES ($1, $2, $3, $4, $5,"customer" , 0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
         values = [
           user.username,
           user.password,
