@@ -7,7 +7,7 @@ export interface User {
   password: string;
   email: string;
   mobile: string;
-  preference?: string;
+  preference: string;
   type: string;
 }
 
@@ -23,24 +23,13 @@ export const findUserByUsername = async (
     let query;
     let user: LoginUser | null = null;
 
-    query = 'SELECT username, password FROM "admin" WHERE username = $1';
-    const { rows: adminRows } = await pool.query(query, [username]);
-    if (adminRows.length > 0) {
+    query = 'SELECT username, password FROM "customer" WHERE username = $1';
+    const { rows: customerRows } = await pool.query(query, [username]);
+    if (customerRows.length > 0) {
       user = {
-        username: adminRows[0].username,
-        password: adminRows[0].password,
+        username: customerRows[0].username,
+        password: customerRows[0].password,
       };
-    }
-
-    if (!user) {
-      query = 'SELECT username, password FROM "customer" WHERE username = $1';
-      const { rows: customerRows } = await pool.query(query, [username]);
-      if (customerRows.length > 0) {
-        user = {
-          username: customerRows[0].username,
-          password: customerRows[0].password,
-        };
-      }
     }
 
     return user;
@@ -50,20 +39,20 @@ export const findUserByUsername = async (
   }
 };
 
-export const createUser = async (user: User): Promise<number | null> => {
+export const createUser = async (user: User): Promise<{ status: number; body: any }> => {
   try {
     let query;
     let values;
 
     switch (user.type) {
       case "admin":
-        query = `INSERT INTO "admin" (username, password, email, mobile, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-                 VALUES ($1, $2, $3, $4, 0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
+        query = `INSERT INTO "customer" (username, password, email, mobile, preference, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+        VALUES ($1, $2, $3, $4, null, 0, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
         values = [user.username, user.password, user.email, user.mobile];
         break;
       case "customer":
         query = `INSERT INTO "customer" (username, password, email, mobile, preference, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-                 VALUES ($1, $2, $3, $4, $5, 0, 0, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
+                 VALUES ($1, $2, $3, $4, $5, 0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
         values = [
           user.username,
           user.password,
@@ -77,9 +66,22 @@ export const createUser = async (user: User): Promise<number | null> => {
     }
 
     const { rows } = await pool.query(query, values);
-    return rows[0].id;
+    const userId = rows[0].id;
+
+    return {
+      status: 201,
+      body: {
+        message: "User added successfully",
+        userId: userId.toString(),
+      },
+    };
   } catch (error) {
     console.error("Error creating user", error);
-    return null;
+    return {
+      status: 500,
+      body: {
+        error: "Failed to register user",
+      },
+    };
   }
 };
