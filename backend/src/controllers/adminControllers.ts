@@ -99,29 +99,29 @@ export const updateOrderStatus = async (
         },
       });
     } else {
-      const items: ListItem[] = req.body;
+      // const items: ListItem[] = req.body;
 
-      items.map(async (item: ListItem, index: number) => {
-        if (!item.tokenNo) {
-          return res
-            .status(400)
-            .json({ status: 404, error: "Token No. is required" });
-        }
-        const query = `
-          UPDATE order_master
-          SET order_status = $1
-          WHERE emp_id = $2 and token_no = $3
-          RETURNING *
-        `;
-        const { rows } = await pool.query(query, [item.orderDone ? 'Completed' : 'Active', item.employeeId, item.tokenNo]);
-      });
+      // items.map(async (item: ListItem, index: number) => {
+      //   if (!item.tokenNo) {
+      //     return res
+      //       .status(400)
+      //       .json({ status: 404, error: "Token No. is required" });
+      //   }
+      //   const query = `
+      //     UPDATE order_master
+      //     SET order_status = $1
+      //     WHERE emp_id = $2 and token_no = $3
+      //     RETURNING *
+      //   `;
+      //   const { rows } = await pool.query(query, [item.orderDone ? 'Completed' : 'Active', item.employeeId, item.tokenNo]);
+      // });
 
-      res.status(200).json({
-        status: 200,
-        body: {
-          message: "Order statuses updated successfully",
-        },
-      });
+      // res.status(200).json({
+      //   status: 200,
+      //   body: {
+      //     message: "Order statuses updated successfully",
+      //   },
+      // });
     }
   } catch (error) {
     next(error);

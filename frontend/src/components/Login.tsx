@@ -11,14 +11,14 @@ interface LoginProps {
   setIsAuth: (value: boolean) => void;
 }
 
-const Login = ({ isAuth, setIsAuth }: LoginProps) => {
+const Login = ({ setIsAuth }: LoginProps) => {
   const [empId, setEmpId] = useState<string>("");
   const [password, setPassword] = useState<string>("password");
   const [empIdError, setEmpIdError] = useState<string>("");
   const navigate: any = useNavigate();
 
   const loginRequestModel = {
-    username: empId,
+    empId: empId,
     password: password,
   };
 

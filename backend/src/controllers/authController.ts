@@ -33,7 +33,6 @@ const mockResponses = {
   },
 };
 
-
 export const registerUser = async (
   req: Request,
   res: Response,
@@ -52,32 +51,32 @@ export const registerUser = async (
     if (process.env.IS_TESTING === "true") {
       return res.status(201).json(mockResponses.register.success);
     } else {
-      const existingUser = await findUserByUsername(username);
-      if (existingUser) {
-        return res.status(400).json({status:400,body:{message:"Username already exists"}});
-      }
+      // const existingUser = await findUserByUsername(username);
+      // if (existingUser) {
+      //   return res.status(400).json({status:400,body:{message:"Username already exists"}});
+      // }
 
-      const userId = await createUser({
-        username,
-        password,
-        email,
-        mobile,
-        preference,
-        type,
-      });
+      // const userId = await createUser({
+      //   username,
+      //   password,
+      //   email,
+      //   mobile,
+      //   preference,
+      //   type,
+      // });
 
-      if (!userId) {
-        return res.status(500).send("Failed to register user");
-      }
+      // if (!userId) {
+      //   return res.status(500).send("Failed to register user");
+      // }
 
-      res.status(201).json({
-        status: 201,
-        body: {
-          message: "User added successfully",
-          userId: userId,
-          type: type
-        },
-      });
+      // res.status(201).json({
+      //   status: 201,
+      //   body: {
+      //     message: "User added successfully",
+      //     userId: userId,
+      //     type: type
+      //   },
+      // });
     }
   } catch (error) {
     next(error);
@@ -89,8 +88,8 @@ export const loginUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password } = req.body as {
-    username: string;
+  const { empId, password } = req.body as {
+    empId: string;
     password: string;
   };
   
@@ -98,19 +97,19 @@ export const loginUser = async (
     if (process.env.IS_TESTING === "true") {
       return res.status(200).json(mockResponses.login.success);
     } else {
-      const user = await findUserByUsername(username);
-      if (!user || user.password !== password) {
-        return res.status(400).json({status:400,body:{message:"Username already exists"}});
-      }
+      // const user = await findUserByUsername(username);
+      // if (!user || user.password !== password) {
+      //   return res.status(400).json({status:400,body:{message:"Username already exists"}});
+      // }
 
-      res.status(200).json({
-        status: 200,
-          body: {
-            message: "Login successful",
-            userId: user,
-            type: user.type
-          },
-        });
+      // res.status(200).json({
+      //   status: 200,
+      //     body: {
+      //       message: "Login successful",
+      //       userId: user,
+      //       type: user.type
+      //     },
+      //   });
     }
   } catch (error) {
     next(error);
