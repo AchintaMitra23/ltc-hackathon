@@ -132,22 +132,25 @@ const Register = ({ setIsAuth }: RegisterProps) => {
       await registerAPI(registerRequestModel)
         .then((response) => {
           if (response.status === 201) {
-            console.log(response.body.message);
+            alert(response.body.message);
             const loginResponse: LoginResponseModel = response.body.user;
-            localStorage.setItem("details", JSON.stringify(loginResponse));
-            localStorage.setItem("userType", loginResponse.type);
-            localStorage.setItem("employeeID", loginResponse.userId);
-            setIsAuth(true);
-            if (
-              loginResponse.type === "user" ||
-              loginResponse.type === "customer"
-            ) {
-              navigate("/bookings");
-            } else if (loginResponse.type === "admin") {
-              navigate("/booking-list");
-            } else if (loginResponse.type === "hr") {
-              navigate("/approval");
+            if (loginResponse.userId !== null && loginResponse.userId !== '') {
+              navigate('/login');
             }
+            // localStorage.setItem("details", JSON.stringify(loginResponse));
+            // localStorage.setItem("userType", loginResponse.type);
+            // localStorage.setItem("employeeID", loginResponse.userId);
+            // setIsAuth(true);
+            // if (
+            //   loginResponse.type === "user" ||
+            //   loginResponse.type === "customer"
+            // ) {
+            //   navigate("/bookings");
+            // } else if (loginResponse.type === "admin") {
+            //   navigate("/booking-list");
+            // } else if (loginResponse.type === "hr") {
+            //   navigate("/approval");
+            // }
           }
         })
         .catch((error) => {
