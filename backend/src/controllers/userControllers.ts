@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
+import { IS_TESTING } from "../config";
 
 dotenv.config();
 
@@ -10,7 +11,7 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       res.status(201).json({
         status: 200,
         body: {
@@ -65,7 +66,7 @@ export const allOrdersOfUser = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       res.status(200).json({
         status: 200,
         body: {
@@ -143,8 +144,7 @@ export const DateOrders = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
-      
+    if (IS_TESTING === "true") {
       res.status(200).json({
         status: 200,
         body: {
@@ -197,7 +197,7 @@ export const DateOrders = async (
                 16: { order_count: 22, slot_name: "1:30 to 1:45" },
                 17: { order_count: 28, slot_name: "1:45 to 2:00" },
                 18: { order_count: 0, slot_name: "2:00 to 3:00" },
-              },
+            },
             }
             },
           message: "Order counts fetched successfully",
