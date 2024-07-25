@@ -12,11 +12,8 @@ RUN npm install
 # Copy all other source code to the container
 COPY . .
 
-# Build the TypeScript files
-RUN npm run build
+# Expose port 3000 (the port on which your Express app runs)
+EXPOSE 3001
 
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Start the application
-CMD ["node", "dist/index.js"]
+# Command to run the application
+CMD ["node", "index.js"]

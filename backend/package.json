@@ -2,12 +2,11 @@
     "name": "backend",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "index.js",
     "type": "module",
     "scripts": {
         "start": "tsc && node index.js",
-        "dev": "nodemon --exec tsx index.js",
-        "build": "tsc"
+        "dev": "nodemon --exec tsx index.js"
     },
     "author": "",
     "license": "ISC",
