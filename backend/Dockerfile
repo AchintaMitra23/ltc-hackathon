@@ -16,5 +16,5 @@ COPY . .
 EXPOSE 3001
 
 # Command to run the application
-RUN npm run dev
-# CMD ["node", "index.js"]
+# RUN npm run dev
+CMD ["npm", "run","dev"]
