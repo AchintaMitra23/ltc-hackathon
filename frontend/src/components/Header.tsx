@@ -61,14 +61,13 @@ const Header = ({ setIsAuth }: HeaderProps) => {
                       </NavLink>
                     </StyledNavLink>
                   )}
-                {userType === "user" ||
-                  (userType === "customer" && (
+                {userType === "user" && (
                     <StyledNavLink className="nav-item">
                       <NavLink className="nav-link" to="/profile">
                         Profile
                       </NavLink>
                     </StyledNavLink>
-                  ))}
+                  )}
                 {userType === "admin" && (
                   <StyledNavLink className="nav-item">
                     <NavLink className="nav-link" to="/booking-list">

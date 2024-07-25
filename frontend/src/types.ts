@@ -6,6 +6,7 @@ export interface ListItem {
   counterId: number;
   slotId: number;
   orderDone: any | boolean;
+  preference: string;
 }
 
 export interface OrderHistory {

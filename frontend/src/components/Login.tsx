@@ -50,10 +50,7 @@ const Login = ({ setIsAuth }: LoginProps) => {
             localStorage.setItem("userType", loginResponse.type);
             localStorage.setItem("employeeID", loginResponse.userId);
             setIsAuth(true);
-            if (
-              loginResponse.type === "user" ||
-              loginResponse.type === "customer"
-            ) {
+            if (loginResponse.type === "user") {
               navigate("/bookings");
             } else if (loginResponse.type === "admin") {
               navigate("/booking-list");

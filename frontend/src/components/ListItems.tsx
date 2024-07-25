@@ -7,6 +7,9 @@ import {
   CheckBoxStyle1,
   DivStyle2,
   SpanStyle1,
+  SpanStyle2,
+  SpanStyle3,
+  SpanStyle4,
   StyledH4,
 } from "../styles/ListItems.styled";
 import { ListItem } from "../types";
@@ -72,18 +75,47 @@ const ListItems = ({
       {itemList.length === 0 ? (
         <StyledH4>Nothing to show.....</StyledH4>
       ) : (
-        <div>
+        <div style={{ textAlign: "center" }}>
           {itemList.map((item: ListItem, index: number) => (
-            <DivStyle2 key={index}>
-              <CheckBoxStyle1
-                type="checkbox"
-                onChange={() => handleComplete(item.tokenNo)}
-                checked={item.orderDone === "completed"}
-                disabled={item.orderDone === "completed"}
-              />
-              <SpanStyle1>{item.tokenNo}</SpanStyle1>
-              <SpanStyle1>{item.employeeId}</SpanStyle1>
-              <SpanStyle1>{item.orderDate}</SpanStyle1>
+            <DivStyle2 key={index} className="container pt-4">
+              <div className="row">
+                <div className="col-lg-1 text-center">
+                  <CheckBoxStyle1
+                    type="checkbox"
+                    onChange={() => handleComplete(item.tokenNo)}
+                    checked={item.orderDone === "completed"}
+                    disabled={item.orderDone === "completed"}
+                  />
+                </div>
+                <div className="col-lg-6 text-center">
+                  {item.preference === "veg" ? (
+                    <SpanStyle1>{item.tokenNo}</SpanStyle1>
+                  ) : (
+                    <SpanStyle2>{item.tokenNo}</SpanStyle2>
+                  )}
+                </div>
+                <div className="col-lg-1 text-center">
+                  {item.preference === "veg" ? (
+                    <SpanStyle1>{item.employeeId}</SpanStyle1>
+                  ) : (
+                    <SpanStyle2>{item.employeeId}</SpanStyle2>
+                  )}
+                </div>
+                <div className="col-lg-2 text-center">
+                  {item.preference === "veg" ? (
+                    <SpanStyle1>{item.orderDate}</SpanStyle1>
+                  ) : (
+                    <SpanStyle2>{item.orderDate}</SpanStyle2>
+                  )}
+                </div>
+                <div className="col-lg-2 text-center">
+                  {item.preference === "veg" ? (
+                    <SpanStyle3>Veg</SpanStyle3>
+                  ) : (
+                    <SpanStyle4>Non Veg</SpanStyle4>
+                  )}
+                </div>
+              </div>
             </DivStyle2>
           ))}
           <ButtonStyle1 type="button" onClick={onDone}>

@@ -67,7 +67,7 @@ const Approval = () => {
       {adminList?.length === 0 ? (
         <h4>Nothing to show.....</h4>
       ) : (
-        <div>
+        <div style={{ textAlign: "center" }}>
           {adminList?.map((admin: Admins, index) => (
             <DivStyle2 key={index}>
               <CheckBoxStyle1

@@ -132,8 +132,7 @@ const Register = () => {
             // localStorage.setItem("employeeID", loginResponse.userId);
             // setIsAuth(true);
             // if (
-            //   loginResponse.type === "user" ||
-            //   loginResponse.type === "customer"
+            //   loginResponse.type === "user"
             // ) {
             //   navigate("/bookings");
             // } else if (loginResponse.type === "admin") {
