@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DateObject } from "react-multi-date-picker";
 import MultiDatePicker from "../components/OrderPage/MultiDatePicker";
 import SlotSelector from "../components/OrderPage/SlotSelector";
 import { createOrder } from "../apis/createOrder";
+import Instructions from "../components/OrderPage/Instructions";
+import { useNavigate } from "react-router-dom";
 
 const BookingContainer = styled.div`
   display: flex;
@@ -24,6 +26,10 @@ const PageContainer = styled.div`
   border: 1px solid #000;
   margin: 1%;
   border-radius: 5px;
+`;
+const InstructionContainer = styled.div`
+  margin: 1%;
+  width: 100%;
 `;
 const SubmitButton = styled.button`
   margin-top: 20px;
@@ -98,6 +104,7 @@ const availableSlots: AvailableSlots = {
 const Bookings = ({ employeeId }: BookingProps) => {
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<SelectedSlots>({});
+  const navigate: any = useNavigate();
 
   const handleDateChange = (dates: DateObject[]) => {
     setSelectedDates(dates);
@@ -112,7 +119,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
     date: string,
     counter: string,
     slot: string,
-    preference: string
+    preference: string,
   ) => {
     setSelectedSlots((prev) => ({
       ...prev,
@@ -120,33 +127,51 @@ const Bookings = ({ employeeId }: BookingProps) => {
     }));
   };
 
-  const handleSubmit =async () => {
-    const results = selectedDates.map((date) => {
+  const GetAvailableslots = (selectedDatesbyuser: any) => {
+    selectedDatesbyuser.map((date: any) => {
       const formattedDate = date.format("YYYY-MM-DD");
-      const slot = selectedSlots[formattedDate];
-      
-      if (slot) {
-        // Get the slot ID based on the selected counter and slot name
-        const slotId = Object.keys(availableSlots[slot.counter])
-          .find(id => availableSlots[slot.counter][parseInt(id, 10)].slot_name === slot.slot);
-          
-        return {
-          emp_id: employeeId,
-          counter_id: slot.counter,
-          slot_id: slotId ? parseInt(slotId, 10) : null,
-          order_date: formattedDate,
-          order_status: "active",
-          preference: slot.preference,
-          token_no: `${employeeId}-${formattedDate}-${slot.counter}-slotTime:${slot.slot}-${slot.preference}`
-        };
-      }
-      return null;
-    }).filter(result => result !== null);
+      console.log(formattedDate, "formattedDate");
+    });
+  };
+  useEffect(() => {
+    if (selectedDates?.length > 0) {
+      GetAvailableslots(selectedDates);
+    }
+  }, [selectedDates]);
+  const handleSubmit = async () => {
+    const results = selectedDates
+      .map((date) => {
+        const formattedDate = date.format("YYYY-MM-DD");
+        const slot = selectedSlots[formattedDate];
+
+        if (slot) {
+          // Get the slot ID based on the selected counter and slot name
+          const slotId = Object.keys(availableSlots[slot.counter]).find(
+            (id) =>
+              availableSlots[slot.counter][parseInt(id, 10)].slot_name ===
+              slot.slot,
+          );
+
+          return {
+            emp_id: employeeId,
+            counter_id: slot.counter,
+            slot_id: slotId ? parseInt(slotId, 10) : null,
+            order_date: formattedDate,
+            order_status: "active",
+            preference: slot.preference,
+            token_no: `${employeeId}-${formattedDate}-${slot.counter}-slotTime:${slot.slot}-${slot.preference}`,
+          };
+        }
+        return null;
+      })
+      .filter((result) => result !== null);
 
     console.log("Submission Results:", results);
-    if(results && results.length>0){
-      const bookOrders:any=await createOrder(results,true);
-      console.log(bookOrders,'bookOrders')
+    if (results && results.length > 0) {
+      const bookOrders: any = await createOrder(results, true);
+      console.log(bookOrders, "bookOrders");
+      alert("your slot booked sucessfully!");
+      navigate("/history");
     }
     // Handle further submission logic here, e.g., sending results to the server
   };
@@ -174,12 +199,19 @@ const Bookings = ({ employeeId }: BookingProps) => {
             </PageContainer>
           );
         })}
-      <SubmitButton
-        disabled={Object.values(selectedSlots).some((slot) => slot === null)}
-        onClick={handleSubmit}
-      >
-        Submit
-      </SubmitButton>
+      {selectedDates?.length === 0 && (
+        <InstructionContainer>
+          <Instructions />
+        </InstructionContainer>
+      )}
+      {selectedDates?.length > 0 && (
+        <SubmitButton
+          disabled={Object.values(selectedSlots).some((slot) => slot === null)}
+          onClick={handleSubmit}
+        >
+          Submit
+        </SubmitButton>
+      )}
     </BookingContainer>
   );
 };
