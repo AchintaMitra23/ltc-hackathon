@@ -1,7 +1,12 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledDiv1 = styled.div`
   border-radius: 25px;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 export const LoginLogo = styled.div`
   display: flex;
@@ -14,15 +19,6 @@ export const StyledH5 = styled.h5`
   letter-spacing: 1px;
   border-bottom: 2px solid;
   padding-bottom: 10px;
-`; 
-
-export const StyledSelect = styled.select`
-  padding: 10px;
-  font-weight: 700;
-  font-family: cursive;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
 `;
 
 export const ErrorStyle = styled.span`
@@ -30,16 +26,6 @@ export const ErrorStyle = styled.span`
   font-weight: bolder;
   font-size: 12px;
   margin-bottom: 10px;
-`;
-
-export const LabelStyle = styled.label`
-  font-weight: 700;
-  font-size: 20px;
-  text-align: center;
-  margin: 10px 5px;
-  color: green;
-  font-style: oblique;
-  font-family: cursive;
 `;
 
 export const DivStyle1 = styled.div`
@@ -125,4 +111,20 @@ export const SpanStyle2 = styled.span`
   font-style: oblique;
   color: green;
   font-weight: bold;
+`;
+
+export const StyledLabel = styled.label`
+  font-size: 15px;
+  font-weight: 500;
+  font-style: italic;
+  text-transform: uppercase;
+  color: green;
+`;
+
+export const StyledLink = styled(Link)`
+  font-size: 15px;
+  text-decoration: none;
+  color: grey;
+  cursor: pointer;
+  text-transform: capitalize;
 `;

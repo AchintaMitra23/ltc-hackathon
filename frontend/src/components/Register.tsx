@@ -2,13 +2,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import {
+  ButtonStyle1,
   ErrorStyle,
   LoginLogo,
   StyledDiv1,
-  StyledH5,
-  StyledSelect,
+  StyledLabel,
+  StyledLink,
 } from "../styles/Login.styled";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerAPI } from "../apis/register";
 import { LoginResponseModel } from "../types";
 import Logo from "../assets/logo.png";
@@ -18,19 +19,18 @@ interface RegisterProps {
   setIsAuth: (value: boolean) => void;
 }
 
-const Register = ({ setIsAuth }: RegisterProps) => {
+const Register = () => {
   const [empId, setEmpId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("password");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
-  const [pref, setPref] = useState<string>("");
+  const [pref, setPref] = useState<string>("veg");
   const [type, setType] = useState<string>("user");
   const [empIdError, setEmpIdError] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [mobileError, setMobileError] = useState<string>("");
-  const [prefError, setPrefError] = useState<string>("");
   const navigate: any = useNavigate();
 
   const registerRequestModel = {
@@ -107,16 +107,6 @@ const Register = ({ setIsAuth }: RegisterProps) => {
     setMobile(currentValue);
   };
 
-  const handlePrefChange = (e: any) => {
-    const preference = e.target.value;
-    if (preference === null || preference === "") {
-      setPrefError("Please enter the preference");
-    } else {
-      setPrefError("");
-    }
-    setPref(preference);
-  };
-
   const register = async (e: any) => {
     e.preventDefault();
     if (
@@ -124,12 +114,10 @@ const Register = ({ setIsAuth }: RegisterProps) => {
       name !== "" &&
       email !== "" &&
       mobile !== "" &&
-      pref !== "" &&
       empIdError === "" &&
       nameError === "" &&
       emailError === "" &&
-      mobileError === "" &&
-      prefError === ""
+      mobileError === ""
     ) {
       await registerAPI(registerRequestModel)
         .then((response) => {
@@ -163,134 +151,138 @@ const Register = ({ setIsAuth }: RegisterProps) => {
       if (name === "") setNameError("Please enter valid full name.");
       if (email === "") setEmailError("Please enter valid email.");
       if (mobile === "") setMobileError("Please enter valid mobile number.");
-      if (pref === "") setPrefError("Please select valid food preference.");
     }
   };
 
   return (
-    <section className="bg-light p-3 p-md-4 p-xl-5">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-4 col-sm-12"></div>
-          <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
-            <LoginLogo>
-              <img src={Logo} alt="" width={200} />
-            </LoginLogo>
-            <form>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Please enter employee id"
-                    onChange={(e) => handleEmplIDChange(e)}
-                    value={empId}
-                  />
-                  <label className="form-label">Employee ID</label>
-                  {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Please enter password"
-                    value={password}
-                    disabled
-                  />
-                  <label className="form-label">Password</label>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Please enter full name"
-                    onChange={(e) => handleNameChange(e)}
-                    value={name}
-                  />
-                  <label className="form-label">Full Name</label>
-                  {nameError !== "" && <ErrorStyle>{nameError}</ErrorStyle>}
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Please enter email"
-                    onChange={(e) => handleEmailChange(e)}
-                    value={email}
-                  />
-                  <label className="form-label">Email ID</label>
-                  {emailError !== "" && <ErrorStyle>{emailError}</ErrorStyle>}
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="tel"
-                    className="form-control"
-                    placeholder="Please enter mobile"
-                    onChange={(e) => handleMobileChange(e)}
-                    value={mobile}
-                  />
-                  <label className="form-label">Mobile No.</label>
-                  {mobileError !== "" && <ErrorStyle>{mobileError}</ErrorStyle>}
-                </div>
-              </div>
-              <div className="col-12">
-                <label className="form-label">Preference</label>
-                <div className="form-floating mb-3">
-                  <StyledSelect onChange={(e) => handlePrefChange(e)}>
-                    <option value="">Please select the option</option>
-                    <option value="veg">Veg</option>
-                    <option value="non-veg">Non-Veg</option>
-                  </StyledSelect>
-                </div>
-                {prefError !== "" && <ErrorStyle>{prefError}</ErrorStyle>}
-              </div>
-              <div className="col-12 mt-3 mb-3">
-                <label className="form-label">User Type : </label>{" "}
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-4 col-sm-12"></div>
+        <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg p-5">
+          <LoginLogo>
+            <img src={Logo} alt="" width={200} />
+          </LoginLogo>
+          <form>
+            <div className="col-12">
+              <div className="form-floating mb-3">
                 <input
-                 style={{marginLeft:"2%"}}
-                  type="radio"
-                  checked={type === "user"}
-                  onChange={() => setType("user")}
+                  type="text"
+                  className="form-control"
+                  placeholder="Please enter employee id"
+                  onChange={(e) => handleEmplIDChange(e)}
+                  value={empId}
                 />
-                User
+                <StyledLabel className="form-label">Employee ID</StyledLabel>
+                {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="form-floating mb-3">
                 <input
-                  style={{marginLeft:"5%"}}
-                  type="radio"
-                  checked={type === "admin"}
-                  onChange={() => setType("admin")}
-                />{" "}
-                Admin
+                  type="password"
+                  className="form-control"
+                  placeholder="Please enter password"
+                  value={password}
+                  disabled
+                />
+                <StyledLabel className="form-label">Password</StyledLabel>
               </div>
-              <div className="col-12">
-                <div className="d-grid">
-                  <button
-                    className="btn btn-dark btn-lg"
-                    type="submit"
-                    onClick={(e) => register(e)}
-                  >
-                    Register Now
-                  </button>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Please enter full name"
+                  onChange={(e) => handleNameChange(e)}
+                  value={name}
+                />
+                <StyledLabel className="form-label">Full Name</StyledLabel>
+                {nameError !== "" && <ErrorStyle>{nameError}</ErrorStyle>}
               </div>
-              <div className="col-12">
-                <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                  <Link to="/login">Already existing account</Link>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Please enter email"
+                  onChange={(e) => handleEmailChange(e)}
+                  value={email}
+                />
+                <StyledLabel className="form-label">Email ID</StyledLabel>
+                {emailError !== "" && <ErrorStyle>{emailError}</ErrorStyle>}
               </div>
-            </form>
-          </StyledDiv1>
-          <div className="col-lg-4 col-sm-12"></div>
-        </div>
+            </div>
+            <div className="col-12">
+              <div className="form-floating mb-3">
+                <input
+                  type="tel"
+                  className="form-control"
+                  placeholder="Please enter mobile"
+                  onChange={(e) => handleMobileChange(e)}
+                  value={mobile}
+                />
+                <StyledLabel className="form-label">Mobile No.</StyledLabel>
+                {mobileError !== "" && <ErrorStyle>{mobileError}</ErrorStyle>}
+              </div>
+            </div>
+            <div className="col-12 mt-3 mb-3">
+              <StyledLabel className="form-label">
+                Food Preference :{" "}
+              </StyledLabel>{" "}
+              <input
+                style={{ marginLeft: "5%", marginRight: "2.5%" }}
+                type="radio"
+                checked={pref === "veg"}
+                onChange={() => setPref("veg")}
+              />
+              VEG
+              <input
+                style={{ marginLeft: "5%", marginRight: "2.5%" }}
+                type="radio"
+                checked={pref === "non-veg"}
+                onChange={() => setType("non-veg")}
+              />{" "}
+              NON VEG
+            </div>
+            <div className="col-12 mt-3 mb-3">
+              <StyledLabel className="form-label">User Type : </StyledLabel>{" "}
+              <input
+                style={{ marginLeft: "5%", marginRight: "2.5%" }}
+                type="radio"
+                checked={type === "user"}
+                onChange={() => setType("user")}
+              />
+              USER
+              <input
+                style={{ marginLeft: "5%", marginRight: "2.5%" }}
+                type="radio"
+                checked={type === "admin"}
+                onChange={() => setType("admin")}
+              />{" "}
+              ADMIN
+            </div>
+            <div className="col-12">
+              <div className="d-grid">
+                <ButtonStyle1
+                  type="submit"
+                  onClick={(e) => register(e)}
+                >
+                  Register Now
+                </ButtonStyle1>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
+                <StyledLink to="/login">Already existing account</StyledLink>
+              </div>
+            </div>
+          </form>
+        </StyledDiv1>
+        <div className="col-lg-4 col-sm-12"></div>
       </div>
-    </section>
+    </div>
   );
 };
 

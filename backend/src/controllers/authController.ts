@@ -26,11 +26,10 @@ const mockResponses = {
     success: {
       "status": 200,
       "body": {
-        "message": "Login successful",
         "userId": "123",
         "username": "username",
         "password": "password",
-        "type": "user",
+        "type": "admin",
         "email": "user@example.com",
         "mobile": "1234567890",
         "preference": "veg"

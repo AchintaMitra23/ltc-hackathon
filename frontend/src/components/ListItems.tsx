@@ -7,6 +7,7 @@ import {
   CheckBoxStyle1,
   DivStyle2,
   SpanStyle1,
+  StyledH4,
 } from "../styles/ListItems.styled";
 import { ListItem } from "../types";
 
@@ -69,7 +70,7 @@ const ListItems = ({
   return (
     <div>
       {itemList.length === 0 ? (
-        <h4>Nothing to show.....</h4>
+        <StyledH4>Nothing to show.....</StyledH4>
       ) : (
         <div>
           {itemList.map((item: ListItem, index: number) => (

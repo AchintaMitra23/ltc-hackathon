@@ -4,10 +4,9 @@ import { ListItem } from "../types";
 import {
   ButtonStyle1,
   DivStyle1,
-  LabelStyle,
-  StyledSelect,
 } from "../styles/Login.styled";
 import { getAllOrders } from "../apis/getAllOrders";
+import { LabelStyle, StyledSelect, StyleOption } from "../styles/BookingList.styled";
 
 const BookingList = () => {
   const [company, setCompany] = useState<string>("");
@@ -36,24 +35,24 @@ const BookingList = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-lg-3">
-          <LabelStyle className="form-label">Company Name</LabelStyle>
+        <div className="col-lg-3 text-center">
+          <LabelStyle className="form-label">Company</LabelStyle>
           <div className="form-floating mb-3">
             <StyledSelect
               name="company"
               id="company"
               onChange={(e) => setCompany(e.currentTarget.value)}
             >
-              <option value="" selected={company === ""}>
+              <StyleOption value="" selected={company === ""}>
                 Please select the option
-              </option>
-              <option value="ltc" selected={company === "ltc"}>
+              </StyleOption>
+              <StyleOption value="ltc" selected={company === "ltc"}>
                 Lloyds Technology Centre
-              </option>
+              </StyleOption>
             </StyledSelect>
           </div>
         </div>
-        <div className="col-lg-3">
+        <div className="col-lg-3 text-center">
           <LabelStyle className="form-label">Counter</LabelStyle>
           <div className="form-floating mb-3">
             <StyledSelect
@@ -61,15 +60,15 @@ const BookingList = () => {
               id="counter"
               onChange={(e) => setCounter(parseInt(e.currentTarget.value, 10))}
             >
-              <option value="0" selected={counter === 0}>
+              <StyleOption value="0" selected={counter === 0}>
                 Please select the option
-              </option>
-              <option value="1">Counter 1</option>
-              <option value="2">Counter 2</option>
+              </StyleOption>
+              <StyleOption value="1">Counter 1</StyleOption>
+              <StyleOption value="2">Counter 2</StyleOption>
             </StyledSelect>
           </div>
         </div>
-        <div className="col-lg-3">
+        <div className="col-lg-3 text-center">
           <LabelStyle className="form-label">Slot</LabelStyle>
           <div className="form-floating mb-3">
             <StyledSelect
@@ -77,21 +76,21 @@ const BookingList = () => {
               id="slot"
               onChange={(e) => setSlot(parseInt(e.currentTarget.value, 10))}
             >
-              <option value="0" selected={slot === 0}>
+              <StyleOption value="0" selected={slot === 0}>
                 Please select the option
-              </option>
-              <option value="1">12:00 - 12:15</option>
-              <option value="2">12:15 - 12:30</option>
-              <option value="3">12:30 - 12:45</option>
-              <option value="4">12:45 - 1:00</option>
-              <option value="5">1:00 - 1:15</option>
-              <option value="6">1:15 - 1:30</option>
-              <option value="7">1:30 - 1:45</option>
-              <option value="8">1:45 - 2:00</option>
-              <option value="9">2:00 - 2:15</option>
-              <option value="10">2:15 - 2:30</option>
-              <option value="11">2:30 - 2:45</option>
-              <option value="12">2:45 - 3:00</option>
+              </StyleOption>
+              <StyleOption value="1">12:00 - 12:15</StyleOption>
+              <StyleOption value="2">12:15 - 12:30</StyleOption>
+              <StyleOption value="3">12:30 - 12:45</StyleOption>
+              <StyleOption value="4">12:45 - 1:00</StyleOption>
+              <StyleOption value="5">1:00 - 1:15</StyleOption>
+              <StyleOption value="6">1:15 - 1:30</StyleOption>
+              <StyleOption value="7">1:30 - 1:45</StyleOption>
+              <StyleOption value="8">1:45 - 2:00</StyleOption>
+              <StyleOption value="9">2:00 - 2:15</StyleOption>
+              <StyleOption value="10">2:15 - 2:30</StyleOption>
+              <StyleOption value="11">2:30 - 2:45</StyleOption>
+              <StyleOption value="12">2:45 - 3:00</StyleOption>
             </StyledSelect>
           </div>
         </div>

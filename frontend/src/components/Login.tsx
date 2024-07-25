@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ErrorStyle, LoginLogo, StyledDiv1, StyledH5 } from "../styles/Login.styled";
+import { ButtonStyle1, ErrorStyle, LoginLogo, StyledDiv1, StyledLabel, StyledLink } from "../styles/Login.styled";
 import { loginAPI } from "../apis/login";
 import { LoginResponseModel } from "../types";
 import Logo from "../assets/logo.png";
@@ -70,70 +70,67 @@ const Login = ({ setIsAuth }: LoginProps) => {
         setEmpIdError("Please enter valid employee id.");
     }
   };
-  
+
   return (
-    <section className="bg-light p-3 p-md-4 p-xl-5">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-4 col-sm-12"></div>
-          <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
-            <LoginLogo>
-              <img src={Logo} alt="" width={200} />
-            </LoginLogo>
-            <form>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="emp-id"
-                    id="emp-id"
-                    placeholder="Please enter employee id"
-                    onChange={(e) => handleEmplIDChange(e)}
-                    value={empId}
-                    required
-                  />
-                  <label className="form-label">Employee ID</label>
-                  {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
-                </div>
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-4 col-sm-12"></div>
+        <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg p-5">
+          <LoginLogo>
+            <img src={Logo} alt="" width={200} />
+          </LoginLogo>
+          <form>
+            <div className="col-12">
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="emp-id"
+                  id="emp-id"
+                  placeholder="Please enter employee id"
+                  onChange={(e) => handleEmplIDChange(e)}
+                  value={empId}
+                  required
+                />
+                <StyledLabel className="form-label">Employee ID</StyledLabel>
+                {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
               </div>
-              <div className="col-12">
-                <div className="form-floating mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="Please enter password"
-                    value={password}
-                    required
-                    disabled
-                  />
-                  <label className="form-label">Password</label>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="form-floating mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  id="password"
+                  placeholder="Please enter password"
+                  value={password}
+                  required
+                  disabled
+                />
+                <StyledLabel className="form-label">Password</StyledLabel>
               </div>
-              <div className="col-12">
-                <div className="d-grid">
-                  <button
-                    className="btn btn-dark btn-lg"
-                    type="submit"
-                    onClick={(e) => login(e)}
-                  >
-                    Login Now
-                  </button>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="d-grid">
+                <ButtonStyle1
+                  type="submit"
+                  onClick={(e) => login(e)}
+                >
+                  Login Now
+                </ButtonStyle1>
               </div>
-              <div className="col-12">
-                <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                  <Link to="/register">Create new account</Link>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
+                <StyledLink to="/register">Create new account</StyledLink>
               </div>
-            </form>
-          </StyledDiv1>
-          <div className="col-lg-4 col-sm-12"></div>
-        </div>
+            </div>
+          </form>
+        </StyledDiv1>
+        <div className="col-lg-4 col-sm-12"></div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavLink, useNavigate } from "react-router-dom";
-import Logo from '../assets/logo.png';
-import { StyledLogoutAnchor, StyledLogoutLink, StyledNavLink } from "../styles/Header.styled";
+import Logo from "../assets/logo.png";
+import {
+  StyledLogoutAnchor,
+  StyledLogoutLink,
+  StyledNavLink,
+} from "../styles/Header.styled";
 
 interface HeaderProps {
   isAuth: boolean;
@@ -23,7 +27,7 @@ const Header = ({ setIsAuth }: HeaderProps) => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="">
-          <img src={Logo} alt="" width={100}/>
+          <img src={Logo} alt="" width={100} />
         </a>
         {userType !== null && userType !== "" && (
           <>
@@ -40,27 +44,30 @@ const Header = ({ setIsAuth }: HeaderProps) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarScroll">
               <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                {userType === "user" || userType === 'customer' && (
-                  <StyledNavLink className="nav-item">
-                    <NavLink className="nav-link" to="/bookings">
-                      Order
-                    </NavLink>
-                  </StyledNavLink>
-                )}
-                {userType === "user" || userType === 'customer' && (
-                  <StyledNavLink className="nav-item">
-                    <NavLink className="nav-link" to="/history">
-                      History
-                    </NavLink>
-                  </StyledNavLink>
-                )}
-                {userType === "user" || userType === 'customer' && (
-                  <StyledNavLink className="nav-item">
-                    <NavLink className="nav-link" to="/profile">
-                      Profile
-                    </NavLink>
-                  </StyledNavLink>
-                )}
+                {userType === "user" ||
+                  (userType === "customer" && (
+                    <StyledNavLink className="nav-item">
+                      <NavLink className="nav-link" to="/bookings">
+                        Order
+                      </NavLink>
+                    </StyledNavLink>
+                  ))}
+                {userType === "user" ||
+                  (userType === "customer" && (
+                    <StyledNavLink className="nav-item">
+                      <NavLink className="nav-link" to="/history">
+                        History
+                      </NavLink>
+                    </StyledNavLink>
+                  ))}
+                {userType === "user" ||
+                  (userType === "customer" && (
+                    <StyledNavLink className="nav-item">
+                      <NavLink className="nav-link" to="/profile">
+                        Profile
+                      </NavLink>
+                    </StyledNavLink>
+                  ))}
                 {userType === "admin" && (
                   <StyledNavLink className="nav-item">
                     <NavLink className="nav-link" to="/booking-list">

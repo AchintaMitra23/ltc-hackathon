@@ -35,3 +35,10 @@ export const SpanStyle1 = styled.span`
   border: 3px solid green;
   letter-spacing: 1px;
 `;
+
+export const StyledH4 = styled.h4`
+  font-size: 17.5px;
+  color: grey;
+  font-weight: bold;
+  text-align: center;
+`;
