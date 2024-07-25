@@ -8,7 +8,7 @@ export const loginAPI = async (loginDetails: any, useMockAPI?: boolean): Promise
     const actualURL: string = `http://localhost:3000/auth/login`;
     const response = await axios.post(actualURL, loginDetails);
     if (response.status !== 200) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

@@ -8,7 +8,7 @@ export const getOrderHistoryByEmpID = async (employeeID: number | string, useMoc
     const actualURL: string = `http://localhost:3000/history/getOrderHistoryByEmpID/${employeeID}`;
     const response = await axios.get(actualURL);
     if (response.status !== 200) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

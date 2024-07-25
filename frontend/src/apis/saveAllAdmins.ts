@@ -5,10 +5,10 @@ export const saveAllAdmins = async (requestBody: any, useMockAPI?: boolean): Pro
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/hr/saveAllAdmins`;
+    const actualURL: string = `http://localhost:3000/hr/approveUser`;
     const response = await axios.post(actualURL, requestBody);
     if (response.status !== 200) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

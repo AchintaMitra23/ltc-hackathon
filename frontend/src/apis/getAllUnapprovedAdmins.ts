@@ -5,10 +5,10 @@ export const getAllUnapprovedAdmins = async (useMockAPI?: boolean): Promise<any>
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/hr/getAllUnapprovedAdmins`;
+    const actualURL: string = `http://localhost:3000/hr/getAdminToApprove`;
     const response = await axios.get(actualURL);
     if (response.status !== 200) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

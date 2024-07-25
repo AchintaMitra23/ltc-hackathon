@@ -38,21 +38,21 @@ const Header = ({ setIsAuth }: HeaderProps) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarScroll">
               <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                {userType === "user" && (
+                {userType === "user" || userType === 'customer' && (
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/bookings">
                       Order
                     </NavLink>
                   </li>
                 )}
-                {userType === "user" && (
+                {userType === "user" || userType === 'customer' && (
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/history">
                       Order History
                     </NavLink>
                   </li>
                 )}
-                {userType === "user" && (
+                {userType === "user" || userType === 'customer' && (
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/profile">
                       User Profile
