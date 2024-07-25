@@ -2,6 +2,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import {
+  StyledHeader,
   StyledLogoutAnchor,
   StyledLogoutLink,
   StyledNavLink,
@@ -24,7 +25,7 @@ const Header = ({ setIsAuth }: HeaderProps) => {
 
   if (userType === undefined || userType === null) return null;
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <StyledHeader className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="">
           <img src={Logo} alt="" width={100} />
@@ -44,22 +45,22 @@ const Header = ({ setIsAuth }: HeaderProps) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarScroll">
               <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                {userType === "user" ||
-                  (userType === "customer" && (
+                {(userType === "user" ||
+                  userType === "customer") && (
                     <StyledNavLink className="nav-item">
                       <NavLink className="nav-link" to="/bookings">
                         Order
                       </NavLink>
                     </StyledNavLink>
-                  ))}
-                {userType === "user" ||
-                  (userType === "customer" && (
+                  )}
+                {(userType === "user" ||
+                  userType === "customer")&& (
                     <StyledNavLink className="nav-item">
                       <NavLink className="nav-link" to="/history">
                         History
                       </NavLink>
                     </StyledNavLink>
-                  ))}
+                  )}
                 {userType === "user" ||
                   (userType === "customer" && (
                     <StyledNavLink className="nav-item">
@@ -92,7 +93,7 @@ const Header = ({ setIsAuth }: HeaderProps) => {
           </>
         )}
       </div>
-    </nav>
+    </StyledHeader>
   );
 };
 

@@ -6,6 +6,7 @@ export const BookingContainer = styled.div`
   align-items: center;
   padding-left: 3%;
   padding-right: 3%;
+  padding-bottom: 3%;
 `;
 export const PageTitle = styled.div`
   display: flex;

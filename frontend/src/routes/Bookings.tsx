@@ -15,6 +15,7 @@ import {
   ShowselectedDate,
   SubmitButton,
 } from "../styles/Bookings.styled";
+import { fetchDateOrders } from "../apis/slotsService";
 
 interface BookingProps {
   employeeId: string;
@@ -34,24 +35,24 @@ interface AvailableSlots {
 const availableSlots: AvailableSlots = {
   "Counter 1": {
     1: { order_count: 30, slot_name: "12:00 to 12:15" },
-    2: { order_count: 28, slot_name: "12:15 to 12:30" },
-    3: { order_count: 25, slot_name: "12:30 to 12:45" },
+    2: { order_count: 30, slot_name: "12:15 to 12:30" },
+    3: { order_count: 30, slot_name: "12:30 to 12:45" },
     4: { order_count: 30, slot_name: "12:45 to 1:00" },
-    5: { order_count: 20, slot_name: "1:00 to 1:15" },
+    5: { order_count: 30, slot_name: "1:00 to 1:15" },
     6: { order_count: 30, slot_name: "1:15 to 1:30" },
-    7: { order_count: 18, slot_name: "1:30 to 1:45" },
+    7: { order_count: 30, slot_name: "1:30 to 1:45" },
     8: { order_count: 30, slot_name: "1:45 to 2:00" },
     9: { order_count: 0, slot_name: "2:00 to 3:00" },
   },
   "Counter 2": {
-    10: { order_count: 22, slot_name: "12:00 to 12:15" },
-    11: { order_count: 25, slot_name: "12:15 to 12:30" },
-    12: { order_count: 27, slot_name: "12:30 to 12:45" },
-    13: { order_count: 18, slot_name: "12:45 to 1:00" },
-    14: { order_count: 15, slot_name: "1:00 to 1:15" },
-    15: { order_count: 20, slot_name: "1:15 to 1:30" },
-    16: { order_count: 22, slot_name: "1:30 to 1:45" },
-    17: { order_count: 28, slot_name: "1:45 to 2:00" },
+    10: { order_count: 30, slot_name: "12:00 to 12:15" },
+    11: { order_count: 30, slot_name: "12:15 to 12:30" },
+    12: { order_count: 30, slot_name: "12:30 to 12:45" },
+    13: { order_count: 30, slot_name: "12:45 to 1:00" },
+    14: { order_count: 30, slot_name: "1:00 to 1:15" },
+    15: { order_count: 30, slot_name: "1:15 to 1:30" },
+    16: { order_count: 30, slot_name: "1:30 to 1:45" },
+    17: { order_count: 30, slot_name: "1:45 to 2:00" },
     18: { order_count: 0, slot_name: "2:00 to 3:00" },
   },
 };
@@ -59,6 +60,7 @@ const availableSlots: AvailableSlots = {
 const Bookings = ({ employeeId }: BookingProps) => {
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<SelectedSlots>({});
+  const [fetchSlots,setFecthSlots]=useState<AvailableSlots>({});
   const navigate: any = useNavigate();
 
   const handleDateChange = (dates: DateObject[]) => {
@@ -82,11 +84,17 @@ const Bookings = ({ employeeId }: BookingProps) => {
     }));
   };
 
-  const GetAvailableslots = (selectedDatesbyuser: any) => {
+  const GetAvailableslots = async(selectedDatesbyuser: any) => {
     selectedDatesbyuser.map((date: any) => {
       const formattedDate = date.format("YYYY-MM-DD");
       console.log(formattedDate, "formattedDate");
     });
+    if(selectedDatesbyuser){
+      const data:any = await fetchDateOrders("LTC", selectedDatesbyuser);
+      if(data?.orders){
+        setFecthSlots(data.orders)
+      }
+    }
   };
   useEffect(() => {
     if (selectedDates?.length > 0) {
@@ -149,7 +157,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
                 date={formattedDate}
                 selectedSlot={selectedSlots[formattedDate]}
                 onSlotSelect={handleSlotSelect}
-                availableSlots={availableSlots}
+                availableSlots={fetchSlots[formattedDate]||availableSlots}
               />
             </PageContainer>
           );
