@@ -17,7 +17,7 @@ const Header = ({ setIsAuth }: HeaderProps) => {
     localStorage.clear();
   };
 
-  if (userType === undefined && userType === null) return null;
+  if (userType === undefined || userType === null) return null;
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">

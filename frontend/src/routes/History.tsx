@@ -60,9 +60,10 @@ const History = () => {
         {orderHistory.length === 0 ? (
           <h4>Nothing to show.....</h4>
         ) : (
-          <div>
+          <div className="container-fluid">
+            <div className="row">
             {orderHistory.map((item: OrderHistory, index: number) => (
-              <div key={index}>
+              <div key={index} className="col-lg-6">
                 <StyledDiv2 className="card w-75 mb-3">
                   <div className="card-body">
                     <h5 className="card-title fw-bold text-center">
@@ -103,6 +104,7 @@ const History = () => {
                 </StyledDiv2>
               </div>
             ))}
+            </div>
           </div>
         )}
       </div>
