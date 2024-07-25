@@ -44,7 +44,8 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password, email, mobile, preference, type } = req.body as {
+  const { userId, username, password, email, mobile, preference, type } = req.body as {
+    userId: string;
     username: string;
     password: string;
     email: string;
@@ -56,7 +57,7 @@ export const registerUser = async (
     if (process.env.IS_TESTING === "true") {
       return res.status(201).json(mockResponses.register.success);
     } else {
-      const existingUser = await findUserByUsername(username);
+      const existingUser = await findUserByUsername(userId);
       if (existingUser) {
         return res
           .status(400)
@@ -64,6 +65,7 @@ export const registerUser = async (
       }
 
       const user = await createUser({
+        userId,
         username,
         password,
         email,
@@ -88,8 +90,8 @@ export const loginUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password } = req.body as {
-    username: string;
+  const { userId, password } = req.body as {
+    userId: string;
     password: string;
   };
 
@@ -97,7 +99,7 @@ export const loginUser = async (
     if (process.env.IS_TESTING === "true") {
       return res.status(200).json(mockResponses.login.success);
     } else {
-      const user = await findUserByUsername(username);
+      const user = await findUserByUsername(userId);
       if (!user || user.password !== password) {
         return res
           .status(400)

@@ -1,74 +1,43 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
-import { findUserByUsername } from "../models/User";
 
 dotenv.config();
 
 export const createOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (process.env.IS_TESTING === "true") {
-    res.status(201).json({
-      status: 201,
-      body: {
-        message: "User approval updated successfully",
-        userId: "123456",
-      },
-    });
-  } else {
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
-      const { username, userId, approvalStatus, approved_by, type } =
-        req.body as {
-          username: string;
-          userId: string;
-          approvalStatus: string;
-          approved_by: string;
-          type: string;
-        };
-      const existingUser = await findUserByUsername(username);
-      if (existingUser) {
-        return res
-          .status(400)
-          .json({ status: 400, body: { message: "Username already exists" } });
-      }
+      if (process.env.IS_TESTING === "true") {
+        res.status(201).json({
+            status:200,
+            body:{
+                token_no: "Ab837s9w",
+                message:"Order Added Successfully"
+            }
+        });
+        
+      } else {
+        const orderList = req.body.orderList
+        const client = await pool.connect();
+        orderList.map(async({ emp_id, counter_id, slot_id, order_date, order_status, preference, token_no }: any)=>{
+          const result = await client.query(
+              'INSERT INTO order_master (emp_id, counter_id, slot_id, order_date, token_no, order_status, preference) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+              [emp_id, counter_id, slot_id, order_date, token_no, order_status, preference]
+          );
+        })
 
-      const updateQuery = `
-      UPDATE "user"
-      SET approval_status = $1,
-          approved_by = $2,
-          approval_date = CURRENT_TIMESTAMP,
-          type = $3
-      WHERE id = $4
-      RETURNING *;
-        `;
-      const result = await pool.query(updateQuery, [
-        approvalStatus,
-        approved_by,
-        type,
-        userId,
-      ]);
-
-      if (result.rowCount === 0) {
-        return res.status(404).json({
-          status: 404,
-          body: {
-            error: "User not updated please try again later",
-          },
+        client.release();
+        res.status(201).json({
+            status:200,
+            body:{
+                message:"Order Added Successfully"
+            }
         });
       }
-
-      res.status(201).json({
-        status: 201,
-        body: {
-          message: "User approval updated successfully",
-          userId: userId.toString(),
-        },
-      });
     } catch (error) {
       next(error);
     }
-  }
-};
+  };

@@ -51,10 +51,10 @@ export const getOrderCount = async (
         },
       });
     } else {
-      const { company } = req.body as {
+      const { company, date } = req.body as {
         company: string;
+        date: Date
       };
-      const currentDate = new Date().toISOString().split("T")[0];
 
       const query = `
       SELECT
@@ -75,7 +75,7 @@ export const getOrderCount = async (
             c.counter_name, s.slot_name;
             `;
 
-      const { rows } = await pool.query(query, [currentDate, company]);
+      const { rows } = await pool.query(query, [date, company]);
 
       const formattedResponse: FormattedResponse = {};
       rows.forEach((row) => {
@@ -113,15 +113,14 @@ export const updateOrderStatus = async (
       res.status(200).json({
         status: 200,
         body: {
-          token_no: "Ab837s9w",
           message: "Order statuses updated successfully",
         },
       });
     } else {
       const { order_status, empId, token_no } = req.body as {
         order_status: string;
-        empId: string;
-        token_no: string;
+        empId: any;
+        token_no: any;
       };
 
       if (!order_status || !token_no) {
@@ -133,7 +132,7 @@ export const updateOrderStatus = async (
       const query = `
         UPDATE order_master
         SET order_status = $1
-        WHERE emp_id = $2 and token_no = $3
+        WHERE emp_id in ($2) and token_no in ($3)
         RETURNING *
       `;
 
@@ -149,7 +148,6 @@ export const updateOrderStatus = async (
       res.status(200).json({
         status: 200,
         body: {
-          token_no: token_no,
           message: "Order statuses updated successfully",
         },
       });
@@ -176,7 +174,7 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "false"
+              "orderDone": "active"
             },
             {
               "tokenNo": "TK-002",
@@ -184,7 +182,7 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "false"
+              "orderDone": "active"
             },
             {
               "tokenNo": "TK-003",
@@ -192,7 +190,7 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "false"
+              "orderDone": "active"
             }
           ]
         }
@@ -208,7 +206,7 @@ export const getAllOrders = async (
              om.slot_id AS "slotId",
              om.order_status AS "orderDone"
       FROM order_master om
-      WHERE om.order_date = $1 and om.order_status='false'
+      WHERE om.order_date = $1 and om.order_status='active'
     `;
 
       const { rows } = await pool.query(query, [currentDate]);
