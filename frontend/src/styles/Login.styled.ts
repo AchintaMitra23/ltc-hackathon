@@ -5,7 +5,7 @@ export const StyledDiv1 = styled.div`
 `;
 
 export const StyledH5 = styled.h5`
-    color: brown;
+    color: green;
     text-transform: capitalize;
     letter-spacing: 1px;
     border-bottom: 2px solid;
@@ -33,7 +33,7 @@ export const LabelStyle = styled.label`
     font-size: 20px;
     text-align: center;
     margin: 10px 5px;
-    color: brown;
+    color: green;
     font-style: oblique;
     font-family: cursive;
 `;
@@ -48,7 +48,7 @@ display: grid;
 
 export const ButtonStyle1 = styled.button`
 border: none;
-    background: brown;
+    background: green;
     color: white;
     font-weight: 500;
     padding: 5px 15px;
@@ -61,7 +61,7 @@ export const DivStyle2 = styled.div`
     border: 2px solid;
     border-radius: 10px;
     padding: 10px;
-    background: brown;
+    background: green;
     color: white;
 `;
 
@@ -83,7 +83,7 @@ export const SpanStyle1 = styled.span`
 export const UlStyle1 = styled.ul`
     list-style-type: none;
     margin: 20px;
-    box-shadow: 2px 2px 2px 2px orange;
+    box-shadow: 2px 2px 2px 2px green;
     border-radius: 10px;
     padding: 10px 20px;
 `;
@@ -95,7 +95,7 @@ export const LiStyle1 = styled.li`
 export const SpanStyle2 = styled.span`
     font-size: 15px;
     font-style: oblique;
-    color: brown;
+    color: green;
     font-weight: bold;
 `;
 
@@ -113,7 +113,7 @@ export const StatusStyle = styled.span`
     text-align: center;
     display: flex;
     justify-content: center;
-    background: brown;
+    background: green;
     color: white;
     font-weight: bolder;
     letter-spacing: 1px;

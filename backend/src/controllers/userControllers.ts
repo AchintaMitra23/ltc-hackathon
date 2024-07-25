@@ -50,11 +50,39 @@ export const createOrder = async (
   ) => {
     try {
       if (process.env.IS_TESTING === "true") {
-        res.status(201).json({
+        res.status(200).json({
             status:200,
             body:{
-                token_no: "Ab837s9w",
-                message:"Order Added Successfully"
+              message: "Order Added Successfully",
+              data: [
+                {
+                  empId: 5606060,
+                  counter: "Counter 1",
+                  slot: "12:00 pm - 12:15 pm",
+                  orderDate: "21-02-2023",
+                  tokenNo: "TK-003",
+                  orderStatus: "active",
+                  preference: "Veg",
+                },
+                {
+                  empId: 5606349,
+                  counter: "Counter 1",
+                  slot: "12:00 pm - 12:15 pm",
+                  orderDate: "21-02-2023",
+                  tokenNo: "TK-003",
+                  orderStatus: "completed",
+                  preference: "Veg",
+                },
+                {
+                  empId: 5708890,
+                  counter: "Counter 2",
+                  slot: "1:00 pm - 1:15 pm",
+                  orderDate: "20-02-2023",
+                  tokenNo: "TK-002",
+                  orderStatus: "cancelled",
+                  preference: "Veg",
+                }
+              ]
             }
         });
         
@@ -80,7 +108,7 @@ export const createOrder = async (
         }) 
       });  
 
-        res.status(201).json({
+        res.status(200).json({
             status:200,
             body:{
                 message:"Order history Done",

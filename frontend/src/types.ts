@@ -19,10 +19,10 @@ export interface OrderHistory {
 }
 
 export interface Admins {
-  id: number;
-  name: string;
+  userId: any;
+  username: string;
   email: string;
-  approval_status: boolean;
+  approval_status: string;
 }
 
 export interface LoginResponseModel {

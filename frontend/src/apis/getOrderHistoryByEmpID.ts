@@ -5,7 +5,7 @@ export const getOrderHistoryByEmpID = async (employeeID: number | string, useMoc
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/history/getOrderHistoryByEmpID/${employeeID}`;
+    const actualURL: string = `http://localhost:3000/user/allOrders/${employeeID}`;
     const response = await axios.get(actualURL);
     if (response.status !== 200) {
       throw new Error(response.data.body.message);
