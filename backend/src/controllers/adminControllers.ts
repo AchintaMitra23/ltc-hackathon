@@ -97,7 +97,7 @@ export const getOrderCount = async (
         },
       };
 
-      // res.status(200).json(response);
+      res.status(200).json(response);
     }
   } catch (error) {
     next(error);
@@ -169,7 +169,8 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "active"
+              "orderDone": "active",
+              "preference":"veg"
             },
             {
               "tokenNo": "TK-002",
@@ -177,7 +178,8 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "active"
+              "orderDone": "active",
+              "preference": "non-veg"
             },
             {
               "tokenNo": "TK-003",
@@ -185,7 +187,8 @@ export const getAllOrders = async (
               "orderDate": "24-10-2023",
               "counterId": 1,
               "slotId": 1,
-              "orderDone": "active"
+              "orderDone": "active",
+              "preference": "veg"
             }
           ]
         }
@@ -204,7 +207,8 @@ export const getAllOrders = async (
              to_char(om.order_date, 'DD-MM-YYYY') AS "orderDate",
              om.counter_id AS "counterId",
              om.slot_id AS "slotId",
-             om.order_status AS "orderDone"
+             om.order_status AS "orderDone",
+             om.preference AS "preference"
       FROM order_master om
       WHERE om.order_date = $1 and om.order_status='active'
       and om.counter_id = $2 and om.slot_id = $3
@@ -220,6 +224,7 @@ export const getAllOrders = async (
         counterId: row.counterId,
         slotId: row.slotId,
         orderDone: row.orderDone,
+        preference: row.preference
       }));
 
       res
