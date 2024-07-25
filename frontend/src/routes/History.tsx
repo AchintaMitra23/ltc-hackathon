@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { OrderHistory } from "../types";
 import {
+  ButtonStyle1,
   LiStyle1,
   SpanStyle2,
   SpanStyle3,
@@ -12,6 +13,7 @@ import {
   UlStyle1,
 } from "../styles/Login.styled";
 import { getOrderHistoryByEmpID } from "../apis/getOrderHistoryByEmpID";
+import { updateOrders } from "../apis/updateOrders";
 
 const History = () => {
   const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([]);
@@ -26,10 +28,30 @@ const History = () => {
     await getOrderHistoryByEmpID(employeeId)
       .then((response) => {
         if (response.status === 200) {
-          setOrderHistory(response.body.orders);
+          setOrderHistory(response.body.data);
         }
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleCancel = async (item: OrderHistory) => {
+    const orderUpdateRequestBody: any = {
+      order_status: "cancelled",
+      empId: [parseInt(item.empId.toString(), 10)],
+      token_no: [item.tokenNo],
+    };
+    await updateOrders(orderUpdateRequestBody)
+      .then((response) => {
+        if (response.status === 200) {
+          alert(response.body.message);
+          const empId: any = localStorage.getItem("employeeID");
+          const employeeId: number = empId === null ? 0 : parseInt(empId, 10);
+          getHistoryByEmployee(employeeId);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -39,7 +61,7 @@ const History = () => {
           <h4>Nothing to show.....</h4>
         ) : (
           <div>
-            {orderHistory.map((item, index) => (
+            {orderHistory.map((item: OrderHistory, index: number) => (
               <div key={index}>
                 <StyledDiv2 className="card w-75 mb-3">
                   <div className="card-body">
@@ -64,7 +86,17 @@ const History = () => {
                         <SpanStyle3>{item.preference}</SpanStyle3>
                       </LiStyle1>
                       <LiStyle1>
-                        <StatusStyle>{item.orderStatus}</StatusStyle>
+                        <div style={{ display: "inline-flex" }}>
+                          <StatusStyle>{item.orderStatus}</StatusStyle>
+                          {item.orderStatus === "active" && (
+                            <ButtonStyle1
+                              type="button"
+                              onClick={() => handleCancel(item)}
+                            >
+                              Cancel
+                            </ButtonStyle1>
+                          )}
+                        </div>
                       </LiStyle1>
                     </UlStyle1>
                   </div>
