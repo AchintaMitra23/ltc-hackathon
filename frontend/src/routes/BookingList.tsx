@@ -44,8 +44,12 @@ const BookingList = () => {
               id="company"
               onChange={(e) => setCompany(e.currentTarget.value)}
             >
-              <option value="">Please select the option</option>
-              <option value="ltc">Lloyds Technology Centre</option>
+              <option value="" selected={company === ""}>
+                Please select the option
+              </option>
+              <option value="ltc" selected={company === "ltc"}>
+                Lloyds Technology Centre
+              </option>
             </StyledSelect>
           </div>
         </div>
@@ -57,7 +61,9 @@ const BookingList = () => {
               id="counter"
               onChange={(e) => setCounter(parseInt(e.currentTarget.value, 10))}
             >
-              <option value="0">Please select the option</option>
+              <option value="0" selected={counter === 0}>
+                Please select the option
+              </option>
               <option value="1">Counter 1</option>
               <option value="2">Counter 2</option>
             </StyledSelect>
@@ -71,7 +77,9 @@ const BookingList = () => {
               id="slot"
               onChange={(e) => setSlot(parseInt(e.currentTarget.value, 10))}
             >
-              <option value="0">Please select the option</option>
+              <option value="0" selected={slot === 0}>
+                Please select the option
+              </option>
               <option value="1">12:00 - 12:15</option>
               <option value="2">12:15 - 12:30</option>
               <option value="3">12:30 - 12:45</option>
@@ -96,7 +104,13 @@ const BookingList = () => {
             Search
           </ButtonStyle1>
         </DivStyle1>
-        <ListItems itemList={itemList} setItemList={setItemList} />
+        <ListItems
+          itemList={itemList}
+          setItemList={setItemList}
+          setCompany={setCompany}
+          setCounter={setCounter}
+          setSlot={setSlot}
+        />
       </div>
     </div>
   );

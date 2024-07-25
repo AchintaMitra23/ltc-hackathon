@@ -39,7 +39,8 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password, email, mobile, preference, type } = req.body as {
+  const { empId, username, password, email, mobile, preference, type } = req.body as {
+    empId: string;
     username: string;
     password: string;
     email: string;

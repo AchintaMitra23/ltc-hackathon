@@ -18,20 +18,23 @@ interface RegisterProps {
 
 const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
   const [empId, setEmpId] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("password");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [pref, setPref] = useState<string>("");
   const [empIdError, setEmpIdError] = useState<string>("");
+  const [nameError, setNameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [mobileError, setMobileError] = useState<string>("");
-  const [typeError, setTypeError] = useState<string>("");
+  const [typeError, setTypeError] = useState<string>("user");
   const [prefError, setPrefError] = useState<string>("");
   const navigate: any = useNavigate();
 
   const registerRequestModel = {
-    username: empId,
+    empId: empId,
+    username: name,
     password: password,
     email: email,
     mobile: mobile,
@@ -53,6 +56,22 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
       setEmpIdError("Employee id should contains 7 digits.");
     }
     setEmpId(currentValue);
+  };
+
+  const handleNameChange = (e: any) => {
+    const currentValue: any = e.target.value;
+    if (currentValue && currentValue !== "") {
+      if (RegExp(/^[a-zA-Z]+ [a-zA-Z]+$/).exec(currentValue)) {
+        setNameError("");
+      } else {
+        setNameError("Employee name should conatins two words.");
+      }
+    } else if (currentValue === null || currentValue === "") {
+      setNameError("Please enter the full name");
+    } else {
+      setNameError("Employee name should conatins two words.");
+    }
+    setName(currentValue);
   };
 
   const handleEmailChange = (e: any) => {
@@ -87,15 +106,15 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
     setMobile(currentValue);
   };
 
-  const handleTypeChange = (e: any) => {
-    const userType = e.target.value;
-    if (userType === null || userType === "") {
-      setTypeError("Please enter the type");
-    } else {
-      setTypeError("");
-    }
-    setType(userType);
-  };
+  // const handleTypeChange = (e: any) => {
+  //   const userType = e.target.value;
+  //   if (userType === null || userType === "") {
+  //     setTypeError("Please enter the type");
+  //   } else {
+  //     setTypeError("");
+  //   }
+  //   setType(userType);
+  // };
 
   const handlePrefChange = (e: any) => {
     const preference = e.target.value;
@@ -112,6 +131,8 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
     if (
       empId !== null &&
       empId !== "" &&
+      name! == null &&
+      name !== "" &&
       email !== null &&
       email !== "" &&
       mobile !== null &&
@@ -121,6 +142,7 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
       pref !== null &&
       pref !== "" &&
       empIdError === "" &&
+      nameError === "" &&
       emailError === "" &&
       mobileError === "" &&
       typeError === "" &&
@@ -149,6 +171,8 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
     } else {
       if (empId === null || empId === "")
         setEmpIdError("Please enter valid employee id.");
+      if (name === null || name === "")
+        setNameError("Please enter valid full name.");
       if (email === null || email === "")
         setEmailError("Please enter valid email.");
       if (mobile === null || mobile === "")
@@ -175,12 +199,9 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
                   <input
                     type="text"
                     className="form-control"
-                    name="emp-id"
-                    id="emp-id"
                     placeholder="Please enter employee id"
                     onChange={(e) => handleEmplIDChange(e)}
                     value={empId}
-                    required
                   />
                   <label className="form-label">Employee ID</label>
                   {empIdError !== "" && <ErrorStyle>{empIdError}</ErrorStyle>}
@@ -191,11 +212,8 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
                   <input
                     type="password"
                     className="form-control"
-                    name="password"
-                    id="password"
                     placeholder="Please enter password"
                     value={password}
-                    required
                     disabled
                   />
                   <label className="form-label">Password</label>
@@ -204,14 +222,24 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
               <div className="col-12">
                 <div className="form-floating mb-3">
                   <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Please enter full name"
+                    onChange={(e) => handleNameChange(e)}
+                    value={name}
+                  />
+                  <label className="form-label">Full Name</label>
+                  {nameError !== "" && <ErrorStyle>{nameError}</ErrorStyle>}
+                </div>
+              </div>
+              <div className="col-12">
+                <div className="form-floating mb-3">
+                  <input
                     type="email"
                     className="form-control"
-                    name="email"
-                    id="email"
                     placeholder="Please enter email"
                     onChange={(e) => handleEmailChange(e)}
                     value={email}
-                    required
                   />
                   <label className="form-label">Email ID</label>
                   {emailError !== "" && <ErrorStyle>{emailError}</ErrorStyle>}
@@ -222,12 +250,9 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
                   <input
                     type="tel"
                     className="form-control"
-                    name="mobile"
-                    id="mobile"
                     placeholder="Please enter mobile"
                     onChange={(e) => handleMobileChange(e)}
                     value={mobile}
-                    required
                   />
                   <label className="form-label">Mobile No.</label>
                   {mobileError !== "" && <ErrorStyle>{mobileError}</ErrorStyle>}
@@ -236,11 +261,7 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
               <div className="col-12">
                 <label className="form-label">Preference</label>
                 <div className="form-floating mb-3">
-                  <StyledSelect
-                    name="pref"
-                    id="pref"
-                    onChange={(e) => handlePrefChange(e)}
-                  >
+                  <StyledSelect onChange={(e) => handlePrefChange(e)}>
                     <option value="">Please select the option</option>
                     <option value="veg">Veg</option>
                     <option value="non-veg">Non-Veg</option>
@@ -248,21 +269,17 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
                 </div>
                 {prefError !== "" && <ErrorStyle>{prefError}</ErrorStyle>}
               </div>
-              <div className="col-12">
+              {/* <div className="col-12">
                 <label className="form-label">User Type</label>
                 <div className="form-floating mb-3">
-                  <StyledSelect
-                    name="type"
-                    id="type"
-                    onChange={(e) => handleTypeChange(e)}
-                  >
+                  <StyledSelect onChange={(e) => handleTypeChange(e)}>
                     <option value="">Please select the option</option>
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </StyledSelect>
                 </div>
                 {typeError !== "" && <ErrorStyle>{typeError}</ErrorStyle>}
-              </div>
+              </div> */}
               <div className="col-12">
                 <div className="d-grid">
                   <button

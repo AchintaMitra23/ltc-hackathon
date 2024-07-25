@@ -6,13 +6,13 @@ interface HeaderProps {
   setIsAuth: (value: boolean) => void;
 }
 
-const Header = ({ isAuth = false, setIsAuth }: HeaderProps) => {
+const Header = ({ setIsAuth }: HeaderProps) => {
   const userType: string | null = localStorage.getItem("userType");
   const navigate: any = useNavigate();
 
   const onLogout = () => {
     setIsAuth(false);
-    navigate('/login');
+    navigate("/login");
     localStorage.clear();
   };
 
@@ -23,7 +23,7 @@ const Header = ({ isAuth = false, setIsAuth }: HeaderProps) => {
           {/* <img src="assets/logo.jpeg" alt="" /> */}
           Lunch Box
         </a>
-        {isAuth && (
+        {userType !== null && userType !== "" && (
           <>
             <button
               className="navbar-toggler"
@@ -74,10 +74,10 @@ const Header = ({ isAuth = false, setIsAuth }: HeaderProps) => {
                   </li>
                 )}
                 <li className="nav-item">
-                    <a className="nav-link" onClick={onLogout}>
-                      Logout
-                    </a>
-                  </li>
+                  <a className="nav-link" onClick={onLogout}>
+                    Logout
+                  </a>
+                </li>
               </ul>
             </div>
           </>

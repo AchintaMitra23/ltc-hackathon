@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
 import { updateOrders } from "../apis/updateOrders";
 import {
   ButtonStyle1,
@@ -13,10 +12,18 @@ import { ListItem } from "../types";
 interface ListItemsProps {
   itemList: ListItem[];
   setItemList: (value: ListItem[]) => void;
+  setCompany: (value: string) => void;
+  setCounter: (value: number) => void;
+  setSlot: (value: number) => void;
 }
 
-const ListItems = ({ itemList, setItemList }: ListItemsProps) => {
-  const [successResponse, setSuccessResponse] = useState<string>("");
+const ListItems = ({
+  itemList,
+  setItemList,
+  setCompany,
+  setCounter,
+  setSlot
+}: ListItemsProps) => {
   if (itemList.length > 0) {
     itemList.sort((a, b) => a.orderDone - b.orderDone);
   }
@@ -37,17 +44,16 @@ const ListItems = ({ itemList, setItemList }: ListItemsProps) => {
       .then((response) => {
         if (response.status === 200) {
           setItemList([]);
-          setSuccessResponse(response.body.message);
+          setCompany("");
+          setSlot(0);
+          setCounter(0);
+          alert(response.body.message);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
-  if (successResponse !== "") {
-    return <h4>{successResponse}</h4>
-  }
 
   return (
     <div>
