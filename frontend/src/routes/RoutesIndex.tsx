@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import Bookings from "../components/OrderPage/OrderPageComponent";
 import Profile from "./Profile";
 import History from "./History";
 import Approval from "./Approval";
 import BookingList from "./BookingList";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import Bookings from "./Bookings";
 
 interface RoutesProps {
   isAuth: boolean;
