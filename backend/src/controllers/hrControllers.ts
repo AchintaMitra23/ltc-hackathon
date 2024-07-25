@@ -11,8 +11,8 @@ export const approveUser = async (
   next: NextFunction
 ) => {
   if (process.env.IS_TESTING === "true") {
-    res.status(201).json({
-      status: 201,
+    res.status(200).json({
+      status: 200,
       body: {
         message: "User approval updated successfully",
         userId: "123456",
@@ -59,8 +59,8 @@ export const approveUser = async (
         });
       }
 
-      res.status(201).json({
-        status: 201,
+      res.status(200).json({
+        status: 200,
         body: {
           message: "User approval updated successfully",
           userId: userId.toString(),
@@ -79,16 +79,30 @@ export const userToApprove = async (
   next: NextFunction
 ) => {
   if (process.env.IS_TESTING === "true") {
-    res.status(201).json({
-      status: 201,
+    res.status(200).json({
+      status: 200,
       body: {
         message: "User needed to Approve",
-        user: {
-          userId: "5435654",
-          username: "hhhdhdhd",
-          email: "jdjfhdfkjdhf@hdjf.com",
-          approval_status: "false"
-        },
+        user: [
+          {
+            userId: "5435654",
+            username: "hhhdhdhd",
+            email: "jdjfhdfkjdhf@hdjf.com",
+            approval_status: "false"
+          },
+          {
+            userId: "8946574",
+            username: "hhhdhdhd",
+            email: "jdjfhdfkjdhf@hdjf.com",
+            approval_status: "false"
+          },
+          {
+            userId: "0000000",
+            username: "hhhdhdhd",
+            email: "jdjfhdfkjdhf@hdjf.com",
+            approval_status: "false"
+          }
+        ],
       },
     });
   } else {
@@ -110,7 +124,7 @@ export const userToApprove = async (
         }) 
       });  
 
-        res.status(201).json({
+        res.status(200).json({
             status:200,
             body:{
                 message:"User needed to Approve",
