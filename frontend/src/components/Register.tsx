@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   ErrorStyle,
+  LoginLogo,
   StyledDiv1,
   StyledH5,
   StyledSelect,
@@ -10,6 +11,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { registerAPI } from "../apis/register";
 import { LoginResponseModel } from "../types";
+import Logo from "../assets/logo.png";
 
 interface RegisterProps {
   isAuth: boolean;
@@ -134,8 +136,8 @@ const Register = ({ setIsAuth }: RegisterProps) => {
           if (response.status === 201) {
             alert(response.body.message);
             const loginResponse: LoginResponseModel = response.body.user;
-            if (loginResponse.userId !== null && loginResponse.userId !== '') {
-              navigate('/login');
+            if (loginResponse.userId !== null && loginResponse.userId !== "") {
+              navigate("/login");
             }
             // localStorage.setItem("details", JSON.stringify(loginResponse));
             // localStorage.setItem("userType", loginResponse.type);
@@ -171,9 +173,9 @@ const Register = ({ setIsAuth }: RegisterProps) => {
         <div className="row">
           <div className="col-lg-4 col-sm-12"></div>
           <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
-            <StyledH5 className="text-center mb-5">
-              Please fill the details
-            </StyledH5>
+            <LoginLogo>
+              <img src={Logo} alt="" width={200} />
+            </LoginLogo>
             <form>
               <div className="col-12">
                 <div className="form-floating mb-3">
@@ -253,12 +255,14 @@ const Register = ({ setIsAuth }: RegisterProps) => {
               <div className="col-12 mt-3 mb-3">
                 <label className="form-label">User Type : </label>{" "}
                 <input
+                 style={{marginLeft:"2%"}}
                   type="radio"
                   checked={type === "user"}
                   onChange={() => setType("user")}
-                />{" "}
+                />
                 User
                 <input
+                  style={{marginLeft:"5%"}}
                   type="radio"
                   checked={type === "admin"}
                   onChange={() => setType("admin")}
