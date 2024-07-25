@@ -17,6 +17,41 @@ export interface LoginUser {
   type : string;
 }
 
+export interface ListItem {
+  tokenNo: string;
+  employeeId: number;
+  orderDate: string;
+  counterId: number;
+  slotId: number;
+  orderDone: any | boolean;
+}
+
+export interface OrderHistory {
+  empId: number;
+  counter: string;
+  slot: string;
+  orderDate: string;
+  tokenNo: string;
+  orderStatus: string;
+  preference: string;
+}
+
+export interface Admins {
+  id: number;
+  name: string;
+  email: string;
+  approval_status: boolean;
+}
+
+export interface LoginResponseModel {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+  preference: string;
+  type: string;
+}
+
 export const findUserByUsername = async (
   username: string
 ): Promise<LoginUser | null> => {

@@ -1,17 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
+import { ListItem } from "../models/User";
 
 dotenv.config();
-
-export interface ListItem {
-  tokenNo: string;
-  employeeId: number;
-  orderDate: string;
-  counterId: number;
-  slotId: number;
-  orderDone: any | boolean;
-};
 
 export const getAllOrders = async (
   req: Request,

@@ -1,34 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { OrderHistory } from "../types";
-import { LiStyle1, SpanStyle2, SpanStyle3, StatusStyle, StyledDiv2, UlStyle1 } from "../styles/Login.styled";
+import {
+  LiStyle1,
+  SpanStyle2,
+  SpanStyle3,
+  StatusStyle,
+  StyledDiv2,
+  UlStyle1,
+} from "../styles/Login.styled";
+import { getOrderHistoryByEmpID } from "../apis/getOrderHistoryByEmpID";
 
 const History = () => {
-  const employeeID: number = parseInt(localStorage.getItem("employeeID"), 10);
-  const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([
-    {
-      empId: 5606349,
-      counter: "Counter 1",
-      slot: "12:00 pm - 12:15 pm",
-      orderDate: "21-02-2023",
-      tokenNo: "TK-003",
-      orderStatus: "Completed",
-      preference: "Veg",
-    },
-    {
-      empId: 5708890,
-      counter: "Counter 2",
-      slot: "1:00 pm - 1:15 pm",
-      orderDate: "20-02-2023",
-      tokenNo: "TK-002",
-      orderStatus: "Cancelled",
-      preference: "Veg",
-    },
-  ]);
+  const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([]);
 
   useEffect(() => {
-    // call the api to get all the order history by employee ID
-  }, [employeeID]);
+    const empId: any = localStorage.getItem("employeeID");
+    const employeeId: number = empId === null ? 0 : parseInt(empId, 10);
+    getHistoryByEmployee(employeeId);
+  }, []);
+
+  const getHistoryByEmployee = async (employeeId: number) => {
+    await getOrderHistoryByEmpID(employeeId)
+      .then((response) => {
+        if (response.status === 200) {
+          setOrderHistory(response.body.orders);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div>
@@ -41,7 +43,9 @@ const History = () => {
               <div key={index}>
                 <StyledDiv2 className="card w-75 mb-3">
                   <div className="card-body">
-                    <h5 className="card-title">{item.tokenNo}</h5>
+                    <h5 className="card-title fw-bold text-center">
+                      {item.tokenNo}
+                    </h5>
                     <UlStyle1>
                       <LiStyle1>
                         <SpanStyle2>Counter : </SpanStyle2>

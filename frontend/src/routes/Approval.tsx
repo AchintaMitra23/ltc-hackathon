@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Admins } from "../types";
 import {
   ButtonStyle1,
@@ -7,16 +7,23 @@ import {
   DivStyle2,
   SpanStyle1,
 } from "../styles/Login.styled";
+import { getAllUnapprovedAdmins } from "../apis/getAllUnapprovedAdmins";
+import { saveAllAdmins } from "../apis/saveAllAdmins";
 
 const Approval = () => {
-  const [adminList, setAdminList] = useState<Admins[]>([
-    {
-      id: 5606349,
-      name: "Achinta",
-      email: "achinta@lbg.com",
-      approval_status: false,
-    },
-  ]);
+  const [adminList, setAdminList] = useState<Admins[]>([]);
+
+  useEffect(() => {
+    getAllAdmins();
+  }, []);
+
+  const getAllAdmins = async () => {
+    await getAllUnapprovedAdmins().then((response) => {
+      if (response.status === 200) {
+        setAdminList(response.body.admins);
+      }
+    }).catch((error) => console.log(error));
+  }
 
   const handleComplete = (id: number) => {
     let newAdminList: Admins[] = [];
@@ -29,8 +36,12 @@ const Approval = () => {
     setAdminList(newAdminList);
   };
 
-  const onSubmit = () => {
-    console.log(adminList);
+  const onSubmit = async () => {
+    await saveAllAdmins(adminList).then((response) => {
+      if (response.status === 200) {
+        alert('Saved Successfully');
+      }
+    }).catch((error) => console.log(error));
   };
 
   return (
