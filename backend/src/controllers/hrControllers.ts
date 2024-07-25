@@ -5,7 +5,7 @@ import { findUserByUsername } from "../models/User";
 
 dotenv.config();
 
-export const createOrder = async (
+export const approveUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,15 +20,14 @@ export const createOrder = async (
     });
   } else {
     try {
-      const { username, userId, approvalStatus, approved_by, type } =
+      const { userId, approvalStatus, approved_by, type } =
         req.body as {
-          username: string;
           userId: string;
           approvalStatus: string;
           approved_by: string;
           type: string;
         };
-      const existingUser = await findUserByUsername(username);
+      const existingUser = await findUserByUsername(userId);
       if (existingUser) {
         return res
           .status(400)
@@ -67,6 +66,61 @@ export const createOrder = async (
           userId: userId.toString(),
         },
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+};
+
+
+export const userToApprove = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (process.env.IS_TESTING === "true") {
+    res.status(201).json({
+      status: 201,
+      body: {
+        message: "User needed to Approve",
+        user: {
+          userId: "5435654",
+          username: "hhhdhdhd",
+          email: "jdjfhdfkjdhf@hdjf.com",
+          approval_status: "false"
+        },
+      },
+    });
+  } else {
+    try {
+
+      const Query = `
+      select id,name,email,approval_status "user"
+      WHERE type = 'admin' and approval_status='false';
+        `;
+      const result:any = await pool.query(Query);
+
+      if (result.rowCount === 0) {
+        return res.status(404).json({
+          status: 404,
+          body: {
+            error: "User not updated please try again later",
+          },
+        });
+      }
+
+      return {
+        status: 201,
+        body: {
+          message: "User needed to Approve",
+          user: {
+            userId: result[0].id,
+            username: result[0].name,
+            email: result[0].email,
+            approval_status: result[0].approval_status
+          },
+        },
+      };
     } catch (error) {
       next(error);
     }
