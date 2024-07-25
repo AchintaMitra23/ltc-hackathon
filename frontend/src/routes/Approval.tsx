@@ -7,7 +7,7 @@ import {
   CheckBoxStyle1,
   DivStyle2,
   SpanStyle1,
-} from "../styles/Login.styled";
+} from "../styles/Approval.styled";
 import { getAllUnapprovedAdmins } from "../apis/getAllUnapprovedAdmins";
 import { saveAllAdmins } from "../apis/saveAllAdmins";
 
@@ -64,29 +64,27 @@ const Approval = () => {
 
   return (
     <div className="m-5">
-      <div>
-        {adminList?.length === 0 ? (
-          <h4>Nothing to show.....</h4>
-        ) : (
-          <div>
-            {adminList?.map((admin: Admins, index) => (
-              <DivStyle2 key={index}>
-                <CheckBoxStyle1
-                  type="checkbox"
-                  onChange={() => handleComplete(admin.userId)}
-                  checked={admin.approval_status === "true"}
-                />
-                <SpanStyle1>{admin.userId}</SpanStyle1>
-                <SpanStyle1>{admin.username}</SpanStyle1>
-                <SpanStyle1>{admin.email}</SpanStyle1>
-              </DivStyle2>
-            ))}
-            <ButtonStyle1 type="button" onClick={onSubmit}>
-              Submit
-            </ButtonStyle1>
-          </div>
-        )}
-      </div>
+      {adminList?.length === 0 ? (
+        <h4>Nothing to show.....</h4>
+      ) : (
+        <div>
+          {adminList?.map((admin: Admins, index) => (
+            <DivStyle2 key={index}>
+              <CheckBoxStyle1
+                type="checkbox"
+                onChange={() => handleComplete(admin.userId)}
+                checked={admin.approval_status === "true"}
+              />
+              <SpanStyle1>{admin.userId}</SpanStyle1>
+              <SpanStyle1>{admin.username}</SpanStyle1>
+              <SpanStyle1>{admin.email}</SpanStyle1>
+            </DivStyle2>
+          ))}
+          <ButtonStyle1 type="button" onClick={onSubmit}>
+            Submit
+          </ButtonStyle1>
+        </div>
+      )}
     </div>
   );
 };

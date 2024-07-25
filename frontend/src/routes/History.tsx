@@ -14,6 +14,7 @@ import {
 } from "../styles/Login.styled";
 import { getOrderHistoryByEmpID } from "../apis/getOrderHistoryByEmpID";
 import { updateOrders } from "../apis/updateOrders";
+import { StyledCancelButton } from "../styles/History.styled";
 
 const History = () => {
   const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([]);
@@ -55,16 +56,15 @@ const History = () => {
   };
 
   return (
-    <div>
-      <div className="text-center mt-5">
-        {orderHistory.length === 0 ? (
-          <h4>Nothing to show.....</h4>
-        ) : (
-          <div className="container-fluid">
-            <div className="row">
+    <div className="text-center mt-5">
+      {orderHistory.length === 0 ? (
+        <h4>Nothing to show.....</h4>
+      ) : (
+        <div className="container">
+          <div className="row">
             {orderHistory.map((item: OrderHistory, index: number) => (
-              <div key={index} className="col-lg-6">
-                <StyledDiv2 className="card w-75 mb-3">
+              <div key={index} className="col-lg-4">
+                <StyledDiv2 className="card mb-3">
                   <div className="card-body">
                     <h5 className="card-title fw-bold text-center">
                       {item.tokenNo}
@@ -90,12 +90,12 @@ const History = () => {
                         <div style={{ display: "inline-flex" }}>
                           <StatusStyle>{item.orderStatus}</StatusStyle>
                           {item.orderStatus === "active" && (
-                            <ButtonStyle1
+                            <StyledCancelButton
                               type="button"
                               onClick={() => handleCancel(item)}
                             >
                               Cancel
-                            </ButtonStyle1>
+                            </StyledCancelButton>
                           )}
                         </div>
                       </LiStyle1>
@@ -104,10 +104,9 @@ const History = () => {
                 </StyledDiv2>
               </div>
             ))}
-            </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

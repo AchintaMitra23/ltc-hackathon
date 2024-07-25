@@ -14,7 +14,7 @@ export const StyledH5 = styled.h5`
   letter-spacing: 1px;
   border-bottom: 2px solid;
   padding-bottom: 10px;
-`;
+`; 
 
 export const StyledSelect = styled.select`
   padding: 10px;
@@ -48,16 +48,6 @@ export const DivStyle1 = styled.div`
   height: 40px;
   margin: 35px 0;
   border: none;
-`;
-
-export const ButtonStyle1 = styled.button`
-  border: none;
-  background: green;
-  color: white;
-  font-weight: 500;
-  padding: 5px 15px;
-  border-radius: 10px;
-  cursor: pointer;
 `;
 
 export const DivStyle2 = styled.div`
@@ -96,13 +86,6 @@ export const LiStyle1 = styled.li`
   margin: 10px;
 `;
 
-export const SpanStyle2 = styled.span`
-  font-size: 15px;
-  font-style: oblique;
-  color: green;
-  font-weight: bold;
-`;
-
 export const SpanStyle3 = styled.span`
   font-weight: 500;
   letter-spacing: 1px;
@@ -127,20 +110,19 @@ export const StyledDiv2 = styled.div`
   text-align: center;
 `;
 
-export const InputStyle1 = styled.input`
-  width: 100%;
+export const ButtonStyle1 = styled.button`
   border: none;
-  font-size: 15px;
+  background: green;
+  color: white;
   font-weight: 500;
+  padding: 5px 15px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
-export const SelectStyle1 = styled.select`
-  border: none;
+export const SpanStyle2 = styled.span`
   font-size: 15px;
-  font-weight: 500;
-  text-align: justify;
-`;
-
-export const StyleTRProfile = styled.tr`
-  margin: 20px 0;
+  font-style: oblique;
+  color: green;
+  font-weight: bold;
 `;

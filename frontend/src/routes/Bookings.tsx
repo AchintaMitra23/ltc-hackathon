@@ -1,65 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { DateObject } from "react-multi-date-picker";
 import MultiDatePicker from "../components/OrderPage/MultiDatePicker";
 import SlotSelector from "../components/OrderPage/SlotSelector";
 import { createOrder } from "../apis/createOrder";
 import Instructions from "../components/OrderPage/Instructions";
 import { useNavigate } from "react-router-dom";
-
-const BookingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 3%;
-  padding-right: 3%;
-`;
-const PageTitle = styled.div`
-  display: flex;
-  font-size: 25px;
-  font-weight: bolder;
-  color: green;
-  padding-top: 2%;
-  align-items: center;
-`;
-const PageContainer = styled.div`
-  border: 1px solid #000;
-  margin: 1%;
-  border-radius: 5px;
-`;
-const InstructionContainer = styled.div`
-  margin: 1%;
-  width: 100%;
-`;
-const SubmitButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  width: 100%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:disabled {
-    background-color: #ccc;
-  }
-`;
-const ShowselectedDate = styled.div`
-  padding-top: 1%;
-  display: flex;
-  justify-content: center;
-  font-size: 28px;
-  font-weight: bold;
-  color: gray;
-`;
-const HorizontalLine = styled.hr`
-  width: 100%;
-  height: 1px;
-  background-color: #190303; /* Customize the color */
-  margin: 10px 0; /* Add some spacing */
-`;
+import {
+  BookingContainer,
+  HorizontalLine,
+  InstructionContainer,
+  PageContainer,
+  PageTitle,
+  ShowselectedDate,
+  SubmitButton,
+} from "../styles/Bookings.styled";
 
 interface BookingProps {
   employeeId: string;
@@ -119,7 +74,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
     date: string,
     counter: string,
     slot: string,
-    preference: string,
+    preference: string
   ) => {
     setSelectedSlots((prev) => ({
       ...prev,
@@ -149,7 +104,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
           const slotId = Object.keys(availableSlots[slot.counter]).find(
             (id) =>
               availableSlots[slot.counter][parseInt(id, 10)].slot_name ===
-              slot.slot,
+              slot.slot
           );
 
           return {

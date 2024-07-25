@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { LoginResponseModel } from "../types";
 import {
   ButtonStyle1,
+  ButtonStyle2,
   InputStyle1,
   SelectStyle1,
   SpanStyle2,
+  StyledBody,
   StyleTRProfile,
-} from "../styles/Login.styled";
+} from "../styles/Profile.styled";
 
 const Profile = () => {
   const [profile, setProfile] = useState<LoginResponseModel>();
@@ -20,29 +22,27 @@ const Profile = () => {
     }
   }, []);
 
-  const onUpdate = () => {};
+  const onUpdate = () => {
+    alert("Work in progress...");
+  };
 
-  const onDelete = () => {};
+  const onDelete = () => {
+    alert("Work in progress...");
+  };
 
   if (profile !== undefined && profile !== null) {
     return (
-      <div
-        className="card text-center"
-        style={{
-          width: "25rem",
-          transform: "translate(-50%, 50%)",
-          left: "50%",
-          top: "50%",
-        }}
-      >
+      <StyledBody className="card">
         <div className="card-body">
-          <h5 className="card-title">{profile.username}</h5>
-          <p className="card-text">{profile.userId}</p>
+          <h2 className="card-title text-center">
+            {profile.username.toString().toUpperCase()}
+          </h2>
+          <h4 className="card-text text-center">{profile.userId}</h4>
         </div>
         <table>
           <StyleTRProfile>
             <td>
-              <SpanStyle2>Email : </SpanStyle2>
+              <SpanStyle2>EMAIL ID</SpanStyle2>
             </td>
             <td>
               <InputStyle1 type="text" value={profile.email} />
@@ -50,7 +50,7 @@ const Profile = () => {
           </StyleTRProfile>
           <StyleTRProfile>
             <td>
-              <SpanStyle2>Mobile : </SpanStyle2>
+              <SpanStyle2>MOBILE</SpanStyle2>
             </td>
             <td>
               <InputStyle1 type="text" value={profile.mobile} />
@@ -58,7 +58,7 @@ const Profile = () => {
           </StyleTRProfile>
           <StyleTRProfile>
             <td>
-              <SpanStyle2>Food Preference : </SpanStyle2>
+              <SpanStyle2>FOOD PREFERENCE</SpanStyle2>
             </td>
             <td>
               <SelectStyle1>
@@ -72,14 +72,14 @@ const Profile = () => {
                   value="non-veg"
                   selected={profile.preference === "non-veg"}
                 >
-                  Non-Veg
+                  Non Veg
                 </option>
               </SelectStyle1>
             </td>
           </StyleTRProfile>
           <StyleTRProfile>
             <td>
-              <SpanStyle2>User Type : </SpanStyle2>
+              <SpanStyle2>USER ROLE</SpanStyle2>
             </td>
             <td>
               <InputStyle1
@@ -90,15 +90,15 @@ const Profile = () => {
             </td>
           </StyleTRProfile>
         </table>
-        <div className="card-body">
+        <div className="card-body text-center">
           <ButtonStyle1 type="button" className="card-link" onClick={onUpdate}>
-            Update
+            UPDATE
           </ButtonStyle1>
-          <ButtonStyle1 type="button" className="card-link" onClick={onDelete}>
-            Delete
-          </ButtonStyle1>
+          <ButtonStyle2 type="button" className="card-link" onClick={onDelete}>
+            DELETE
+          </ButtonStyle2>
         </div>
-      </div>
+      </StyledBody>
     );
   }
   return <p>Unable to extract profile</p>;

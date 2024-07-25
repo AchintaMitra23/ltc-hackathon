@@ -5,7 +5,7 @@ export const createOrder = async (requestType: any, useMockAPI?: boolean): Promi
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/user/createOrder`;
+    const actualURL: string = `http://localhost:3001/user/createOrder`;
     const response = await axios.post(actualURL, requestType);
     if (response.status !== 201) {
       throw new Error(response.data.body.message);

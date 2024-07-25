@@ -7,7 +7,7 @@ import {
   CheckBoxStyle1,
   DivStyle2,
   SpanStyle1,
-} from "../styles/Login.styled";
+} from "../styles/ListItems.styled";
 import { ListItem } from "../types";
 
 interface ListItemsProps {
@@ -25,10 +25,6 @@ const ListItems = ({
   setCounter,
   setSlot,
 }: ListItemsProps) => {
-  // if (itemList.length > 0) {
-  //   itemList.sort((a, b) => a.orderDone - b.orderDone);
-  // }
-
   const handleComplete = (tokenNo: string) => {
     let newItems: ListItem[] = [];
     for (let i of itemList) {
@@ -72,30 +68,28 @@ const ListItems = ({
 
   return (
     <div>
-      <div>
-        {itemList.length === 0 ? (
-          <h4>Nothing to show.....</h4>
-        ) : (
-          <div>
-            {itemList.map((item: ListItem, index: number) => (
-              <DivStyle2 key={index}>
-                <CheckBoxStyle1
-                  type="checkbox"
-                  onChange={() => handleComplete(item.tokenNo)}
-                  checked={item.orderDone === "completed"}
-                  disabled={item.orderDone === "completed"}
-                />
-                <SpanStyle1>{item.tokenNo}</SpanStyle1>
-                <SpanStyle1>{item.employeeId}</SpanStyle1>
-                <SpanStyle1>{item.orderDate}</SpanStyle1>
-              </DivStyle2>
-            ))}
-            <ButtonStyle1 type="button" onClick={onDone}>
-              Done
-            </ButtonStyle1>
-          </div>
-        )}
-      </div>
+      {itemList.length === 0 ? (
+        <h4>Nothing to show.....</h4>
+      ) : (
+        <div>
+          {itemList.map((item: ListItem, index: number) => (
+            <DivStyle2 key={index}>
+              <CheckBoxStyle1
+                type="checkbox"
+                onChange={() => handleComplete(item.tokenNo)}
+                checked={item.orderDone === "completed"}
+                disabled={item.orderDone === "completed"}
+              />
+              <SpanStyle1>{item.tokenNo}</SpanStyle1>
+              <SpanStyle1>{item.employeeId}</SpanStyle1>
+              <SpanStyle1>{item.orderDate}</SpanStyle1>
+            </DivStyle2>
+          ))}
+          <ButtonStyle1 type="button" onClick={onDone}>
+            Done
+          </ButtonStyle1>
+        </div>
+      )}
     </div>
   );
 };

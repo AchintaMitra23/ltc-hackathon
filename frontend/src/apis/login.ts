@@ -5,7 +5,7 @@ export const loginAPI = async (loginDetails: any, useMockAPI?: boolean): Promise
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/auth/login`;
+    const actualURL: string = `http://localhost:3001/auth/login`;
     const response = await axios.post(actualURL, loginDetails);
     if (response.status !== 200) {
       throw new Error(response.data.body.message);

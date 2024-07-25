@@ -14,7 +14,7 @@ const mockResponses = {
           "userId": "123",
           "username": "username",
           "password": "password",
-          "type": "customer",
+          "type": "user",
           "email": "user@example.com",
           "mobile": "1234567890",
           "preference": "veg"
@@ -30,7 +30,7 @@ const mockResponses = {
         "userId": "123",
         "username": "username",
         "password": "password",
-        "type": "customer",
+        "type": "hr",
         "email": "user@example.com",
         "mobile": "1234567890",
         "preference": "veg"

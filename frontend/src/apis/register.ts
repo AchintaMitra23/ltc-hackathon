@@ -5,7 +5,7 @@ export const registerAPI = async (registerDetails: any, useMockAPI?: boolean): P
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/auth/register`;
+    const actualURL: string = `http://localhost:3001/auth/register`;
     const response = await axios.post(actualURL, registerDetails);
     if (response.status !== 201) {
       throw new Error(response.data.body.message);
