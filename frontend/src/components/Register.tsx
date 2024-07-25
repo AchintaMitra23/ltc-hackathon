@@ -16,19 +16,17 @@ interface RegisterProps {
   setIsAuth: (value: boolean) => void;
 }
 
-const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
+const Register = ({ setIsAuth }: RegisterProps) => {
   const [empId, setEmpId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("password");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
-  const [type, setType] = useState<string>("");
   const [pref, setPref] = useState<string>("");
   const [empIdError, setEmpIdError] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [mobileError, setMobileError] = useState<string>("");
-  const [typeError, setTypeError] = useState<string>("user");
   const [prefError, setPrefError] = useState<string>("");
   const navigate: any = useNavigate();
 
@@ -38,7 +36,7 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
     password: password,
     email: email,
     mobile: mobile,
-    type: type,
+    type: "user",
     preference: pref,
   };
 
@@ -106,16 +104,6 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
     setMobile(currentValue);
   };
 
-  // const handleTypeChange = (e: any) => {
-  //   const userType = e.target.value;
-  //   if (userType === null || userType === "") {
-  //     setTypeError("Please enter the type");
-  //   } else {
-  //     setTypeError("");
-  //   }
-  //   setType(userType);
-  // };
-
   const handlePrefChange = (e: any) => {
     const preference = e.target.value;
     if (preference === null || preference === "") {
@@ -129,23 +117,15 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
   const register = async (e: any) => {
     e.preventDefault();
     if (
-      empId !== null &&
       empId !== "" &&
-      name! == null &&
       name !== "" &&
-      email !== null &&
       email !== "" &&
-      mobile !== null &&
       mobile !== "" &&
-      type !== null &&
-      type !== "" &&
-      pref !== null &&
       pref !== "" &&
       empIdError === "" &&
       nameError === "" &&
       emailError === "" &&
       mobileError === "" &&
-      typeError === "" &&
       prefError === ""
     ) {
       await registerAPI(registerRequestModel)
@@ -169,17 +149,15 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
           console.log(error);
         });
     } else {
-      if (empId === null || empId === "")
+      if (empId === "")
         setEmpIdError("Please enter valid employee id.");
-      if (name === null || name === "")
+      if (name === "")
         setNameError("Please enter valid full name.");
-      if (email === null || email === "")
+      if (email === "")
         setEmailError("Please enter valid email.");
-      if (mobile === null || mobile === "")
+      if (mobile === "")
         setMobileError("Please enter valid mobile number.");
-      if (type === null || type === "")
-        setTypeError("Please select valid user type.");
-      if (pref === null || pref === "")
+      if (pref === "")
         setPrefError("Please select valid food preference.");
     }
   };
@@ -269,17 +247,6 @@ const Register = ({ isAuth, setIsAuth }: RegisterProps) => {
                 </div>
                 {prefError !== "" && <ErrorStyle>{prefError}</ErrorStyle>}
               </div>
-              {/* <div className="col-12">
-                <label className="form-label">User Type</label>
-                <div className="form-floating mb-3">
-                  <StyledSelect onChange={(e) => handleTypeChange(e)}>
-                    <option value="">Please select the option</option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                  </StyledSelect>
-                </div>
-                {typeError !== "" && <ErrorStyle>{typeError}</ErrorStyle>}
-              </div> */}
               <div className="col-12">
                 <div className="d-grid">
                   <button
