@@ -3,6 +3,8 @@ export interface ListItem {
   tokenNo: string;
   employeeId: number;
   orderDate: string;
+  counterId: number;
+  slotId: number;
   orderDone: any | boolean;
 }
 
@@ -21,4 +23,13 @@ export interface Admins {
   name: string;
   email: string;
   approval_status: boolean;
+}
+
+export interface LoginResponseModel {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+  preference: string;
+  type: string;
 }

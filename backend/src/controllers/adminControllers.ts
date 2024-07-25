@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
+import { ListItem } from "../models/User";
 
 dotenv.config();
 
@@ -96,7 +97,7 @@ export const getOrderCount = async (
         },
       };
 
-      res.status(200).json(response);
+      // res.status(200).json(response);
     }
   } catch (error) {
     next(error);
@@ -122,12 +123,6 @@ export const updateOrderStatus = async (
         empId: any;
         token_no: any;
       };
-
-      if (!order_status || !token_no) {
-        return res
-          .status(400)
-          .json({ status: 404, error: "Order status or token_no is required" });
-      }
 
       const query = `
         UPDATE order_master

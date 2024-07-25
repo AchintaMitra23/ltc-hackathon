@@ -1,16 +1,29 @@
 /* eslint-disable prefer-const */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Admins } from "../types";
+import {
+  ButtonStyle1,
+  CheckBoxStyle1,
+  DivStyle2,
+  SpanStyle1,
+} from "../styles/Login.styled";
+import { getAllUnapprovedAdmins } from "../apis/getAllUnapprovedAdmins";
+import { saveAllAdmins } from "../apis/saveAllAdmins";
 
 const Approval = () => {
-  const [adminList, setAdminList] = useState<Admins[]>([
-    {
-      id: 5606349,
-      name: "Achinta",
-      email: "achinta@lbg.com",
-      approval_status: false,
-    },
-  ]);
+  const [adminList, setAdminList] = useState<Admins[]>([]);
+
+  useEffect(() => {
+    getAllAdmins();
+  }, []);
+
+  const getAllAdmins = async () => {
+    await getAllUnapprovedAdmins().then((response) => {
+      if (response.status === 200) {
+        setAdminList(response.body.admins);
+      }
+    }).catch((error) => console.log(error));
+  }
 
   const handleComplete = (id: number) => {
     let newAdminList: Admins[] = [];
@@ -23,35 +36,39 @@ const Approval = () => {
     setAdminList(newAdminList);
   };
 
-  const onSubmit = () => {
-    console.log(adminList);
+  const onSubmit = async () => {
+    await saveAllAdmins(adminList).then((response) => {
+      if (response.status === 200) {
+        alert('Saved Successfully');
+      }
+    }).catch((error) => console.log(error));
   };
 
   return (
-    <div>
+    <div className="m-5">
       <div>
         {adminList.length === 0 ? (
           <h4>Nothing to show.....</h4>
         ) : (
           <div>
             {adminList.map((admin, index) => (
-              <div key={index}>
-                <input
+              <DivStyle2 key={index}>
+                <CheckBoxStyle1
                   type="checkbox"
-                  name=""
-                  id=""
                   onChange={() => handleComplete(admin.id)}
                   checked={admin.approval_status}
                 />
-                <span>
-                  {admin.id} - {admin.name} - {admin.email}
-                </span>
-              </div>
+                <SpanStyle1>{admin.id}</SpanStyle1>
+                <SpanStyle1>{admin.name}</SpanStyle1>
+                <SpanStyle1>{admin.email}</SpanStyle1>
+              </DivStyle2>
             ))}
+            <ButtonStyle1 type="button" onClick={onSubmit}>
+              Submit
+            </ButtonStyle1>
           </div>
         )}
       </div>
-      <input type="button" value="Submit" onClick={onSubmit} />
     </div>
   );
 };

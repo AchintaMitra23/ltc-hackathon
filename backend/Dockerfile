@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:latest
 
 # Create a directory for the app
 WORKDIR /usr/src/app
@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3001
 
 # Command to run the application
-CMD ["node", "index.js"]
+CMD ["node", "app.ts"]
