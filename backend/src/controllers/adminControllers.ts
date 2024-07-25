@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
 import { ListItem } from "../models/User";
+import { IS_TESTING } from "../config";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ export const getOrderCount = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       res.status(200).json({
         status: 200,
         body: {
@@ -110,7 +111,7 @@ export const updateOrderStatus = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       res.status(200).json({
         status: 200,
         body: {
@@ -158,7 +159,7 @@ export const getAllOrders = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       res.status(200).json({
         "status": 200,
         "body": {

@@ -10,7 +10,7 @@ export const approveUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (process.env.IS_TESTING === "true") {
+  if (IS_TESTING === "true") {
     res.status(200).json({
       status: 200,
       body: {
@@ -78,7 +78,7 @@ export const userToApprove = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (process.env.IS_TESTING === "true") {
+  if (IS_TESTING === "true") {
     res.status(200).json({
       status: 200,
       body: {

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createUser, findUserByUsername } from "../models/User";
 import dotenv from "dotenv";
+import { IS_TESTING } from "../config";
 
 dotenv.config();
 
@@ -53,7 +54,7 @@ export const registerUser = async (
     type: string;
   };
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       return res.status(201).json(mockResponses.register.success);
     } else {
       const existingUser = await findUserByUsername(userId);
@@ -95,7 +96,7 @@ export const loginUser = async (
   };
 
   try {
-    if (process.env.IS_TESTING === "true") {
+    if (IS_TESTING === "true") {
       return res.status(200).json(mockResponses.login.success);
     } else {
       const user = await findUserByUsername(userId);
