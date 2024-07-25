@@ -6,7 +6,10 @@ dotenv.config();
 
 interface FormattedResponse {
   [counter: string]: {
-    [slot: string]: number;
+    [slot_id: number]: {
+      order_count: number,
+      slot_name: string
+    };
   };
 }
 
@@ -22,26 +25,26 @@ export const getOrderCount = async (
         body: {
           orders: {
             "Counter 1": {
-              "12:00 to 12:15": 30,
-              "12:15 to 12:30": 28,
-              "12:30 to 12:45": 25,
-              "12:45 to 1:00": 30,
-              "1:00 to 1:15": 20,
-              "1:15 to 1:30": 30,
-              "1:30 to 1:45": 18,
-              "1:45 to 2:00": 30,
-              "2:00 to 3:00": 0,
+              1: { order_count: 30, slot_name: "12:00 to 12:15" },
+              2: { order_count: 28, slot_name: "12:15 to 12:30" },
+              3: { order_count: 25, slot_name: "12:30 to 12:45" },
+              4: { order_count: 30, slot_name: "12:45 to 1:00" },
+              5: { order_count: 20, slot_name: "1:00 to 1:15" },
+              6: { order_count: 30, slot_name: "1:15 to 1:30" },
+              7: { order_count: 18, slot_name: "1:30 to 1:45" },
+              8: { order_count: 30, slot_name: "1:45 to 2:00" },
+              9: { order_count: 0, slot_name: "2:00 to 3:00" },
             },
             "Counter 2": {
-              "12:00 to 12:15": 22,
-              "12:15 to 12:30": 25,
-              "12:30 to 12:45": 27,
-              "12:45 to 1:00": 18,
-              "1:00 to 1:15": 15,
-              "1:15 to 1:30": 20,
-              "1:30 to 1:45": 22,
-              "1:45 to 2:00": 28,
-              "2:00 to 3:00": 0,
+              10: { order_count: 22, slot_name: "12:00 to 12:15" },
+              11: { order_count: 25, slot_name: "12:15 to 12:30" },
+              12: { order_count: 27, slot_name: "12:30 to 12:45" },
+              13: { order_count: 18, slot_name: "12:45 to 1:00" },
+              14: { order_count: 15, slot_name: "1:00 to 1:15" },
+              15: { order_count: 20, slot_name: "1:15 to 1:30" },
+              16: { order_count: 22, slot_name: "1:30 to 1:45" },
+              17: { order_count: 28, slot_name: "1:45 to 2:00" },
+              18: { order_count: 0, slot_name: "2:00 to 3:00" },
             },
           },
           message: "Order counts fetched successfully",
@@ -57,6 +60,7 @@ export const getOrderCount = async (
       SELECT
             c.counter_name,
             s.slot_name,
+            s.id as slot_id,
             COUNT(o.id) AS order_count
         FROM
             counter c
@@ -66,7 +70,7 @@ export const getOrderCount = async (
             o.order_date = $1
             AND c.company_name = $2
         GROUP BY
-            c.counter_name, s.slot_name
+            c.counter_name, s.slot_name,s.id
         ORDER BY
             c.counter_name, s.slot_name;
             `;
@@ -78,7 +82,10 @@ export const getOrderCount = async (
         if (!formattedResponse[row.counter_name]) {
           formattedResponse[row.counter_name] = {};
         }
-        formattedResponse[row.counter_name][row.slot_name] = row.order_count;
+        formattedResponse[row.counter_name][row.slot_id] = {
+          order_count: row.order_count,
+          slot_name: row.slot_name,
+        };
       });
 
       const response = {
