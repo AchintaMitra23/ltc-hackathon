@@ -8,7 +8,6 @@ import { errorHandler } from './src/middleware/errorHandler';
 
 
 const app = express();
-const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -21,7 +20,7 @@ app.use("/hr", hrRoutes);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log(`Server running at http://localhost:3000`);
 });
 
