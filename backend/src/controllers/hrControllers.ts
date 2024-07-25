@@ -98,29 +98,25 @@ export const userToApprove = async (
       select id,name,email,approval_status "user"
       WHERE type = 'admin' and approval_status='false';
         `;
-      const result:any = await pool.query(Query);
+      const {rows} = await pool.query(Query);
 
-      if (result.rowCount === 0) {
-        return res.status(404).json({
-          status: 404,
-          body: {
-            error: "User not updated please try again later",
-          },
+      const formattedResponse: any = [];
+      rows.forEach((row) => {
+        formattedResponse.push({
+          userId: row.id,
+            username: row.name,
+            email: row.email,
+            approval_status: row.approval_status
+        }) 
+      });  
+
+        res.status(201).json({
+            status:200,
+            body:{
+                message:"User needed to Approve",
+                data:formattedResponse
+            }
         });
-      }
-
-      return {
-        status: 201,
-        body: {
-          message: "User needed to Approve",
-          user: {
-            userId: result[0].id,
-            username: result[0].name,
-            email: result[0].email,
-            approval_status: result[0].approval_status
-          },
-        },
-      };
     } catch (error) {
       next(error);
     }
