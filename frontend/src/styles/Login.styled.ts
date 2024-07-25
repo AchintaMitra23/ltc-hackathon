@@ -6,14 +6,14 @@ export const StyledDiv1 = styled.div`
 export const LoginLogo = styled.div`
   display: flex;
   justify-content: center;
-  align-items:center
+  align-items: center;
 `;
 export const StyledH5 = styled.h5`
-    color: green;
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    border-bottom: 2px solid;
-    padding-bottom: 10px;
+  color: green;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  border-bottom: 2px solid;
+  padding-bottom: 10px;
 `;
 
 export const StyledSelect = styled.select`
@@ -33,13 +33,13 @@ export const ErrorStyle = styled.span`
 `;
 
 export const LabelStyle = styled.label`
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    margin: 10px 5px;
-    color: green;
-    font-style: oblique;
-    font-family: cursive;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  margin: 10px 5px;
+  color: green;
+  font-style: oblique;
+  font-family: cursive;
 `;
 
 export const DivStyle1 = styled.div`
@@ -51,22 +51,22 @@ export const DivStyle1 = styled.div`
 `;
 
 export const ButtonStyle1 = styled.button`
-border: none;
-    background: green;
-    color: white;
-    font-weight: 500;
-    padding: 5px 15px;
-    border-radius: 10px;
-    cursor: pointer;
+  border: none;
+  background: green;
+  color: white;
+  font-weight: 500;
+  padding: 5px 15px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 export const DivStyle2 = styled.div`
-    margin: 15px 25px;
-    border: 2px solid;
-    border-radius: 10px;
-    padding: 10px;
-    background: green;
-    color: white;
+  margin: 15px 25px;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 10px;
+  background: green;
+  color: white;
 `;
 
 export const CheckBoxStyle1 = styled.input`
@@ -85,11 +85,11 @@ export const SpanStyle1 = styled.span`
 `;
 
 export const UlStyle1 = styled.ul`
-    list-style-type: none;
-    margin: 20px;
-    box-shadow: 2px 2px 2px 2px green;
-    border-radius: 10px;
-    padding: 10px 20px;
+  list-style-type: none;
+  margin: 20px;
+  box-shadow: 2px 2px 2px 2px green;
+  border-radius: 10px;
+  padding: 10px 20px;
 `;
 
 export const LiStyle1 = styled.li`
@@ -97,10 +97,10 @@ export const LiStyle1 = styled.li`
 `;
 
 export const SpanStyle2 = styled.span`
-    font-size: 15px;
-    font-style: oblique;
-    color: green;
-    font-weight: bold;
+  font-size: 15px;
+  font-style: oblique;
+  color: green;
+  font-weight: bold;
 `;
 
 export const SpanStyle3 = styled.span`
@@ -109,18 +109,18 @@ export const SpanStyle3 = styled.span`
 `;
 
 export const StatusStyle = styled.span`
-    border: 0px solid;
-    padding: 5px 15px;
-    border-radius: 10px;
-    font-size: 25px;
-    text-transform: uppercase;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    background: green;
-    color: white;
-    font-weight: bolder;
-    letter-spacing: 1px;
+  border: 0px solid;
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-size: 25px;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  background: green;
+  color: white;
+  font-weight: bolder;
+  letter-spacing: 1px;
 `;
 
 export const StyledDiv2 = styled.div`
