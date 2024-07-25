@@ -191,6 +191,11 @@ export const getAllOrders = async (
         }
       })
     } else {
+      const { company, counter, slot } = req.body as {
+        company: string;
+        counter: number;
+        slot: number;
+      };
       const currentDate = new Date().toISOString().split("T")[0];
 
       const query = `
@@ -202,9 +207,10 @@ export const getAllOrders = async (
              om.order_status AS "orderDone"
       FROM order_master om
       WHERE om.order_date = $1 and om.order_status='active'
+      and om.counter_id = $2 and om.slot_id = $3
     `;
 
-      const { rows } = await pool.query(query, [currentDate]);
+      const { rows } = await pool.query(query, [currentDate, counter, slot]);
 
       // Format the response as per the required structure
       const formattedResponse = rows.map((row: any) => ({

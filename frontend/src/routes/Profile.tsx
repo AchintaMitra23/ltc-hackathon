@@ -36,8 +36,8 @@ const Profile = () => {
         }}
       >
         <div className="card-body">
-          <h5 className="card-title">{profile.name}</h5>
-          <p className="card-text">{profile.id}</p>
+          <h5 className="card-title">{profile.username}</h5>
+          <p className="card-text">{profile.userId}</p>
         </div>
         <table>
           <StyleTRProfile>

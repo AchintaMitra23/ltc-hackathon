@@ -8,7 +8,7 @@ export const registerAPI = async (registerDetails: any, useMockAPI?: boolean): P
     const actualURL: string = `http://localhost:3000/auth/register`;
     const response = await axios.post(actualURL, registerDetails);
     if (response.status !== 201) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

@@ -26,10 +26,11 @@ export interface Admins {
 }
 
 export interface LoginResponseModel {
-  id: number;
-  name: string;
   email: string;
-  mobile: string;
+  mobile: string; 
+  password: string;
   preference: string;
   type: string;
+  userId: string;
+  username: string;
 }

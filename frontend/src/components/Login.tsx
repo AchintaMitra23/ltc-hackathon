@@ -47,9 +47,12 @@ const Login = ({ setIsAuth }: LoginProps) => {
             const loginResponse: LoginResponseModel = response.body;
             localStorage.setItem("details", JSON.stringify(loginResponse));
             localStorage.setItem("userType", loginResponse.type);
-            localStorage.setItem("employeeID", loginResponse.id.toString());
+            localStorage.setItem("employeeID", loginResponse.userId);
             setIsAuth(true);
-            if (loginResponse.type === "user") {
+            if (
+              loginResponse.type === "user" ||
+              loginResponse.type === "customer"
+            ) {
               navigate("/bookings");
             } else if (loginResponse.type === "admin") {
               navigate("/booking-list");

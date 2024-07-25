@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { updateOrders } from "../apis/updateOrders";
@@ -22,25 +23,39 @@ const ListItems = ({
   setItemList,
   setCompany,
   setCounter,
-  setSlot
+  setSlot,
 }: ListItemsProps) => {
-  if (itemList.length > 0) {
-    itemList.sort((a, b) => a.orderDone - b.orderDone);
-  }
+  // if (itemList.length > 0) {
+  //   itemList.sort((a, b) => a.orderDone - b.orderDone);
+  // }
 
   const handleComplete = (tokenNo: string) => {
     let newItems: ListItem[] = [];
     for (let i of itemList) {
       if (i.tokenNo === tokenNo) {
-        i.orderDone = !i.orderDone;
+        i.orderDone = i.orderDone === "active" ? "completed" : "active";
       }
       newItems.push(i);
     }
     setItemList(newItems);
   };
 
+  const updateOrdersRequestBody: any = {
+    order_status: "completed",
+    empId: [],
+    token_no: [],
+  };
+
   const onDone = async () => {
-    await updateOrders(itemList)
+    itemList.map((item: ListItem) => {
+      if (item.orderDone === "completed") {
+        updateOrdersRequestBody.empId.push(
+          parseInt(item.employeeId.toString(), 10)
+        );
+        updateOrdersRequestBody.token_no.push(item.tokenNo.toString());
+      }
+    });
+    await updateOrders(updateOrdersRequestBody)
       .then((response) => {
         if (response.status === 200) {
           setItemList([]);
@@ -67,8 +82,8 @@ const ListItems = ({
                 <CheckBoxStyle1
                   type="checkbox"
                   onChange={() => handleComplete(item.tokenNo)}
-                  checked={item.orderDone}
-                  disabled={item.orderDone}
+                  checked={item.orderDone === "completed"}
+                  disabled={item.orderDone === "completed"}
                 />
                 <SpanStyle1>{item.tokenNo}</SpanStyle1>
                 <SpanStyle1>{item.employeeId}</SpanStyle1>

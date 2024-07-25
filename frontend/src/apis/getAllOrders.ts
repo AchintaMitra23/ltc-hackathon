@@ -5,10 +5,10 @@ export const getAllOrders = async (requestType: any, useMockAPI?: boolean): Prom
   if (useMockAPI) {
     return null;
   } else {
-    const actualURL: string = `http://localhost:3000/admin/getAllOrders`;
+    const actualURL: string = `http://localhost:3000/admin/orders/getAllOrders`;
     const response = await axios.post(actualURL, requestType);
     if (response.status !== 200) {
-      throw new Error("Something went wrong.");
+      throw new Error(response.data.body.message);
     } else {
       return response.data;
     }

@@ -23,6 +23,7 @@ const Register = ({ setIsAuth }: RegisterProps) => {
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [pref, setPref] = useState<string>("");
+  const [type, setType] = useState<string>("user");
   const [empIdError, setEmpIdError] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
@@ -31,12 +32,12 @@ const Register = ({ setIsAuth }: RegisterProps) => {
   const navigate: any = useNavigate();
 
   const registerRequestModel = {
-    empId: empId,
+    userId: empId,
     username: name,
     password: password,
     email: email,
     mobile: mobile,
-    type: "user",
+    type: type,
     preference: pref,
   };
 
@@ -59,15 +60,15 @@ const Register = ({ setIsAuth }: RegisterProps) => {
   const handleNameChange = (e: any) => {
     const currentValue: any = e.target.value;
     if (currentValue && currentValue !== "") {
-      if (RegExp(/^[a-zA-Z]+ [a-zA-Z]+$/).exec(currentValue)) {
+      if (RegExp(/^[a-zA-Z][a-zA-Z ]{3,}$/).exec(currentValue)) {
         setNameError("");
       } else {
-        setNameError("Employee name should conatins two words.");
+        setNameError("Employee name should conatins three letters.");
       }
     } else if (currentValue === null || currentValue === "") {
       setNameError("Please enter the full name");
     } else {
-      setNameError("Employee name should conatins two words.");
+      setNameError("Employee name should conatins three letters.");
     }
     setName(currentValue);
   };
@@ -131,12 +132,16 @@ const Register = ({ setIsAuth }: RegisterProps) => {
       await registerAPI(registerRequestModel)
         .then((response) => {
           if (response.status === 201) {
-            const loginResponse: LoginResponseModel = response.body;
+            console.log(response.body.message);
+            const loginResponse: LoginResponseModel = response.body.user;
             localStorage.setItem("details", JSON.stringify(loginResponse));
             localStorage.setItem("userType", loginResponse.type);
-            localStorage.setItem("employeeID", loginResponse.id.toString());
+            localStorage.setItem("employeeID", loginResponse.userId);
             setIsAuth(true);
-            if (loginResponse.type === "user") {
+            if (
+              loginResponse.type === "user" ||
+              loginResponse.type === "customer"
+            ) {
               navigate("/bookings");
             } else if (loginResponse.type === "admin") {
               navigate("/booking-list");
@@ -149,16 +154,11 @@ const Register = ({ setIsAuth }: RegisterProps) => {
           console.log(error);
         });
     } else {
-      if (empId === "")
-        setEmpIdError("Please enter valid employee id.");
-      if (name === "")
-        setNameError("Please enter valid full name.");
-      if (email === "")
-        setEmailError("Please enter valid email.");
-      if (mobile === "")
-        setMobileError("Please enter valid mobile number.");
-      if (pref === "")
-        setPrefError("Please select valid food preference.");
+      if (empId === "") setEmpIdError("Please enter valid employee id.");
+      if (name === "") setNameError("Please enter valid full name.");
+      if (email === "") setEmailError("Please enter valid email.");
+      if (mobile === "") setMobileError("Please enter valid mobile number.");
+      if (pref === "") setPrefError("Please select valid food preference.");
     }
   };
 
@@ -246,6 +246,21 @@ const Register = ({ setIsAuth }: RegisterProps) => {
                   </StyledSelect>
                 </div>
                 {prefError !== "" && <ErrorStyle>{prefError}</ErrorStyle>}
+              </div>
+              <div className="col-12 mt-3 mb-3">
+                <label className="form-label">User Type : </label>{" "}
+                <input
+                  type="radio"
+                  checked={type === "user"}
+                  onChange={() => setType("user")}
+                />{" "}
+                User
+                <input
+                  type="radio"
+                  checked={type === "admin"}
+                  onChange={() => setType("admin")}
+                />{" "}
+                Admin
               </div>
               <div className="col-12">
                 <div className="d-grid">
