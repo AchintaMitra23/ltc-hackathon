@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavLink, useNavigate } from "react-router-dom";
+import Logo from '../assets/logo.png';
 
 interface HeaderProps {
   isAuth: boolean;
@@ -16,12 +17,12 @@ const Header = ({ setIsAuth }: HeaderProps) => {
     localStorage.clear();
   };
 
+  if (userType === undefined && userType === null) return null;
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="">
-          {/* <img src="assets/logo.jpeg" alt="" /> */}
-          Lunch Box
+          <img src={Logo} alt="" width={100}/>
         </a>
         {userType !== null && userType !== "" && (
           <>

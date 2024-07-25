@@ -1,36 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-interface AvailableSlots {
-  [slot: string]: number;
-}
-
-const slots = [
-  "12:00 to 12:15",
-  "12:15 to 12:30",
-  "12:30 to 12:45",
-  "12:45 to 1:00",
-  "1:00 to 1:15",
-  "1:15 to 1:30",
-  "1:30 to 1:45",
-  "1:45 to 2:00",
-  "Free slot 2:00 to 3:00",
-];
-
-const availableSlots: AvailableSlots = {
-  "12:00 to 12:15": 30,
-  "12:15 to 12:30": 28,
-  "12:30 to 12:45": 0,
-  "12:45 to 1:00": 30,
-  "1:00 to 1:15": 20,
-  "1:15 to 1:30": 30,
-  "1:30 to 1:45": 18,
-  "1:45 to 2:00": 30,
-  "Free slot 2:00 to 3:00": 0,
-};
 
 const Container = styled.div`
   padding: 1%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const Row = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -47,10 +25,23 @@ const CounterContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const CounterTitle = styled.h3`
-  text-align: center;
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  margin: 0 0 10px;
+`;
+
+const CounterTitle = styled.h3`
+  margin: 0;
+`;
+
+const RadioButtonContainer = styled.div`
+  padding-left: 1%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
 `;
 
 const SlotContainer = styled.div`
@@ -62,7 +53,7 @@ const SlotContainer = styled.div`
 const SlotCard = styled.div<{ selected: boolean; disabled: boolean }>`
   background-color: ${({ selected }) => (selected ? "#4CAF50" : "#f0f0f0")};
   border: 1px solid #ccc;
-  color: ${({ selected }) => (selected ? "#eff6ef" : "#0a0101")};;
+  color: ${({ selected }) => (selected ? "#eff6ef" : "#0a0101")};
   border-radius: 8px;
   margin: 5px;
   padding: 10px;
@@ -77,58 +68,128 @@ const SlotCard = styled.div<{ selected: boolean; disabled: boolean }>`
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 `;
 
-const AvailabilityText = styled.div<{ available: boolean }>`
+const Preferencelabel = styled.label`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const Radiolabel = styled.label`
+  font-size: 16px;
+  color: gray;
+`;
+
+const AvailabilityText = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "available",
+})<{ available: boolean }>`
   color: ${({ available }) => (available ? "green" : "red")};
   margin-top: 5px;
   text-align: center;
 `;
+interface AvailableSlots {
+  [counter: string]: {
+    [id: number]: { order_count: number; slot_name: string };
+  };
+}
 
 interface SlotSelectorProps {
   date: string;
-  selectedSlot: string | null;
-  onSlotSelect: (date: string, counter: string, slot: string) => void;
+  selectedSlot: { counter: string; slot: string; preference: string } | null;
+  onSlotSelect: (
+    date: string,
+    counter: string,
+    slot: string,
+    preference: string,
+  ) => void;
+  availableSlots: AvailableSlots;
 }
 
 const SlotSelector: React.FC<SlotSelectorProps> = ({
   date,
   selectedSlot,
   onSlotSelect,
+  availableSlots,
 }) => {
+  const [preference, setPreference] = useState<string>(
+    selectedSlot?.preference || "veg",
+  );
+
   const handleSlotClick = (counter: string, slot: string) => {
-    if (slot === "Free slot 2:00 to 3:00") return; // Disable the free slot
-    onSlotSelect(date, counter, slot);
+    const slotData = Object.values(availableSlots[counter]).find(
+      (slotItem) => slotItem.slot_name === slot,
+    );
+    if (slotData?.order_count === 0) return; // Disable if slot is not available
+    onSlotSelect(date, counter, slot, preference);
+  };
+
+  const handlePreferenceChange = (newPreference: string) => {
+    setPreference(newPreference);
+    if (selectedSlot) {
+      onSlotSelect(
+        date,
+        selectedSlot.counter,
+        selectedSlot.slot,
+        newPreference,
+      );
+    }
   };
 
   return (
     <Container>
-      {["Counter 1", "Counter 2"].map((counter) => (
-        <CounterContainer key={counter}>
-          <CounterTitle>{counter}</CounterTitle>
-          <SlotContainer>
-            {slots.map((slot) => (
-              <>
+      <RadioButtonContainer>
+        <Preferencelabel>Food preference:</Preferencelabel>
+        <Radiolabel>
+          <input
+            type="radio"
+            name={`foodType-${date}`}
+            value="veg"
+            checked={preference === "veg"}
+            onChange={() => handlePreferenceChange("veg")}
+          />
+          Veg
+        </Radiolabel>
+        <Radiolabel>
+          <input
+            type="radio"
+            name={`foodType-${date}`}
+            value="nonveg"
+            checked={preference === "nonveg"}
+            onChange={() => handlePreferenceChange("nonveg")}
+          />
+          Non-Veg
+        </Radiolabel>
+      </RadioButtonContainer>
+      <Row>
+        {Object.keys(availableSlots).map((counter) => (
+          <CounterContainer key={counter}>
+            <Header>
+              <CounterTitle>{counter}</CounterTitle>
+            </Header>
+            <SlotContainer>
+              {Object.values(availableSlots[counter]).map((slotItem) => (
                 <SlotCard
-                  selected={selectedSlot === `${counter}-${slot}`}
-                  disabled={
-                    slot === "Free slot 2:00 to 3:00" ||
-                    availableSlots[slot] === 0
+                  key={slotItem.slot_name}
+                  selected={
+                    selectedSlot?.counter === counter &&
+                    selectedSlot?.slot === slotItem.slot_name &&
+                    selectedSlot?.preference === preference
                   }
-                  onClick={() => handleSlotClick(counter, slot)}
+                  disabled={slotItem.order_count === 0}
+                  onClick={() => handleSlotClick(counter, slotItem.slot_name)}
                 >
-                  {slot}
-                  <AvailabilityText available={availableSlots[slot] > 0}>
-                    {slot === "Free slot 2:00 to 3:00"
-                      ? "Free slot"
-                      : availableSlots[slot] > 0
-                      ? `${availableSlots[slot]} available`
+                  {slotItem.slot_name}
+                  <AvailabilityText
+                    available={slotItem.order_count > 0 ? true : false}
+                  >
+                    {slotItem.order_count > 0
+                      ? `${slotItem.order_count} available`
                       : "Not available"}
                   </AvailabilityText>
                 </SlotCard>
-              </>
-            ))}
-          </SlotContainer>
-        </CounterContainer>
-      ))}
+              ))}
+            </SlotContainer>
+          </CounterContainer>
+        ))}
+      </Row>
     </Container>
   );
 };

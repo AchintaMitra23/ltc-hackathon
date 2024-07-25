@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ErrorStyle, StyledDiv1, StyledH5 } from "../styles/Login.styled";
+import { ErrorStyle, LoginLogo, StyledDiv1, StyledH5 } from "../styles/Login.styled";
 import { loginAPI } from "../apis/login";
 import { LoginResponseModel } from "../types";
+import Logo from "../assets/logo.png";
 
 interface LoginProps {
   isAuth: boolean;
@@ -69,16 +70,16 @@ const Login = ({ setIsAuth }: LoginProps) => {
         setEmpIdError("Please enter valid employee id.");
     }
   };
-
+  
   return (
     <section className="bg-light p-3 p-md-4 p-xl-5">
       <div className="container">
         <div className="row">
           <div className="col-lg-4 col-sm-12"></div>
           <StyledDiv1 className="col-lg-4 col-sm-12 card border-light-subtle shadow-lg pt-5 pb-5">
-            <StyledH5 className="text-center mb-5">
-              Welcome back you've been missed!
-            </StyledH5>
+            <LoginLogo>
+              <img src={Logo} alt="" width={200} />
+            </LoginLogo>
             <form>
               <div className="col-12">
                 <div className="form-floating mb-3">
