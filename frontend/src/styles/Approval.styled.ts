@@ -5,8 +5,9 @@ export const ButtonStyle1 = styled.button`
   background: green;
   color: white;
   font-weight: 500;
-  padding: 5px 15px;
+  padding: 10px 20px;
   border-radius: 10px;
+  font-size: 25px;
   cursor: pointer;
 `;
 
@@ -15,7 +16,8 @@ export const CheckBoxStyle1 = styled.input`
 `;
 
 export const DivStyle2 = styled.div`
-  margin: 15px 25px;
+  margin: 15px 0;
+  transform: translateX(50%);
   width: 50%;
   border: 2px solid;
   border-radius: 10px;
