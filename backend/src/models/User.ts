@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import pool from "../db";
 
 export interface User {
-  id?: number;
+  userId?: any;
   username: string;
   password: string;
   email: string;
@@ -14,7 +14,19 @@ export interface User {
 export interface LoginUser {
   username: string;
   password: string;
-  type : string;
+  type: string;
+  userId: string;
+  email: string;
+  mobile: string;
+  preference: string;
+}
+
+interface ApiResponse {
+  status: number;
+  body: {
+    message: string;
+    user?: LoginUser;
+  };
 }
 
 export interface ListItem {
@@ -53,19 +65,24 @@ export interface LoginResponseModel {
 }
 
 export const findUserByUsername = async (
-  username: string
+  id: string,
 ): Promise<LoginUser | null> => {
   try {
     let query;
     let user: LoginUser | null = null;
 
-    query = 'SELECT username, password FROM "user" WHERE username = $1';
-    const { rows: userRows } = await pool.query(query, [username]);
+    query =
+      'SELECT id, name, type, email, mobile, preference FROM "user" WHERE id = $1';
+    const { rows: userRows } = await pool.query(query, [id]);
     if (userRows.length > 0) {
       user = {
-        username: userRows[0].username,
+        userId: userRows[0].id,
+        username: userRows[0].name,
         password: userRows[0].password,
-        type : userRows[0].type ,
+        type: userRows[0].type,
+        email: userRows[0].email,
+        mobile: userRows[0].mobile,
+        preference: userRows[0].preference,
       };
     }
 
@@ -76,21 +93,22 @@ export const findUserByUsername = async (
   }
 };
 
-export const createUser = async (user: User): Promise<{ status: number; body: any }> => {
+export const createUser = async (user: User): Promise<ApiResponse> => {
   try {
     let query;
     let values;
 
     switch (user.type) {
       case "admin":
-        query = `INSERT INTO "user" (username, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-        VALUES ($1, $2, $3, $4, null,"admin", 0, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
-        values = [user.username, user.password, user.email, user.mobile];
+        query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+        VALUES ($1, $2, $3, $4, $5, null,"admin", 1, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
+        values = [user.userId,user.username, user.password, user.email, user.mobile];
         break;
-      case "customer":
-        query = `INSERT INTO "user" (username, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-                 VALUES ($1, $2, $3, $4, $5,"customer" , 0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
+      case "user":
+        query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+                 VALUES ($1, $2, $3, $4, $5, $6,"user" , 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
         values = [
+          user.userId,
           user.username,
           user.password,
           user.email,
@@ -103,13 +121,20 @@ export const createUser = async (user: User): Promise<{ status: number; body: an
     }
 
     const { rows } = await pool.query(query, values);
-    const userId = rows[0].id;
 
     return {
       status: 201,
       body: {
         message: "User added successfully",
-        userId: userId.toString(),
+        user: {
+          userId: rows[0].id,
+          username: rows[0].name,
+          password: rows[0].password,
+          type: rows[0].type,
+          email: rows[0].email,
+          mobile: rows[0].mobile,
+          preference: rows[0].preference,
+        },
       },
     };
   } catch (error) {
@@ -117,7 +142,7 @@ export const createUser = async (user: User): Promise<{ status: number; body: an
     return {
       status: 500,
       body: {
-        error: "Failed to register user",
+        message: "Failed to register user",
       },
     };
   }

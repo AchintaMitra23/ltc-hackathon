@@ -1,9 +1,10 @@
 import express from "express";
-import { getAllOrders,updateOrderStatus } from "../controllers/adminControllers";
+import { getOrderCount, getAllOrders, updateOrderStatus } from "../controllers/adminControllers";
 
 const router = express.Router();
 
-router.post("/getAllOrders", getAllOrders);
+router.post("/getOrderCount", getOrderCount);
+router.post("/orders/getAllOrders", getAllOrders);
 router.post("/orders/updateOrders", updateOrderStatus);
 router.get("/__health", (req, res) => {
   res.send("health check");
