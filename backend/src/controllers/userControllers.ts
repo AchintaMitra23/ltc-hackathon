@@ -11,7 +11,7 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(201).json({
         status: 200,
         body: {
@@ -66,7 +66,7 @@ export const allOrdersOfUser = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(200).json({
         status: 200,
         body: {
@@ -144,7 +144,7 @@ export const DateOrders = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(200).json({
         status: 200,
         body: {
