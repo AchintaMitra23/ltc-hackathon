@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Expose port 3000 (the port on which your Express app runs)
-EXPOSE 3001
+EXPOSE 8080
 
 # Command to run the application
 # RUN npm run dev

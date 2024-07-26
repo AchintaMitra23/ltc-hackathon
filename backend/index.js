@@ -5,8 +5,9 @@ import adminRoutes from "./src/routes/adminRoutes";
 import userRoutes from "./src/routes/userRoutes";
 import hrRoutes from "./src/routes/hrRoutes";
 import { errorHandler } from "./src/middleware/errorHandler";
-import pool from "../backend/src/db";
 
+
+const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
@@ -19,6 +20,6 @@ app.use("/hr", hrRoutes);
 
 app.use(errorHandler);
 
-app.listen(3001, () => {
-  console.log(`Server running at http://localhost:3001`);
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
