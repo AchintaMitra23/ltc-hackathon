@@ -7,7 +7,7 @@ import hrRoutes from "./src/routes/hrRoutes";
 import { errorHandler } from "./src/middleware/errorHandler";
 
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
