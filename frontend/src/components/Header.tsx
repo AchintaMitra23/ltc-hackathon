@@ -45,29 +45,27 @@ const Header = ({ setIsAuth }: HeaderProps) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarScroll">
               <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                {(userType === "user" ||
-                  userType === "customer") && (
-                    <StyledNavLink className="nav-item">
-                      <NavLink className="nav-link" to="/bookings">
-                        Order
-                      </NavLink>
-                    </StyledNavLink>
-                  )}
-                {(userType === "user" ||
-                  userType === "customer")&& (
-                    <StyledNavLink className="nav-item">
-                      <NavLink className="nav-link" to="/history">
-                        History
-                      </NavLink>
-                    </StyledNavLink>
-                  )}
+                {(userType === "user" || userType === "customer") && (
+                  <StyledNavLink className="nav-item">
+                    <NavLink className="nav-link" to="/bookings">
+                      Order
+                    </NavLink>
+                  </StyledNavLink>
+                )}
+                {(userType === "user" || userType === "customer") && (
+                  <StyledNavLink className="nav-item">
+                    <NavLink className="nav-link" to="/history">
+                      History
+                    </NavLink>
+                  </StyledNavLink>
+                )}
                 {userType === "user" && (
-                    <StyledNavLink className="nav-item">
-                      <NavLink className="nav-link" to="/profile">
-                        Profile
-                      </NavLink>
-                    </StyledNavLink>
-                  )}
+                  <StyledNavLink className="nav-item">
+                    <NavLink className="nav-link" to="/profile">
+                      Profile
+                    </NavLink>
+                  </StyledNavLink>
+                )}
                 {userType === "admin" && (
                   <StyledNavLink className="nav-item">
                     <NavLink className="nav-link" to="/booking-list">

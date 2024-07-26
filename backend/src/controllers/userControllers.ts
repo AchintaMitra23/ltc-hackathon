@@ -149,8 +149,7 @@ export const DateOrders = async (
         status: 200,
         body: {
           orders: {
-            "2024-07-29":
-            {
+            "2024-07-29": {
               "Counter 1": {
                 1: { order_count: 30, slot_name: "12:00 to 12:15" },
                 2: { order_count: 28, slot_name: "12:15 to 12:30" },
@@ -174,8 +173,7 @@ export const DateOrders = async (
                 18: { order_count: 0, slot_name: "2:00 to 3:00" },
               },
             },
-            "2024-07-30":
-            {
+            "2024-07-30": {
               "Counter 1": {
                 1: { order_count: 30, slot_name: "12:00 to 12:15" },
                 2: { order_count: 28, slot_name: "12:15 to 12:30" },
@@ -196,14 +194,13 @@ export const DateOrders = async (
                 15: { order_count: 20, slot_name: "1:15 to 1:30" },
                 16: { order_count: 22, slot_name: "1:30 to 1:45" },
                 17: { order_count: 28, slot_name: "1:45 to 2:00" },
-                18: { order_count: 0, slot_name: "2:00 to 3:00" },
+                18: { order_count: 0, slot_name: "2:00 to 3:00" },
+              },
             },
-            }
-            },
+          },
           message: "Order counts fetched successfully",
         },
       });
-    
     } else {
       const { company, dates } = req.body as {
         company: string;

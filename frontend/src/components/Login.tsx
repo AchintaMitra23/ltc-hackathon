@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ButtonStyle1, ErrorStyle, LoginLogo, StyledDiv1, StyledLabel, StyledLink } from "../styles/Login.styled";
+import { useNavigate } from "react-router-dom";
+import {
+  ButtonStyle1,
+  ErrorStyle,
+  LoginLogo,
+  StyledDiv1,
+  StyledLabel,
+  StyledLink,
+} from "../styles/Login.styled";
 import { loginAPI } from "../apis/login";
 import { LoginResponseModel } from "../types";
 import Logo from "../assets/logo.png";
@@ -110,10 +117,7 @@ const Login = ({ setIsAuth }: LoginProps) => {
             </div>
             <div className="col-12">
               <div className="d-grid">
-                <ButtonStyle1
-                  type="submit"
-                  onClick={(e) => login(e)}
-                >
+                <ButtonStyle1 type="submit" onClick={(e) => login(e)}>
                   Login Now
                 </ButtonStyle1>
               </div>

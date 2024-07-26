@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import pool from "../db";
 import dotenv from "dotenv";
 import { findUserByUsername } from "../models/User";
+import { IS_TESTING } from "../config";
 
 dotenv.config();
 
@@ -20,13 +21,12 @@ export const approveUser = async (
     });
   } else {
     try {
-      const { userId, approvalStatus, approved_by, type } =
-        req.body as {
-          userId: string;
-          approvalStatus: string;
-          approved_by: string;
-          type: string;
-        };
+      const { userId, approvalStatus, approved_by, type } = req.body as {
+        userId: string;
+        approvalStatus: string;
+        approved_by: string;
+        type: string;
+      };
       const existingUser = await findUserByUsername(userId);
       if (existingUser) {
         return res
@@ -72,7 +72,6 @@ export const approveUser = async (
   }
 };
 
-
 export const userToApprove = async (
   req: Request,
   res: Response,
@@ -88,49 +87,48 @@ export const userToApprove = async (
             userId: "5435654",
             username: "hhhdhdhd",
             email: "jdjfhdfkjdhf@hdjf.com",
-            approval_status: "false"
+            approval_status: "false",
           },
           {
             userId: "8946574",
             username: "hhhdhdhd",
             email: "jdjfhdfkjdhf@hdjf.com",
-            approval_status: "false"
+            approval_status: "false",
           },
           {
             userId: "0000000",
             username: "hhhdhdhd",
             email: "jdjfhdfkjdhf@hdjf.com",
-            approval_status: "false"
-          }
+            approval_status: "false",
+          },
         ],
       },
     });
   } else {
     try {
-
       const Query = `
       select id,name,email,approval_status "user"
       WHERE type = 'admin' and approval_status='false';
         `;
-      const {rows} = await pool.query(Query);
+      const { rows } = await pool.query(Query);
 
       const formattedResponse: any = [];
       rows.forEach((row) => {
         formattedResponse.push({
           userId: row.id,
-            username: row.name,
-            email: row.email,
-            approval_status: row.approval_status
-        }) 
-      });  
-
-        res.status(200).json({
-            status:200,
-            body:{
-                message:"User needed to Approve",
-                data:formattedResponse
-            }
+          username: row.name,
+          email: row.email,
+          approval_status: row.approval_status,
         });
+      });
+
+      res.status(200).json({
+        status: 200,
+        body: {
+          message: "User needed to Approve",
+          data: formattedResponse,
+        },
+      });
     } catch (error) {
       next(error);
     }

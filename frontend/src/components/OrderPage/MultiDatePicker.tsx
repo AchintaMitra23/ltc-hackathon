@@ -41,7 +41,7 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
       calendarPosition="bottom-center"
       className="green"
       inputClass="custom-input"
-      />
+    />
   );
 };
 

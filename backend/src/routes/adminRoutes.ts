@@ -1,5 +1,9 @@
 import express from "express";
-import { getOrderCount, getAllOrders, updateOrderStatus } from "../controllers/adminControllers";
+import {
+  getOrderCount,
+  getAllOrders,
+  updateOrderStatus,
+} from "../controllers/adminControllers";
 
 const router = express.Router();
 

@@ -14,11 +14,6 @@ import { registerAPI } from "../apis/register";
 import { LoginResponseModel } from "../types";
 import Logo from "../assets/logo.png";
 
-interface RegisterProps {
-  isAuth: boolean;
-  setIsAuth: (value: boolean) => void;
-}
-
 const Register = () => {
   const [empId, setEmpId] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -241,7 +236,7 @@ const Register = () => {
                 style={{ marginLeft: "5%", marginRight: "2.5%" }}
                 type="radio"
                 checked={pref === "non-veg"}
-                onChange={() => setType("non-veg")}
+                onChange={() => setPref("non-veg")}
               />{" "}
               NON VEG
             </div>
@@ -264,10 +259,7 @@ const Register = () => {
             </div>
             <div className="col-12">
               <div className="d-grid">
-                <ButtonStyle1
-                  type="submit"
-                  onClick={(e) => register(e)}
-                >
+                <ButtonStyle1 type="submit" onClick={(e) => register(e)}>
                   Register Now
                 </ButtonStyle1>
               </div>

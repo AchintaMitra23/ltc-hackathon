@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { fetchDateOrders, DateOrders } from '../apis/slotsService';
+import { useState, useEffect } from "react";
+import { fetchDateOrders, DateOrders } from "../apis/slotsService";
 
 export const useDateOrders = (company: string, dates: string[]) => {
   const [orders, setOrders] = useState<DateOrders | null>(null);
@@ -14,7 +14,7 @@ export const useDateOrders = (company: string, dates: string[]) => {
         const data = await fetchDateOrders(company, dates);
         setOrders(data);
       } catch (error) {
-        setError('Failed to fetch orders');
+        setError("Failed to fetch orders");
       } finally {
         setLoading(false);
       }

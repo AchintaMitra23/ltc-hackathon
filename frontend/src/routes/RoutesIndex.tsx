@@ -23,13 +23,10 @@ const RoutesIndex = ({ isAuth, setIsAuth }: RoutesProps) => {
         path="/login"
         element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />}
       />
-      <Route
-        path="/register"
-        element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />}
-      />
+      <Route path="/register" element={<Register />} />
 
       {/* Users pages */}
-      <Route path="/bookings" element={<Bookings employeeId={'5607490'}/>} />
+      <Route path="/bookings" element={<Bookings employeeId={"5607490"} />} />
       <Route path="/history" element={<History />} />
       <Route path="/profile" element={<Profile />} />
 

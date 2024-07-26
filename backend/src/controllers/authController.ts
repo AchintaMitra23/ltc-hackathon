@@ -8,33 +8,33 @@ dotenv.config();
 const mockResponses = {
   register: {
     success: {
-      "status": 201,
-      "body": {
-        "message": "User added successfully",
-        "user": {
-          "userId": "123",
-          "username": "username",
-          "password": "password",
-          "type": "user",
-          "email": "user@example.com",
-          "mobile": "1234567890",
-          "preference": "veg"
-        }
-      }
+      status: 201,
+      body: {
+        message: "User added successfully",
+        user: {
+          userId: "123",
+          username: "username",
+          password: "password",
+          type: "user",
+          email: "user@example.com",
+          mobile: "1234567890",
+          preference: "veg",
+        },
+      },
     },
   },
   login: {
     success: {
-      "status": 200,
-      "body": {
-        "userId": "123",
-        "username": "username",
-        "password": "password",
-        "type": "user",
-        "email": "user@example.com",
-        "mobile": "1234567890",
-        "preference": "veg"
-      }
+      status: 200,
+      body: {
+        userId: "123",
+        username: "username",
+        password: "password",
+        type: "hr",
+        email: "user@example.com",
+        mobile: "1234567890",
+        preference: "veg",
+      },
     },
   },
 };
@@ -44,15 +44,16 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId, username, password, email, mobile, preference, type } = req.body as {
-    userId: string;
-    username: string;
-    password: string;
-    email: string;
-    mobile: string;
-    preference: string;
-    type: string;
-  };
+  const { userId, username, password, email, mobile, preference, type } =
+    req.body as {
+      userId: string;
+      username: string;
+      password: string;
+      email: string;
+      mobile: string;
+      preference: string;
+      type: string;
+    };
   try {
     if (IS_TESTING === "true") {
       return res.status(201).json(mockResponses.register.success);

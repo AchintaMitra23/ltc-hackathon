@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { API_BASE_URL } from "./config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const updateOrders = async (requestType: any, useMockAPI?: boolean): Promise<any> => {
+export const updateOrders = async (
+  requestType: any,
+  useMockAPI?: boolean
+): Promise<any> => {
   if (useMockAPI) {
     return null;
   } else {
@@ -14,4 +18,4 @@ export const updateOrders = async (requestType: any, useMockAPI?: boolean): Prom
       return response.data;
     }
   }
-}
+};

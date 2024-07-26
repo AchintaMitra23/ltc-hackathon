@@ -13,5 +13,5 @@ export const StyledFooter = styled.footer`
 export const FooterText = styled.p`
   margin: 0;
   font-size: 0.875rem;
-  color: #6c757d; 
+  color: #6c757d;
 `;

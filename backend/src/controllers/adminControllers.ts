@@ -9,8 +9,8 @@ dotenv.config();
 interface FormattedResponse {
   [counter: string]: {
     [slot_id: number]: {
-      order_count: number,
-      slot_name: string
+      order_count: number;
+      slot_name: string;
     };
   };
 }
@@ -55,7 +55,7 @@ export const getOrderCount = async (
     } else {
       const { company, date } = req.body as {
         company: string;
-        date: Date
+        date: Date;
       };
 
       const query = `
@@ -161,39 +161,39 @@ export const getAllOrders = async (
   try {
     if (IS_TESTING === "true") {
       res.status(200).json({
-        "status": 200,
-        "body": {
-          "orders": [
+        status: 200,
+        body: {
+          orders: [
             {
-              "tokenNo": "TK-001",
-              "employeeId": "5606349",
-              "orderDate": "24-10-2023",
-              "counterId": 1,
-              "slotId": 1,
-              "orderDone": "active",
-              "preference":"veg"
+              tokenNo: "TK-001",
+              employeeId: "5606349",
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: "active",
+              preference: "veg",
             },
             {
-              "tokenNo": "TK-002",
-              "employeeId": "9909909",
-              "orderDate": "24-10-2023",
-              "counterId": 1,
-              "slotId": 1,
-              "orderDone": "active",
-              "preference": "non-veg"
+              tokenNo: "TK-002",
+              employeeId: "9909909",
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: "active",
+              preference: "non-veg",
             },
             {
-              "tokenNo": "TK-003",
-              "employeeId": "8908900",
-              "orderDate": "24-10-2023",
-              "counterId": 1,
-              "slotId": 1,
-              "orderDone": "active",
-              "preference": "veg"
-            }
-          ]
-        }
-      })
+              tokenNo: "TK-003",
+              employeeId: "8908900",
+              orderDate: "24-10-2023",
+              counterId: 1,
+              slotId: 1,
+              orderDone: "active",
+              preference: "veg",
+            },
+          ],
+        },
+      });
     } else {
       const { company, counter, slot } = req.body as {
         company: string;
@@ -225,7 +225,7 @@ export const getAllOrders = async (
         counterId: row.counterId,
         slotId: row.slotId,
         orderDone: row.orderDone,
-        preference: row.preference
+        preference: row.preference,
       }));
 
       res

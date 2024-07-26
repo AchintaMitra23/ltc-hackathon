@@ -60,7 +60,7 @@ const availableSlots: AvailableSlots = {
 const Bookings = ({ employeeId }: BookingProps) => {
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<SelectedSlots>({});
-  const [fetchSlots,setFecthSlots]=useState<AvailableSlots>({});
+  const [fetchSlots, setFecthSlots] = useState<AvailableSlots>({});
   const navigate: any = useNavigate();
 
   const handleDateChange = (dates: DateObject[]) => {
@@ -84,15 +84,15 @@ const Bookings = ({ employeeId }: BookingProps) => {
     }));
   };
 
-  const GetAvailableslots = async(selectedDatesbyuser: any) => {
+  const GetAvailableslots = async (selectedDatesbyuser: any) => {
     selectedDatesbyuser.map((date: any) => {
       const formattedDate = date.format("YYYY-MM-DD");
       console.log(formattedDate, "formattedDate");
     });
-    if(selectedDatesbyuser){
-      const data:any = await fetchDateOrders("LTC", selectedDatesbyuser);
-      if(data?.orders){
-        setFecthSlots(data.orders)
+    if (selectedDatesbyuser) {
+      const data: any = await fetchDateOrders("LTC", selectedDatesbyuser);
+      if (data?.orders) {
+        setFecthSlots(data.orders);
       }
     }
   };
@@ -157,7 +157,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
                 date={formattedDate}
                 selectedSlot={selectedSlots[formattedDate]}
                 onSlotSelect={handleSlotSelect}
-                availableSlots={fetchSlots[formattedDate]||availableSlots}
+                availableSlots={fetchSlots[formattedDate] || availableSlots}
               />
             </PageContainer>
           );

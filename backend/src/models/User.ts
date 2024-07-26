@@ -65,7 +65,7 @@ export interface LoginResponseModel {
 }
 
 export const findUserByUsername = async (
-  id: string,
+  id: string
 ): Promise<LoginUser | null> => {
   try {
     let query;
@@ -102,7 +102,13 @@ export const createUser = async (user: User): Promise<ApiResponse> => {
       case "admin":
         query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
         VALUES ($1, $2, $3, $4, $5, null,"admin", 1, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
-        values = [user.userId,user.username, user.password, user.email, user.mobile];
+        values = [
+          user.userId,
+          user.username,
+          user.password,
+          user.email,
+          user.mobile,
+        ];
         break;
       case "user":
         query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 

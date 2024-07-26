@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 import { API_BASE_URL } from "./config";
 
-const API_URL = API_BASE_URL; 
+const API_URL = API_BASE_URL;
 
 export interface OrderSlot {
   order_count: number;
@@ -18,7 +18,13 @@ export interface DateOrders {
   };
 }
 
-export const fetchDateOrders = async (company: string, dates: string[]): Promise<DateOrders> => {
-  const response = await axios.post(`${API_URL}/user/allDateOrders`, { company, dates });
+export const fetchDateOrders = async (
+  company: string,
+  dates: string[]
+): Promise<DateOrders> => {
+  const response = await axios.post(`${API_URL}/user/allDateOrders`, {
+    company,
+    dates,
+  });
   return response.data.body;
 };
