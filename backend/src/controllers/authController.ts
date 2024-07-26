@@ -77,7 +77,9 @@ export const registerUser = async (
       });
 
       if (!user) {
-        return res.status(500).send("Failed to register user");
+        return res
+          .status(500)
+          .json({ status: 500, body: { message: "Failed to register user" } });
       }
 
       res.status(201).json(user);
@@ -105,7 +107,7 @@ export const loginUser = async (
       if (!user || user.password !== password) {
         return res
           .status(400)
-          .json({ status: 400, body: { message: "Username already exists" } });
+          .json({ status: 400, body: { message: "Please check the credentials" } });
       }
 
       const updateQuery = `
@@ -115,7 +117,16 @@ export const loginUser = async (
       WHERE id = $2
       RETURNING *;
         `;
-      const result = await pool.query(updateQuery, [1,user.userId]);
+      const { rows } = await pool.query(updateQuery, [1, user.userId]);
+      
+      if (rows.length === 0) {
+        return res
+          .status(500)
+          .json({
+            status: 500,
+            body: { message: "Failed to login" },
+          });
+      }
 
       res.status(200).json({
         status: 200,

@@ -124,15 +124,17 @@ export const updateOrderStatus = async (
         empId: any;
         token_no: any;
       };
-
+      const empIdList = empId.map((empid: any) => `'${empid}'`);
+      const tokenNoList = token_no.map((tokenno: any) => `'${tokenno}'`);
       const query = `
         UPDATE order_master
         SET order_status = $1
-        WHERE emp_id in ($2) and token_no in ($3)
+        WHERE emp_id in (${empIdList.join(
+          ","
+        )}) and token_no in (${tokenNoList.join(",")})
         RETURNING *
       `;
-
-      const { rows } = await pool.query(query, [order_status, empId, token_no]);
+      const { rows } = await pool.query(query, [order_status]);
 
       if (rows.length === 0) {
         return res.status(404).json({
@@ -211,11 +213,15 @@ export const getAllOrders = async (
              om.order_status AS "orderDone",
              om.preference AS "preference"
       FROM order_master om
-      WHERE om.order_date = $1 and om.order_status=$4
+      WHERE om.order_date::date = $1 and om.order_status=$4
       and om.counter_id = $2 and om.slot_id = $3
     `;
-
-      const { rows } = await pool.query(query, [currentDate, counter, slot ,"active"]);
+      const { rows } = await pool.query(query, [
+        currentDate,
+        counter,
+        slot,
+        "active",
+      ]);
 
       // Format the response as per the required structure
       const formattedResponse = rows.map((row: any) => ({

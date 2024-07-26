@@ -20,7 +20,7 @@ export const createOrder = async (
         },
       });
     } else {
-      const orderList = req.body.orderList;
+      const orderList = req.body;
       const client = await pool.connect();
       orderList.map(
         async ({
@@ -106,7 +106,7 @@ export const allOrdersOfUser = async (
       const empId = req.params.empId;
       const client = await pool.connect();
       const { rows } = await client.query(
-        "select empId,counter_id,slot_id,order_date,token_no,order_status,preference order_master where emp_id= $1",
+        "select o.emp_id as emp_id, c.counter_name as counter_id, s.slot_name as slot_id, o.order_date as order_date, o.token_no as token_no, o.order_status as order_status, o.preference as preference from order_master o join counter c on o.counter_id = c.id join slot s on o.slot_id = s.id where emp_id =  $1",
         [empId]
       );
 

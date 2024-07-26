@@ -23,7 +23,7 @@ const Approval = () => {
     await getAllUnapprovedAdmins()
       .then((response) => {
         if (response.status === 200) {
-          setAdminList(response.body.user);
+          setAdminList(response.body.data);
         }
       })
       .catch((error) => console.log(error));
@@ -42,7 +42,7 @@ const Approval = () => {
 
   let adminApprovalRequestBody: any = {
     userId: 0,
-    approvalStatus: "true",
+    approvalStatus: 1,
     approved_by: employeeID,
     type: "admin",
   };
@@ -55,6 +55,7 @@ const Approval = () => {
           .then((response) => {
             if (response.status === 200) {
               alert("Saved Successfully");
+              getAllAdmins();
             }
           })
           .catch((error) => console.log(error));

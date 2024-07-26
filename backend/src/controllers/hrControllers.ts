@@ -28,7 +28,7 @@ export const approveUser = async (
         type: string;
       };
       const existingUser = await findUserByUsername(userId);
-      if (existingUser) {
+      if (!existingUser) {
         return res
           .status(400)
           .json({ status: 400, body: { message: "Username already exists" } });
@@ -107,10 +107,10 @@ export const userToApprove = async (
   } else {
     try {
       const Query = `
-      select id,name,email,approval_status "user"
+      select id,name,email,approval_status from "user"
       WHERE type = $1 and approval_status= $2;
         `;
-      const { rows } = await pool.query(Query,["admin","false"]);
+      const { rows } = await pool.query(Query, ["admin", 0]);
 
       const formattedResponse: any = [];
       rows.forEach((row) => {

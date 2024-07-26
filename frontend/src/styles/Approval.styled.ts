@@ -17,13 +17,13 @@ export const CheckBoxStyle1 = styled.input`
 
 export const DivStyle2 = styled.div`
   margin: 15px 0;
-  transform: translateX(50%);
-  width: 50%;
+  width: 100%;
   border: 2px solid;
   border-radius: 10px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.2);
   color: white;
+  text-align: justify;
 `;
 
 export const SpanStyle1 = styled.span`

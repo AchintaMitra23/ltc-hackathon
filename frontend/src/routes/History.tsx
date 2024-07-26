@@ -37,7 +37,7 @@ const History = () => {
   const handleCancel = async (item: OrderHistory) => {
     const orderUpdateRequestBody: any = {
       order_status: "cancelled",
-      empId: [parseInt(item.empId.toString(), 10)],
+      empId: [localStorage.getItem("employeeID")],
       token_no: [item.tokenNo],
     };
     await updateOrders(orderUpdateRequestBody)

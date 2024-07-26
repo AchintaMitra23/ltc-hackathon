@@ -26,7 +26,7 @@ const Login = ({ setIsAuth }: LoginProps) => {
   const navigate: any = useNavigate();
 
   const loginRequestModel = {
-    empId: empId,
+    userId: empId,
     password: password,
   };
 

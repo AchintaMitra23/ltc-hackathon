@@ -17,10 +17,6 @@ import {
 } from "../styles/Bookings.styled";
 import { fetchDateOrders } from "../apis/slotsService";
 
-interface BookingProps {
-  employeeId: string;
-}
-
 interface SelectedSlots {
   [key: string]: { counter: string; slot: string; preference: string } | null;
 }
@@ -45,19 +41,20 @@ const availableSlots: AvailableSlots = {
     9: { order_count: 0, slot_name: "2:00 to 3:00" },
   },
   "Counter 2": {
-    10: { order_count: 30, slot_name: "12:00 to 12:15" },
-    11: { order_count: 30, slot_name: "12:15 to 12:30" },
-    12: { order_count: 30, slot_name: "12:30 to 12:45" },
-    13: { order_count: 30, slot_name: "12:45 to 1:00" },
-    14: { order_count: 30, slot_name: "1:00 to 1:15" },
-    15: { order_count: 30, slot_name: "1:15 to 1:30" },
-    16: { order_count: 30, slot_name: "1:30 to 1:45" },
-    17: { order_count: 30, slot_name: "1:45 to 2:00" },
-    18: { order_count: 0, slot_name: "2:00 to 3:00" },
+    1: { order_count: 30, slot_name: "12:00 to 12:15" },
+    2: { order_count: 30, slot_name: "12:15 to 12:30" },
+    3: { order_count: 30, slot_name: "12:30 to 12:45" },
+    4: { order_count: 30, slot_name: "12:45 to 1:00" },
+    5: { order_count: 30, slot_name: "1:00 to 1:15" },
+    6: { order_count: 30, slot_name: "1:15 to 1:30" },
+    7: { order_count: 30, slot_name: "1:30 to 1:45" },
+    8: { order_count: 30, slot_name: "1:45 to 2:00" },
+    9: { order_count: 0, slot_name: "2:00 to 3:00" },
   },
 };
 
-const Bookings = ({ employeeId }: BookingProps) => {
+const Bookings = () => {
+  const employeeId: any = localStorage.getItem("employeeID");
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<SelectedSlots>({});
   const [fetchSlots, setFecthSlots] = useState<AvailableSlots>({});
@@ -88,6 +85,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
     selectedDatesbyuser.map((date: any) => {
       const formattedDate = date.format("YYYY-MM-DD");
       console.log(formattedDate, "formattedDate");
+      return formattedDate;
     });
     if (selectedDatesbyuser) {
       const data: any = await fetchDateOrders("LTC", selectedDatesbyuser);
@@ -117,7 +115,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
 
           return {
             emp_id: employeeId,
-            counter_id: slot.counter,
+            counter_id: parseInt(slot.counter.split(" ")[1], 10),
             slot_id: slotId ? parseInt(slotId, 10) : null,
             order_date: formattedDate,
             order_status: "active",
@@ -131,7 +129,7 @@ const Bookings = ({ employeeId }: BookingProps) => {
 
     console.log("Submission Results:", results);
     if (results && results.length > 0) {
-      const bookOrders: any = await createOrder(results, true);
+      const bookOrders: any = await createOrder(results);
       console.log(bookOrders, "bookOrders");
       alert("your slot booked sucessfully!");
       navigate("/history");
