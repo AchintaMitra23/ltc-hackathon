@@ -55,7 +55,7 @@ export const registerUser = async (
       type: string;
     };
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       return res.status(201).json(mockResponses.register.success);
     } else {
       const existingUser = await findUserByUsername(userId);
@@ -97,7 +97,7 @@ export const loginUser = async (
   };
 
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       return res.status(200).json(mockResponses.login.success);
     } else {
       const user = await findUserByUsername(userId);

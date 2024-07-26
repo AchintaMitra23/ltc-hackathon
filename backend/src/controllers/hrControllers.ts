@@ -11,7 +11,7 @@ export const approveUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (IS_TESTING === "true") {
+  if (IS_TESTING === true) {
     res.status(200).json({
       status: 200,
       body: {
@@ -77,7 +77,7 @@ export const userToApprove = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (IS_TESTING === "true") {
+  if (IS_TESTING === true) {
     res.status(200).json({
       status: 200,
       body: {
@@ -108,9 +108,9 @@ export const userToApprove = async (
     try {
       const Query = `
       select id,name,email,approval_status "user"
-      WHERE type = 'admin' and approval_status='false';
+      WHERE type = $1 and approval_status= $2;
         `;
-      const { rows } = await pool.query(Query);
+      const { rows } = await pool.query(Query,["admin","false"]);
 
       const formattedResponse: any = [];
       rows.forEach((row) => {

@@ -72,7 +72,7 @@ export const findUserByUsername = async (
     let user: LoginUser | null = null;
 
     query =
-      'SELECT id, name, type, email, mobile, preference FROM "user" WHERE id = $1';
+      'SELECT id, name, type, email, mobile, preference,password FROM "public"."user" WHERE id = $1';
     const { rows: userRows } = await pool.query(query, [id]);
     if (userRows.length > 0) {
       user = {
@@ -100,19 +100,20 @@ export const createUser = async (user: User): Promise<ApiResponse> => {
 
     switch (user.type) {
       case "admin":
-        query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-        VALUES ($1, $2, $3, $4, $5, null,"admin", 1, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
+        query = `INSERT INTO "public"."user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+        VALUES ($1, $2, $3, $4, $5, null,$6, 1, 0, 0, CURRENT_TIMESTAMP, null) RETURNING id`;
         values = [
           user.userId,
           user.username,
           user.password,
           user.email,
           user.mobile,
+          "admin"
         ];
         break;
       case "user":
-        query = `INSERT INTO "user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
-                 VALUES ($1, $2, $3, $4, $5, $6,"user" , 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
+        query = `INSERT INTO "public"."user" (id,name, password, email, mobile, preference,type, logged_in_status, approval_status, user_active_status, last_logged_in_date, approval_date) 
+                 VALUES ($1, $2, $3, $4, $5, $6,$7, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`;
         values = [
           user.userId,
           user.username,
@@ -120,6 +121,7 @@ export const createUser = async (user: User): Promise<ApiResponse> => {
           user.email,
           user.mobile,
           user.preference,
+          "user"
         ];
         break;
       default:
