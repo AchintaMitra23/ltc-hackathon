@@ -20,8 +20,8 @@ interface LoginProps {
 }
 
 const Login = ({ setIsAuth }: LoginProps) => {
+  const password: string = "password";
   const [empId, setEmpId] = useState<string>("");
-  const [password, setPassword] = useState<string>("password");
   const [empIdError, setEmpIdError] = useState<string>("");
   const navigate: any = useNavigate();
 

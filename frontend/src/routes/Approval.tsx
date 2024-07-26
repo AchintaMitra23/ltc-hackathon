@@ -13,7 +13,7 @@ import { saveAllAdmins } from "../apis/saveAllAdmins";
 
 const Approval = () => {
   const [adminList, setAdminList] = useState<Admins[]>([]);
-  const employeeID: string = localStorage.getItem("employeeID");
+  const employeeID: any = localStorage.getItem("employeeID");
 
   useEffect(() => {
     getAllAdmins();

@@ -15,9 +15,9 @@ import { LoginResponseModel } from "../types";
 import Logo from "../assets/logo.png";
 
 const Register = () => {
+  const password: string = "password";
   const [empId, setEmpId] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("password");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [pref, setPref] = useState<string>("veg");
