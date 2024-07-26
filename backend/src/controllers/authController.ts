@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { createUser, findUserByUsername } from "../models/User";
 import dotenv from "dotenv";
 import { IS_TESTING } from "../config";
+import pool from "../db";
 
 dotenv.config();
 
@@ -55,7 +56,7 @@ export const registerUser = async (
       type: string;
     };
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       return res.status(201).json(mockResponses.register.success);
     } else {
       const existingUser = await findUserByUsername(userId);
@@ -97,7 +98,7 @@ export const loginUser = async (
   };
 
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       return res.status(200).json(mockResponses.login.success);
     } else {
       const user = await findUserByUsername(userId);
@@ -106,6 +107,15 @@ export const loginUser = async (
           .status(400)
           .json({ status: 400, body: { message: "Username already exists" } });
       }
+
+      const updateQuery = `
+      UPDATE "user"
+      SET logged_in_status = $1,
+      last_logged_in_date=CURRENT_TIMESTAMP
+      WHERE id = $2
+      RETURNING *;
+        `;
+      const result = await pool.query(updateQuery, [1,user.userId]);
 
       res.status(200).json({
         status: 200,

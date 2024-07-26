@@ -21,7 +21,7 @@ export const getOrderCount = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(200).json({
         status: 200,
         body: {
@@ -111,7 +111,7 @@ export const updateOrderStatus = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(200).json({
         status: 200,
         body: {
@@ -159,7 +159,7 @@ export const getAllOrders = async (
   next: NextFunction
 ) => {
   try {
-    if (IS_TESTING === "true") {
+    if (IS_TESTING === true) {
       res.status(200).json({
         status: 200,
         body: {
@@ -211,11 +211,11 @@ export const getAllOrders = async (
              om.order_status AS "orderDone",
              om.preference AS "preference"
       FROM order_master om
-      WHERE om.order_date = $1 and om.order_status='active'
+      WHERE om.order_date = $1 and om.order_status=$4
       and om.counter_id = $2 and om.slot_id = $3
     `;
 
-      const { rows } = await pool.query(query, [currentDate, counter, slot]);
+      const { rows } = await pool.query(query, [currentDate, counter, slot ,"active"]);
 
       // Format the response as per the required structure
       const formattedResponse = rows.map((row: any) => ({
