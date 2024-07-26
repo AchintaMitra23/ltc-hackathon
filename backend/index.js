@@ -4,14 +4,13 @@ import authRoutes from "./src/routes/authRoutes";
 import adminRoutes from "./src/routes/adminRoutes";
 import userRoutes from "./src/routes/userRoutes";
 import hrRoutes from "./src/routes/hrRoutes";
-import { errorHandler } from './src/middleware/errorHandler';
-
+import { errorHandler } from "./src/middleware/errorHandler";
+import pool from "../backend/src/db";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
 
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
@@ -23,4 +22,3 @@ app.use(errorHandler);
 app.listen(3001, () => {
   console.log(`Server running at http://localhost:3001`);
 });
-
