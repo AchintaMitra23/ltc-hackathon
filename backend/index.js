@@ -7,7 +7,7 @@ import hrRoutes from "./src/routes/hrRoutes";
 import { errorHandler } from "./src/middleware/errorHandler";
 import pool from "../backend/src/db";
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
