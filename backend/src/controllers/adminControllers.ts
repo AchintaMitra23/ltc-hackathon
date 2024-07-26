@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
-import dotenv from "dotenv";
+
 import { ListItem } from "../models/User";
 import { IS_TESTING } from "../config";
 
-dotenv.config();
+
 
 interface FormattedResponse {
   [counter: string]: {

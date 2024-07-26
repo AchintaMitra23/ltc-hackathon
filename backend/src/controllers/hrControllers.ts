@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../db";
-import dotenv from "dotenv";
+
 import { findUserByUsername } from "../models/User";
 import { IS_TESTING } from "../config";
 
-dotenv.config();
+
 
 export const approveUser = async (
   req: Request,
